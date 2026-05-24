@@ -1,0 +1,252 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../assets/astraxLogin.png');
+    background-size: cover;
+    background-position: center;
+    font-family: sans-serif;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: max-width 0.4s ease;
+}
+
+.login-card.wide {
+    max-width: 860px;
+}
+
+.card-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.card-header p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 4px;
+}
+
+.step {
+    display: none;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.step.active {
+    display: flex;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.field input,
+.field select {
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    width: 100%;
+}
+
+.field input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.field select option,
+.field select optgroup {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+.field input[type="date"] {
+    color-scheme: dark;
+}
+
+.input-with-btn {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.input-with-btn input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+}
+
+.input-with-btn input:focus {
+    border-color: transparent;
+}
+
+.input-with-btn button {
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.input-with-btn button:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon input {
+    padding-right: 40px;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.7;
+    user-select: none;
+}
+
+.eye-icon:hover {
+    opacity: 1;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 11px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.login-btn:hover {
+    background: #fff;
+}
+
+/* Catálogo visual */
+.catalogo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.catalogo-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border 0.2s;
+    aspect-ratio: 1;
+}
+
+.catalogo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.catalogo-item span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    padding: 8px 4px;
+}
+
+.catalogo-item.selected {
+    border-color: #fff;
+}
+
+.catalogo-item.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 0 4px #000;
+}
+
+.register {
+    text-align: center;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.register a {
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+}

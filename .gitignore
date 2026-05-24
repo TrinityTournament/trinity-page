@@ -1,0 +1,5 @@
+README.md
+.env
+.npmrc
+/node_modules
+package-lock.json

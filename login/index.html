@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Astrax</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-card">
+        <div class="card-header">
+            <h2 id="titulo">Bienvenido de nuevo</h2>
+            <p id="subtitulo">Ingresa tus datos para continuar</p>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="step-login" class="step active">
+            <div class="field">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" placeholder="example@gmail.com">
+            </div>
+            <div class="field">
+                <label for="password-login">Contraseña</label>
+                <div class="input-with-icon">
+                    <input type="password" id="password-login" placeholder="••••••••">
+                    <span class="eye-icon" onclick="togglePassword('password-login', this)">👁</span>
+                </div>
+            </div>
+            <button class="login-btn" onclick="accionPrincipal()">Iniciar sesión</button>
+        </div>
+
+        <div id="step-datos" class="step">
+            <div class="form-grid">
+
+                <div class="col">
+                    <div class="field">
+                        <label for="nombre">Nombre y apellido</label>
+                        <input type="text" id="nombre" placeholder="Juan Pérez">
+                    </div>
+                    <div class="field">
+                        <label for="usuario">Nombre de usuario</label>
+                        <input type="text" id="usuario" placeholder="juanp99">
+                    </div>
+                    <div class="field">
+                        <label for="email-registro">Correo electrónico</label>
+                        <div class="input-with-btn">
+                            <input type="email" id="email-registro" placeholder="example@gmail.com">
+                            <button id="btn-enviar" onclick="sendCode()">Enviar</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="password-registro">Contraseña</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="password-registro" placeholder="••••••••">
+                            <span class="eye-icon" onclick="togglePassword('password-registro', this)">👁</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="field">
+                        <label for="fecha">Fecha de nacimiento</label>
+                        <input type="date" id="fecha">
+                    </div>
+                    <div class="field">
+                        <label for="tipo-deporte">¿Videojuegos o deportes clásicos?</label>
+                        <select id="tipo-deporte" onchange="mostrarCatalogo()">
+                            <option value="" disabled selected>Seleccioná una opción</option>
+                            <option value="deportes">Deportes clásicos</option>
+                            <option value="videojuegos">Videojuegos (eSports)</option>
+                        </select>
+                    </div>
+                    <div class="field" id="catalogo-container" style="display:none">
+                        <label>Elegí al menos 2</label>
+                        <div class="catalogo" id="catalogo"></div>
+                    </div>
+                </div>
+
+            </div>
+            <p id="mensaje" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.75); margin-top:0.5rem;"></p>
+        </div>
+
+        <div id="step-code" class="step">
+            <div class="field">
+                <label for="code">Código de verificación</label>
+                <input type="text" id="code" placeholder="123456" maxlength="6">
+            </div>
+            <button class="login-btn" onclick="verifyCode()">Confirmar registro</button>
+            <p id="mensaje-code" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.75);"></p>
+        </div>
+
+        <p class="register">
+            <span id="texto-registro">¿No tenés cuenta?</span>
+            <a href="#" id="enlace-modo" onclick="toggleModo()"> Registrate</a>
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
