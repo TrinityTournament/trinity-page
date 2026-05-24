@@ -205,4 +205,9 @@ async function verifyCode() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('step-login').classList.add('active');
     document.getElementById('step-login').style.display = 'flex';
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('m') === 'register') {
+        toggleModo();
+    }
 });

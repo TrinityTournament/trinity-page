@@ -1,18 +1,261 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>Index</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrax</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<h1>Place holder.</h1>
-	<button id="goBtn">Iniciar sesión!</button>
 
-	<script>
-		document.getElementById('goBtn').addEventListener('click', function () {
-			window.location.href = 'login/';
-		});
-	</script>
+<!-- NAVBAR -->
+<nav>
+    <a href="#" class="nav-logo">ASTRAX</a>
+
+    <ul class="nav-links">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Torneos</a></li>
+        <li><a href="#">Rankings</a></li>
+        <li><a href="#">Noticias</a></li>
+        <li><a href="#">Contacto</a></li>
+    </ul>
+
+    <div class="nav-actions">
+        <div id="nav-guest">
+            <a href="login/index.html" class="btn-login">Iniciar sesión</a>
+            <a href="login/?m=register" class="btn-register">Registrarse</a>
+        </div>
+
+        <div class="user-menu" id="nav-user">
+            <div class="user-trigger" id="user-trigger" onclick="toggleDropdown()">
+                <div class="user-avatar" id="nav-avatar">S</div>
+                <span class="user-name" id="nav-username">Usuario</span>
+                <span class="user-chevron">▼</span>
+            </div>
+            <div class="user-dropdown" id="user-dropdown">
+                <div class="dropdown-header">
+                    <div class="dropdown-avatar" id="dropdown-avatar">S</div>
+                    <span class="dropdown-username" id="dropdown-username">Usuario</span>
+                </div>
+                <a href="#" class="dropdown-item">👤 &nbsp;Perfil</a>
+                <a href="#" class="dropdown-item">⚙️ &nbsp;Configuración</a>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item danger" onclick="logout()">↩ &nbsp;Cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <p class="hero-eyebrow">Plataforma de competencia</p>
+        <h1 class="hero-title">
+            COMPITE.<br>
+            <span class="accent">GANA.</span><br>
+            HAZ HISTORIA.
+        </h1>
+        <p class="hero-subtitle">La plataforma definitiva para organizar y seguir torneos deportivos y electrónicos.</p>
+        <a href="#" class="hero-cta">Explorar torneos →</a>
+    </div>
+    <div class="hero-image">
+        <div class="hero-img-placeholder">
+            <!-- <img src="assets/hero.png" alt="Hero"> -->
+            IMAGEN HERO
+        </div>
+    </div>
+</section>
+
+<!-- DEPORTES -->
+<section class="section">
+    <div class="section-header">
+        <h2 class="section-title">Deportes</h2>
+        <a href="#" class="section-link">Ver todos →</a>
+    </div>
+    <div class="cards-scroll-wrapper">
+        <button class="scroll-arrow left" onclick="scrollCards('deportes', -1)">‹</button>
+        <div class="cards-scroll" id="scroll-deportes">
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder"><img src="assets/banners-main/Futbol.webp"></div>
+                    <div class="card-logo"><div class="card-logo-placeholder">⚽</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Fútbol</p>
+                    <p class="card-tag">Deporte clásico</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder"><img src="assets/banners-main/Basketball.webp"></div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🏀</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Basketball</p>
+                    <p class="card-tag">Deporte clásico</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder"><img src="assets/banners-main/Tenis.webp"></div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🎾</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Tenis</p>
+                    <p class="card-tag">Deporte clásico</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder"><img src="assets/banners-main/Volleyball.webp"></div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🏐</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Volleyball</p>
+                    <p class="card-tag">Deporte clásico</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder"><img src="assets/banners-main/Natacion.webp"></div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🏊</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Natación</p>
+                    <p class="card-tag">Deporte clásico</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder"><img src="assets/banners-main/Atletismo.png"></div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🏃</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Atletismo</p>
+                    <p class="card-tag">Deporte clásico</p>
+                </div>
+            </div>
+
+        </div>
+        <button class="scroll-arrow right" onclick="scrollCards('deportes', 1)">›</button>
+    </div>
+</section>
+
+<!-- ESPORTS -->
+<section class="section" style="padding-top:0">
+    <div class="section-header">
+        <h2 class="section-title">eSports</h2>
+        <a href="#" class="section-link">Ver todos →</a>
+    </div>
+    <div class="cards-scroll-wrapper">
+        <button class="scroll-arrow left" onclick="scrollCards('esports', -1)">‹</button>
+        <div class="cards-scroll" id="scroll-esports">
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder">Banner LoL</div>
+                    <div class="card-logo"><div class="card-logo-placeholder">⚔️</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">League of Legends</p>
+                    <p class="card-tag">eSport</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder">Banner CS2</div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🎯</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">CS2</p>
+                    <p class="card-tag">eSport</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder">Banner Valorant</div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🔫</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Valorant</p>
+                    <p class="card-tag">eSport</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder">Banner Dota 2</div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🛡️</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Dota 2</p>
+                    <p class="card-tag">eSport</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder">Banner Fortnite</div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🏗️</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Fortnite</p>
+                    <p class="card-tag">eSport</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner">
+                    <div class="card-banner-placeholder">Banner Rocket League</div>
+                    <div class="card-logo"><div class="card-logo-placeholder">🚗</div></div>
+                </div>
+                <div class="card-body">
+                    <p class="card-name">Rocket League</p>
+                    <p class="card-tag">eSport</p>
+                </div>
+            </div>
+
+        </div>
+        <button class="scroll-arrow right" onclick="scrollCards('esports', 1)">›</button>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-brand">
+        <a href="#" class="nav-logo">ASTRAX</a>
+        <p class="footer-desc">La plataforma que impulsa la competencia. Organizá, participá y seguí tus torneos favoritos.</p>
+        <p class="footer-copy">©2026 Astrax. Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-col">
+        <h4>Plataforma</h4>
+        <a href="#">Torneos</a>
+        <a href="#">Rankings</a>
+        <a href="#">Noticias</a>
+        <a href="#">Calendarios</a>
+    </div>
+    <div class="footer-col">
+        <h4>Comunidad</h4>
+        <a href="#">Nosotros</a>
+        <a href="#">Contacto</a>
+        <a href="#">Preguntas frecuentes</a>
+    </div>
+    <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Términos y condiciones</a>
+        <a href="#">Privacidad</a>
+    </div>
+</footer>
+
+<script src="main.js"></script>
 </body>
 </html>
