@@ -4,20 +4,20 @@ let seleccionados = [];
 
 const catalogoData = {
     deportes: [
-        { nombre: 'Fútbol', img: '../assets/sports/futbol.webp' },
-        { nombre: 'Basketball', img: '../assets/sports/basketball.webp' },
-        { nombre: 'Tenis', img: '../assets/sports/tenis.webp' },
-        { nombre: 'Natación', img: '../assets/sports/natacion.webp' },
-        { nombre: 'Atletismo', img: '../assets/sports/atletismo.webp' },
-        { nombre: 'Volleyball', img: '../assets/sports/volleyball.webp' }
+        { nombre: 'Fútbol', img: '../../assets/sports/futbol.webp' },
+        { nombre: 'Basketball', img: '../../assets/sports/basketball.webp' },
+        { nombre: 'Tenis', img: '../../assets/sports/tenis.webp' },
+        { nombre: 'Natación', img: '../../assets/sports/natacion.webp' },
+        { nombre: 'Atletismo', img: '../../assets/sports/atletismo.webp' },
+        { nombre: 'Volleyball', img: '../../assets/sports/volleyball.webp' }
     ],
     videojuegos: [
-        { nombre: 'League of Legends', img: '../assets/videogames/lol.webp' },
-        { nombre: 'Call of Duty', img: '../assets/videogames/cod.webp' },
-        { nombre: 'Valorant', img: '../assets/videogames/valorant.webp' },
-        { nombre: 'Clash Royale', img: '../assets/videogames/clasroyale.webp' },
-        { nombre: 'Fortnite', img: '../assets/videogames/fortnite.webp' },
-        { nombre: 'Rocket League', img: '../assets/videogames/rocketleague.webp' }
+        { nombre: 'League of Legends', img: '../../assets/videogames/lol.webp' },
+        { nombre: 'Call of Duty', img: '../../assets/videogames/cod.webp' },
+        { nombre: 'Valorant', img: '../../assets/videogames/valorant.webp' },
+        { nombre: 'Clash Royale', img: '../../assets/videogames/clasroyale.webp' },
+        { nombre: 'Fortnite', img: '../../assets/videogames/fortnite.webp' },
+        { nombre: 'Rocket League', img: '../../assets/videogames/rocketleague.webp' }
     ]
 };
 
@@ -110,7 +110,24 @@ async function accionPrincipal() {
         return;
     }
 
-    window.location.href = '../index.html';
+    try {
+        const res = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+    
+        const data = await res.json();
+
+        if (data.ok) {
+            sessionStorage.setItem('astrax_user', JSON.stringify(data.usuario));
+            window.location.href = '../../index.html'
+        } else {
+            alert(data.error || 'Error al iniciar sesión.');
+        }
+    } catch (err) {
+        alert('No se pudo conectar con el servidor.')
+    }
 }
 
 async function sendCode() {

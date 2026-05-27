@@ -9,9 +9,13 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav>
     <a href="#" class="nav-logo">ASTRAX</a>
+    <button class="hamburger" onclick="toggleHamburger()" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
     <ul class="nav-links">
         <li><a href="#">Inicio</a></li>
@@ -23,8 +27,8 @@
 
     <div class="nav-actions">
         <div id="nav-guest">
-            <a href="login/index.html" class="btn-login">Iniciar sesión</a>
-            <a href="login/?m=register" class="btn-register">Registrarse</a>
+            <a href="/pages/login/login.html" class="btn-login">Iniciar sesión</a>
+            <a href="/pages/login/login.html?m=register" class="btn-register">Registrarse</a>
         </div>
 
         <div class="user-menu" id="nav-user">
@@ -38,16 +42,26 @@
                     <div class="dropdown-avatar" id="dropdown-avatar">S</div>
                     <span class="dropdown-username" id="dropdown-username">Usuario</span>
                 </div>
-                <a href="#" class="dropdown-item">👤 &nbsp;Perfil</a>
-                <a href="#" class="dropdown-item">⚙️ &nbsp;Configuración</a>
+                <a href="#" class="dropdown-item">&nbsp;Perfil</a>
+                <a href="#" class="dropdown-item">&nbsp;Configuración</a>
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item danger" onclick="logout()">↩ &nbsp;Cerrar sesión</button>
             </div>
         </div>
     </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#">Inicio</a>
+        <a href="#">Torneos</a>
+        <a href="#">Rankings</a>
+        <a href="#">Noticias</a>
+        <a href="#">Contacto</a>
+        <div class="mobile-auth">
+            <a href="pages/login/login.html" class="btn-login">Iniciar sesión</a>
+            <a href="pages/login/login.html?m=register" class="btn-register">Registrarse</a>
+        </div>
+    </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
     <div class="hero-content">
         <p class="hero-eyebrow">Plataforma de competencia</p>
@@ -61,14 +75,16 @@
     </div>
     <div class="hero-image">
         <div class="hero-img-placeholder">
-            <!-- <img src="assets/hero.png" alt="Hero"> -->
-            IMAGEN HERO
+            <img src="/assets/HeroMain.png" alt="Hero"> 
         </div>
     </div>
 </section>
 
 <!-- DEPORTES -->
-<section class="section">
+<div class="scroll-hint">
+    <a href="#deportes">↓</a>
+</div>
+<section class="section" id="deportes">
     <div class="section-header">
         <h2 class="section-title">Deportes</h2>
         <a href="#" class="section-link">Ver todos →</a>
@@ -148,7 +164,7 @@
     </div>
 </section>
 
-<!-- ESPORTS -->
+<!-- eSPORTS -->
 <section class="section" style="padding-top:0">
     <div class="section-header">
         <h2 class="section-title">eSports</h2>
@@ -229,7 +245,6 @@
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-brand">
         <a href="#" class="nav-logo">ASTRAX</a>
@@ -245,7 +260,7 @@
     </div>
     <div class="footer-col">
         <h4>Comunidad</h4>
-        <a href="#">Nosotros</a>
+        <a href="./pages/about-us/aboutUs.html">Nosotros</a>
         <a href="#">Contacto</a>
         <a href="#">Preguntas frecuentes</a>
     </div>

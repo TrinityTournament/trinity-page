@@ -9,7 +9,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('../assets/astraxLogin.png');
+    background-image: url('../../assets/astraxLogin.png');
     background-size: cover;
     background-position: center;
     font-family: sans-serif;

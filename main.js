@@ -57,6 +57,20 @@ function logout() {
     document.getElementById('nav-user').classList.remove('active');
 }
 
+// Hamburger (son las 3 lineas horizontales ||| que funcionan como menú btw)
+function toggleHamburger() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('open');
+}
+
+document.addEventListener('click', e => {
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('mobile-menu');
+    if (!hamburger.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open')
+    }
+});
+
 // Restaurar sesión al cargar
 const savedUser = sessionStorage.getItem('astrax_user');
 if (savedUser) setUserLoggedIn(JSON.parse(savedUser));

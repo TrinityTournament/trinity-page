@@ -89,4 +89,38 @@ app.post('/api/verify-code', async (req, res) => {
     res.json({ ok: true });
 });
 
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    if(!email || !password) {
+        return res.status(400).json({
+            error: 'Faltan datos de usuario.'
+        });
+    }
+
+    const { data, error } = await supabase
+        .from('usuarios')
+        .select('*')
+        .eq('email', email)
+        .eq('password', password)
+        .single();
+
+    if(error || !data) {
+        return res.data(401).json({ 
+            error: 'Email o contraseña incorrectos' 
+        });
+    }
+
+    res.json({
+        ok: true,
+        usuario: {
+            usuario: data.usuario,
+            nombre: data.nombre,
+            email: data.email,
+            tipo: data.tipo,
+            deportes: data.deportes_seleccionados
+        }
+    });
+});
+
 app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));
