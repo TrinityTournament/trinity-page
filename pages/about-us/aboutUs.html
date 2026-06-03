@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,3 +10,439 @@
     <h1>About Us</h1>
 </body>
 </html>
+=======
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros — Astrax</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ════ VARIABLES ════ */
+        :root {
+            --bg:         #050810;
+            --bg2:        #080d1a;
+            --accent:     #1a6fff;
+            --accent2:    #00c2ff;
+            --text:       #f0f4ff;
+            --text-muted: #6b7a9f;
+            --card-bg:    #0c1120;
+            --border:     rgba(255,255,255,0.07);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background:  var(--bg);
+            color:       var(--text);
+            font-family: 'Barlow', sans-serif;
+            overflow-x:  hidden;
+
+            /* Flexbox raíz */
+            display:        flex;
+            flex-direction: column;
+            min-height:     100vh;
+        }
+
+        /* ════ NAV — FLEXBOX ════ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+
+            display:         flex;
+            align-items:     center;
+            justify-content: space-between;
+
+            padding:    0 3rem;
+            height:     64px;
+            background: rgba(5, 8, 16, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      22px;
+            font-weight:    800;
+            letter-spacing: 4px;
+            color:          var(--text);
+            text-decoration: none;
+        }
+
+        .nav-back {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      13px;
+            font-weight:    600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color:          var(--text-muted);
+            text-decoration: none;
+            transition:     color 0.2s;
+
+            display:     flex;
+            align-items: center;
+            gap:         6px;
+        }
+        .nav-back:hover { color: var(--text); }
+
+        /* ════ HERO — FLEXBOX COLUMNA ════ */
+        .hero {
+            padding:    100px 3rem 4rem;
+            text-align: center;
+
+            display:        flex;
+            flex-direction: column;
+            align-items:    center;
+            gap:            1.25rem;
+
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset:    0;
+            background: radial-gradient(ellipse 70% 60% at 50% 0%,
+                rgba(26,111,255,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      12px;
+            font-weight:    600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color:          var(--accent2);
+        }
+
+        .hero-title {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      clamp(48px, 8vw, 80px);
+            font-weight:    900;
+            line-height:    1;
+            text-transform: uppercase;
+        }
+        .hero-title .accent { color: var(--accent); }
+
+        .hero-desc {
+            font-size:   16px;
+            color:       var(--text-muted);
+            line-height: 1.7;
+            max-width:   580px;
+        }
+
+        /* ════ MISIÓN — GRID 3 COLUMNAS ════ */
+        .mision {
+            padding: 4rem 3rem;
+
+            display:               grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap:                   1.5rem;
+        }
+
+        .mision-card {
+            background:    var(--card-bg);
+            border:        1px solid var(--border);
+            border-radius: 14px;
+            padding:       2rem;
+
+            display:        flex;
+            flex-direction: column;
+            gap:            1rem;
+
+            transition: transform 0.25s, border-color 0.25s;
+        }
+        .mision-card:hover {
+            transform:    translateY(-4px);
+            border-color: rgba(26,111,255,0.35);
+        }
+
+        .mision-icon {
+            font-size:   2.5rem;
+            line-height: 1;
+        }
+
+        .mision-title {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      22px;
+            font-weight:    800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .mision-text {
+            font-size:   14px;
+            color:       var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ════ EQUIPO — GRID 4 COLUMNAS ════ */
+        .equipo-section {
+            padding: 2rem 3rem 5rem;
+        }
+
+        .section-header {
+            display:         flex;
+            align-items:     baseline;
+            justify-content: space-between;
+            margin-bottom:   2rem;
+        }
+
+        .section-title {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      32px;
+            font-weight:    800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .equipo-grid {
+            display:               grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap:                   1.5rem;
+        }
+
+        .miembro {
+            background:    var(--card-bg);
+            border:        1px solid var(--border);
+            border-radius: 14px;
+            overflow:      hidden;
+            transition:    transform 0.25s, border-color 0.25s;
+
+            display:        flex;
+            flex-direction: column;
+        }
+        .miembro:hover {
+            transform:    translateY(-4px);
+            border-color: rgba(26,111,255,0.3);
+        }
+
+        .miembro-avatar {
+            height:     140px;
+            background: linear-gradient(135deg, #0d1530, #0a1225);
+
+            display:     flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 3rem;
+        }
+
+        .miembro-info {
+            padding: 1.25rem 1rem;
+
+            display:        flex;
+            flex-direction: column;
+            gap:            4px;
+        }
+
+        .miembro-nombre {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      18px;
+            font-weight:    700;
+            letter-spacing: 1px;
+        }
+
+        .miembro-rol {
+            font-size:      11px;
+            font-weight:    500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color:          var(--accent2);
+        }
+
+        .miembro-desc {
+            font-size:   13px;
+            color:       var(--text-muted);
+            line-height: 1.5;
+            margin-top:  6px;
+        }
+
+        /* ════ STATS — FLEXBOX ════ */
+        .stats {
+            border-top:    1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding:       3rem;
+            margin:        0 3rem;
+
+            display:         flex;
+            justify-content: space-around;
+            align-items:     center;
+            gap:             2rem;
+            flex-wrap:       wrap;
+        }
+
+        .stat {
+            display:        flex;
+            flex-direction: column;
+            align-items:    center;
+            gap:            4px;
+        }
+
+        .stat-num {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      48px;
+            font-weight:    900;
+            color:          var(--accent);
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-family:    'Barlow Condensed', sans-serif;
+            font-size:      12px;
+            font-weight:    600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color:          var(--text-muted);
+        }
+
+        /* ════ FOOTER — FLEXBOX ════ */
+        footer {
+            margin-top:  auto;
+            border-top:  1px solid var(--border);
+            padding:     1.5rem 3rem;
+
+            display:         flex;
+            align-items:     center;
+            justify-content: space-between;
+        }
+
+        .footer-copy {
+            font-size: 12px;
+            color:     var(--text-muted);
+        }
+
+        /* ════ RESPONSIVE ════ */
+        @media (max-width: 768px) {
+            nav       { padding: 0 1rem; }
+            .hero     { padding: 90px 1.5rem 3rem; }
+            .mision   { grid-template-columns: 1fr; padding: 2.5rem 1.5rem; }
+            .equipo-section { padding: 2rem 1.5rem 3rem; }
+            .equipo-grid    { grid-template-columns: 1fr 1fr; }
+            .stats    { margin: 0 1.5rem; padding: 2rem 1.5rem; }
+            footer    { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .equipo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="/index.html" class="nav-logo">ASTRAX</a>
+    <a href="/index.html" class="nav-back">← Volver al inicio</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <p class="hero-eyebrow">Quiénes somos</p>
+    <h1 class="hero-title">Construido para<br><span class="accent">competidores</span></h1>
+    <p class="hero-desc">
+        Astrax nació con una misión clara: democratizar la competencia deportiva y los esports,
+        dando a cada jugador la plataforma que necesita para destacarse.
+    </p>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat">
+        <span class="stat-num">12K+</span>
+        <span class="stat-label">Jugadores activos</span>
+    </div>
+    <div class="stat">
+        <span class="stat-num">340+</span>
+        <span class="stat-label">Torneos realizados</span>
+    </div>
+    <div class="stat">
+        <span class="stat-num">8</span>
+        <span class="stat-label">Deportes disponibles</span>
+    </div>
+    <div class="stat">
+        <span class="stat-num">2024</span>
+        <span class="stat-label">Año de fundación</span>
+    </div>
+</div>
+
+<!-- MISIÓN / VALORES — GRID 3 COLUMNAS -->
+<section class="mision">
+    <div class="mision-card">
+        <div class="mision-icon">🏆</div>
+        <p class="mision-title">Nuestra misión</p>
+        <p class="mision-text">
+            Organizar competencias accesibles y transparentes, donde cada jugador tenga
+            las mismas oportunidades de brillar, sin importar su nivel.
+        </p>
+    </div>
+    <div class="mision-card">
+        <div class="mision-icon">⚡</div>
+        <p class="mision-title">Nuestra visión</p>
+        <p class="mision-text">
+            Ser la plataforma líder de torneos en Latinoamérica, conectando a deportistas
+            y gamers con comunidades que los impulsen a crecer.
+        </p>
+    </div>
+    <div class="mision-card">
+        <div class="mision-icon">🤝</div>
+        <p class="mision-title">Nuestros valores</p>
+        <p class="mision-text">
+            Fair play, inclusión y pasión por la competencia. Creemos que el deporte
+            y los esports forman carácter y generan comunidad.
+        </p>
+    </div>
+</section>
+
+<!-- EQUIPO — GRID 4 COLUMNAS -->
+<section class="equipo-section">
+    <div class="section-header">
+        <h2 class="section-title">El equipo</h2>
+    </div>
+    <div class="equipo-grid">
+        <div class="miembro">
+            <div class="miembro-avatar">👨‍💻</div>
+            <div class="miembro-info">
+                <p class="miembro-nombre">Smoky</p>
+                <p class="miembro-rol">Web Backend & </p>
+                <p class="miembro-desc">Responsable de la arquitectura visual y la experiencia de usuario de la plataforma.</p>
+            </div>
+        </div>
+        <div class="miembro">
+            <div class="miembro-avatar">🎨</div>
+            <div class="miembro-info">
+                <p class="miembro-nombre">Integrante 2</p>
+                <p class="miembro-rol">Diseño UX/UI</p>
+                <p class="miembro-desc">Encargado del diseño de interfaces y la identidad visual de Astrax.</p>
+            </div>
+        </div>
+        <div class="miembro">
+            <div class="miembro-avatar">⚙️</div>
+            <div class="miembro-info">
+                <p class="miembro-nombre">Integrante 3</p>
+                <p class="miembro-rol">Dev Backend</p>
+                <p class="miembro-desc">Gestiona los servidores, la base de datos y la lógica de autenticación.</p>
+            </div>
+        </div>
+        <div class="miembro">
+            <div class="miembro-avatar">📊</div>
+            <div class="miembro-info">
+                <p class="miembro-nombre">Integrante 4</p>
+                <p class="miembro-rol">Gestión & Torneos</p>
+                <p class="miembro-desc">Coordina la organización de torneos y la comunicación con la comunidad.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <a href="/index.html" class="nav-logo" style="font-size:18px;">ASTRAX</a>
+    <p class="footer-copy">©2026 Astrax. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
+>>>>>>> 5051747 (Prueba)

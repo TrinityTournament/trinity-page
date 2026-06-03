@@ -1,0 +1,22 @@
+{
+  "name": "astrax-wabot",
+  "version": "1.0.0",
+  "description": "Bot de WhatsApp oficial de Astrax",
+  "license": "ISC",
+  "author": "Astrax",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npm install && node ."
+  },
+  "dependencies": {
+    "@discordjs/collection": "^2.1.1",
+    "axios": "^1.12.2",
+    "baileys": "^7.0.0-rc.5"
+  },
+  "imports": {
+    "#commands/*": "./src/commands/*",
+    "#events/*": "./src/events/*",
+    "#lib/*": "./src/lib/*"
+  }
+}

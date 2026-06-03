@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 let modoRegistro = false;
 let datosUsuario = {};
 let seleccionados = [];
@@ -228,3 +229,246 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleModo();
     }
 });
+=======
+// ══════════════════════════════════════════
+//  ASTRAX — LOGIN / REGISTRO
+// ══════════════════════════════════════════
+
+let metodoActual = null; // 'email' | 'telefono'
+let canalActual  = null; // 'whatsapp' | 'telegram'
+let datosUsuario = {};
+
+// ── FUNCIÓN CENTRAL DE NAVEGACIÓN ────────────────────────
+// Toda visibilidad de steps pasa por aquí, solo con clases.
+// Nunca se toca style.display para evitar el bug del OG
+// donde el inline override pisaba al CSS y ambos steps
+// quedaban visibles al mismo tiempo.
+
+function activarStep(id) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function mostrarLogin() {
+    activarStep('step-login');
+    document.getElementById('card').classList.remove('wide');
+    resetRegistro();
+}
+
+function mostrarRegistro() {
+    activarStep('step-registro');
+    // contraseña siempre oculta al entrar al registro
+    document.getElementById('field-password').classList.remove('pwd-visible');
+}
+
+// ── RESET ─────────────────────────────────────────────────
+
+function resetRegistro() {
+    metodoActual = null;
+    canalActual  = null;
+
+    document.querySelectorAll('.metodo-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('visible'));
+    document.querySelectorAll('.canal-btn').forEach(b => {
+        b.classList.remove('active');
+        b.disabled = false;
+    });
+    document.getElementById('col-der').classList.remove('visible');
+    document.getElementById('field-password').classList.remove('pwd-visible');
+    limpiarOtp('otp-email');
+    limpiarOtp('otp-tel');
+    document.getElementById('msg-email').textContent = '';
+    document.getElementById('msg-tel').textContent   = '';
+}
+
+function limpiarOtp(groupId) {
+    document.querySelectorAll(`#${groupId} input`).forEach(i => {
+        i.value = '';
+        i.classList.remove('filled');
+    });
+}
+
+// ── MÉTODO DE VERIFICACIÓN ────────────────────────────────
+
+function seleccionarMetodo(metodo) {
+    metodoActual = metodo;
+
+    document.getElementById('btn-email').classList.toggle('active',    metodo === 'email');
+    document.getElementById('btn-telefono').classList.toggle('active', metodo === 'telefono');
+
+    // Mostrar contraseña con clase (no style inline)
+    document.getElementById('field-password').classList.add('pwd-visible');
+
+    document.getElementById('card').classList.add('wide');
+    document.getElementById('col-der').classList.add('visible');
+
+    document.getElementById('panel-email').classList.toggle('visible',    metodo === 'email');
+    document.getElementById('panel-telefono').classList.toggle('visible', metodo === 'telefono');
+
+    if (metodo !== 'telefono') {
+        canalActual = null;
+        document.querySelectorAll('.canal-btn').forEach(b => {
+            b.classList.remove('active');
+            b.disabled = false;
+        });
+    }
+}
+
+// ── CANAL (WhatsApp / Telegram) ───────────────────────────
+
+function seleccionarCanal(canal) {
+    if (canalActual === canal) return;
+    canalActual = canal;
+
+    const btnWa = document.getElementById('btn-whatsapp');
+    const btnTg = document.getElementById('btn-telegram');
+
+    btnWa.classList.toggle('active', canal === 'whatsapp');
+    btnTg.classList.toggle('active', canal === 'telegram');
+    btnWa.disabled = canal !== 'whatsapp';
+    btnTg.disabled = canal !== 'telegram';
+}
+
+// ── TOGGLE PASSWORD ───────────────────────────────────────
+
+function togglePassword(id, icon) {
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+    icon.style.opacity = input.type === 'text' ? '1' : '0.6';
+}
+
+// ── OTP ───────────────────────────────────────────────────
+
+function otpNext(input, groupId) {
+    input.value = input.value.replace(/[^0-9]/g, '');
+    if (input.value) {
+        input.classList.add('filled');
+        const inputs = [...document.querySelectorAll(`#${groupId} input`)];
+        const idx    = inputs.indexOf(input);
+        if (idx < inputs.length - 1) inputs[idx + 1].focus();
+        const completo = inputs.every(i => i.value.length === 1);
+        if (completo) {
+            const codigo = inputs.map(i => i.value).join('');
+            if (groupId === 'otp-email') verificarCodigoEmail(codigo);
+            if (groupId === 'otp-tel')   verificarCodigoTel(codigo);
+        }
+    } else {
+        input.classList.remove('filled');
+    }
+}
+
+function otpBack(event, input, groupId) {
+    if (event.key === 'Backspace' && !input.value) {
+        const inputs = [...document.querySelectorAll(`#${groupId} input`)];
+        const idx    = inputs.indexOf(input);
+        if (idx > 0) inputs[idx - 1].focus();
+    }
+}
+
+// ── LOGIN ─────────────────────────────────────────────────
+
+async function accionLogin() {
+    const identifier = document.getElementById('login-identifier').value.trim();
+    const password   = document.getElementById('password-login').value;
+
+    if (!identifier) { alert('Ingresá tu email o número de teléfono.'); return; }
+    if (!password)   { alert('Ingresá tu contraseña.'); return; }
+
+    try {
+        const res  = await fetch('../../api/login.php', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ identifier, password }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+            sessionStorage.setItem('astrax_user', JSON.stringify(data.usuario));
+            window.location.href = '/astrax/index.html';
+        } else {
+            alert(data.error || 'Email o contraseña incorrectos.');
+        }
+    } catch {
+        alert('No se pudo conectar con el servidor.');
+    }
+}
+
+// ── SOLICITAR CÓDIGO EMAIL ────────────────────────────────
+
+async function solicitarCodigoEmail() {
+    const nombre   = document.getElementById('nombre').value.trim();
+    const usuario  = document.getElementById('usuario').value.trim();
+    const password = document.getElementById('password-registro').value;
+    const email    = document.getElementById('email-registro').value.trim();
+    const msg      = document.getElementById('msg-email');
+
+    if (!nombre || !usuario || !password || !email) {
+        msg.textContent = 'Completá todos los campos.'; return;
+    }
+
+    datosUsuario    = { nombre, usuario, password, email, metodo: 'email' };
+    msg.textContent = 'Enviando código...';
+
+    try {
+        const res  = await fetch('../../api/send-code.php', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ email }),
+        });
+        const data = await res.json();
+        msg.textContent = data.ok
+            ? 'Código enviado. Revisá tu correo.'
+            : (data.error || 'Error al enviar el código.');
+    } catch {
+        msg.textContent = 'No se pudo conectar con el servidor.';
+    }
+}
+
+// ── VERIFICAR CÓDIGO EMAIL ────────────────────────────────
+
+async function verificarCodigoEmail(codigo) {
+    const msg = document.getElementById('msg-email');
+    msg.textContent = 'Verificando...';
+
+    try {
+        const res  = await fetch('../../api/verify-code.php', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+                email:    datosUsuario.email,
+                code:     codigo,
+                nombre:   datosUsuario.nombre,
+                usuario:  datosUsuario.usuario,
+                password: datosUsuario.password,
+            }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+            msg.textContent = '¡Cuenta creada! Iniciando sesión...';
+            setTimeout(() => mostrarLogin(), 1800);
+        } else {
+            msg.textContent = data.error || 'Código incorrecto.';
+            limpiarOtp('otp-email');
+        }
+    } catch {
+        msg.textContent = 'Error al verificar. Intentá nuevamente.';
+        limpiarOtp('otp-email');
+    }
+}
+
+// ── VERIFICAR CÓDIGO TELÉFONO ─────────────────────────────
+
+async function verificarCodigoTel(codigo) {
+    const msg = document.getElementById('msg-tel');
+    msg.textContent = 'Verificando...';
+    // TODO: integrar con bot de WhatsApp / Telegram
+    msg.textContent = 'Verificación por teléfono próximamente.';
+    limpiarOtp('otp-tel');
+}
+
+// ── INIT ──────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('m') === 'register') mostrarRegistro();
+});
+>>>>>>> 5051747 (Prueba)
