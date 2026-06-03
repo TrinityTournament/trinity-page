@@ -12,7 +12,7 @@ define('DB_PASS',    '');              // ← cambiá por tu contraseña
 define('DB_CHARSET', 'utf8mb4');
 
 // ── CLAVE BREVO (email) ────────────────────────────────────
-define('BREVO_KEY', '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');
+define('BREVO_KEY', getenv('BREVO_KEY'));
 
 // ── CONEXIÓN PDO (singleton) ───────────────────────────────
 function db(): PDO {
