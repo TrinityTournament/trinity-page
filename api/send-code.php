@@ -1,7 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
 //  ASTRAX — Enviar código de verificación
-//  (sin cambios de DB: el código se guarda en sesión PHP)
 // ══════════════════════════════════════════════════════════
 session_start();
 require_once __DIR__ . '/config.php';
@@ -21,8 +20,8 @@ if (empty($email)) {
     json_response(['error' => 'El email es requerido.'], 400);
 }
 
-if (!str_ends_with($email, '@gmail.com')) {
-    json_response(['error' => 'De momento, solo se permite Gmail.'], 400);
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    json_response(['error' => 'El email no es válido.'], 400);
 }
 
 // ── VERIFICAR QUE EL EMAIL NO ESTÉ YA REGISTRADO ─────────
@@ -40,7 +39,7 @@ $code = str_pad((string) random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
 // ── GUARDAR EN SESIÓN ─────────────────────────────────────
 $_SESSION['verification'][$email] = [
     'code'      => $code,
-    'expiresAt' => time() + 600, // 10 minutos
+    'expiresAt' => time() + 600,
 ];
 
 // ── ENVIAR EMAIL VIA BREVO ────────────────────────────────

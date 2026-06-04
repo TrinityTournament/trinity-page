@@ -1,259 +1,5 @@
-<<<<<<< HEAD
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: url('../../assets/astraxLogin.png');
-    background-size: cover;
-    background-position: center;
-    font-family: sans-serif;
-}
-
-.login-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    transition: max-width 0.4s ease;
-}
-
-.login-card.wide {
-    max-width: 860px;
-}
-
-.card-header h2 {
-    font-size: 22px;
-    font-weight: 600;
-    color: #fff;
-}
-
-.card-header p {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.75);
-    margin-top: 4px;
-}
-
-.step {
-    display: none;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.step.active {
-    display: flex;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-}
-
-.col {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.field label {
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.field input,
-.field select {
-    padding: 10px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    width: 100%;
-}
-
-.field input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.field input:focus,
-.field select:focus {
-    border-color: rgba(255, 255, 255, 0.7);
-}
-
-.field select option,
-.field select optgroup {
-    background: #1a1a2e;
-    color: #fff;
-}
-
-.field input[type="date"] {
-    color-scheme: dark;
-}
-
-.input-with-btn {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.input-with-btn input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    border-radius: 0;
-}
-
-.input-with-btn input:focus {
-    border-color: transparent;
-}
-
-.input-with-btn button {
-    padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    border: none;
-    border-left: 1px solid rgba(255, 255, 255, 0.25);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-}
-
-.input-with-btn button:hover {
-    background: rgba(255, 255, 255, 0.35);
-}
-
-.input-with-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.input-with-icon input {
-    padding-right: 40px;
-}
-
-.eye-icon {
-    position: absolute;
-    right: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    opacity: 0.7;
-    user-select: none;
-}
-
-.eye-icon:hover {
-    opacity: 1;
-}
-
-.login-btn {
-    width: 100%;
-    padding: 11px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #1a1a1a;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.login-btn:hover {
-    background: #fff;
-}
-
-/* Catálogo visual */
-.catalogo {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.catalogo-item {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border 0.2s;
-    aspect-ratio: 1;
-}
-
-.catalogo-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.catalogo-item span {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    font-size: 11px;
-    text-align: center;
-    padding: 8px 4px;
-}
-
-.catalogo-item.selected {
-    border-color: #fff;
-}
-
-.catalogo-item.selected::after {
-    content: '✓';
-    position: absolute;
-    top: 4px;
-    right: 6px;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 0 0 4px #000;
-}
-
-.register {
-    text-align: center;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.register a {
-    color: #fff;
-    font-weight: 500;
-    text-decoration: none;
-}
-=======
 /* ══════════════════════════════════════════
-   ASTRAX — LOGIN / REGISTRO  v4
+   ASTRAX — LOGIN / REGISTRO  v3
    ══════════════════════════════════════════ */
 
 :root {
@@ -292,6 +38,7 @@ body {
     color:          var(--text);
     text-align:     center;
     flex-shrink:    0;
+    /* Totalmente fuera de la card */
     position:       relative;
     z-index:        1;
 }
@@ -305,22 +52,14 @@ body {
     border-radius:   22px;
     padding:         2.25rem 2.5rem;
     width:           100%;
-    max-width:       480px;
+    max-width:       440px;
     transition:      max-width 0.35s ease;
 }
-.login-card.wide { max-width: 920px; }
+.login-card.wide { max-width: 900px; }
 
 /* ── STEPS ── */
-/* !important necesario: #step-login{display:flex} tiene mayor especificidad
-   que .step{display:none} y lo pisaba, dejando ambos steps visibles. */
-.step               { display: none !important; }
-.step.active        { display: flex !important; }
-#step-registro.active { display: block !important; }
-
-/* Campo contraseña en registro: oculto por defecto, visible al elegir método */
-#field-password             { display: none !important; }
-#field-password.pwd-visible { display: flex !important; }
-
+.step          { display: none !important; }
+.step.active { display: flex !important; flex-direction: column; gap: 1rem; }
 /* ── CARD HEADER ── */
 .card-header { margin-bottom: 1.25rem; }
 .card-header h2 {
@@ -338,6 +77,7 @@ body {
 
 /* ── LOGIN STEP — FLEXBOX COLUMNA ── */
 #step-login {
+    display:        flex;
     flex-direction: column;
     gap:            1rem;
 }
@@ -360,11 +100,10 @@ body {
 .col-der {
     display:         none;
     flex-direction:  column;
-    justify-content: flex-start;
+    justify-content: center;
     gap:             1.25rem;
     border-left:     1px solid var(--border);
     padding-left:    2rem;
-    padding-top:     0.5rem;
 }
 .col-der.visible { display: flex; }
 
@@ -411,6 +150,39 @@ body {
 }
 .eye-icon:hover { opacity: 1; }
 
+/* ── INPUT CON BOTÓN ── */
+.input-with-btn {
+    display:       flex;
+    background:    var(--input-bg);
+    border:        1px solid var(--border);
+    border-radius: 10px;
+    overflow:      hidden;
+}
+.input-with-btn input {
+    flex:          1;
+    border:        none;
+    background:    transparent;
+    border-radius: 0;
+    min-width:     0;
+}
+.input-with-btn input:focus { background: transparent; border-color: transparent; }
+.input-with-btn button {
+    padding:     10px 14px;
+    background:  rgba(255,255,255,0.14);
+    color:       #fff;
+    border:      none;
+    border-left: 1px solid var(--border);
+    font-size:   12px;
+    font-weight: 700;
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.5px;
+    cursor:      pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition:  background 0.2s;
+}
+.input-with-btn button:hover { background: rgba(255,255,255,0.26); }
+
 /* ── BOTÓN PRINCIPAL ── */
 .btn-primary {
     width:         100%;
@@ -428,23 +200,6 @@ body {
 }
 .btn-primary:hover  { background: #fff; }
 .btn-primary:active { transform: scale(0.98); }
-
-/* ── BOTÓN SOLICITAR CÓDIGO (standalone) ── */
-.btn-solicitar {
-    align-self:    flex-start;
-    padding:       8px 18px;
-    background:    rgba(255,255,255,0.15);
-    color:         var(--text);
-    border:        1px solid rgba(255,255,255,0.25);
-    border-radius: 20px;
-    font-size:     13px;
-    font-weight:   700;
-    font-family:   'Barlow Condensed', sans-serif;
-    letter-spacing: 0.5px;
-    cursor:        pointer;
-    transition:    background 0.2s;
-}
-.btn-solicitar:hover { background: rgba(255,255,255,0.26); }
 
 /* ── MÉTODO DE VERIFICACIÓN ── */
 .metodo-section {
@@ -476,48 +231,41 @@ body {
     padding:       0;
 }
 .metodo-btn img         { width: 30px; height: 30px; object-fit: contain; }
+.metodo-phone-icon      { font-size: 26px; line-height: 1; }
 .metodo-btn:hover       { background: rgba(255,255,255,0.18); transform: scale(1.06); }
 .metodo-btn.active      { border-color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.20); }
 
-/* Botón teléfono — fondo gris como en la imagen */
-.metodo-btn-phone {
-    background: rgba(180,180,180,0.25);
-}
-.metodo-btn-phone:hover {
-    background: rgba(180,180,180,0.40);
-}
-
-/* ── CANAL BTNS (WhatsApp / Telegram) ── */
+/* ── CANAL BTNS ── */
 .canal-btns {
-    display:     flex;
-    gap:         14px;
-    align-items: center;
-    flex-wrap:   wrap;
+    display: flex;
+    gap:     10px;
 }
 .canal-btn {
-    width:           58px;
-    height:          58px;
-    border-radius:   50%;
-    border:          2px solid rgba(255,255,255,0.15);
-    background:      transparent;
-    cursor:          pointer;
+    flex:            1;
     display:         flex;
+    flex-direction:  column;
     align-items:     center;
-    justify-content: center;
-    padding:         0;
-    transition:      border-color 0.2s, transform 0.15s, opacity 0.2s;
-    flex-shrink:     0;
+    gap:             6px;
+    padding:         12px 10px;
+    border-radius:   12px;
+    border:          2px solid var(--border);
+    background:      rgba(255,255,255,0.07);
+    color:           var(--text);
+    font-family:     'Barlow', sans-serif;
+    font-size:       12px;
+    font-weight:     500;
+    cursor:          pointer;
+    transition:      border-color 0.2s, background 0.2s, opacity 0.2s;
 }
-.canal-btn img           { width: 42px; height: 42px; object-fit: contain; border-radius: 50%; }
-.canal-btn:hover:not(:disabled) { border-color: rgba(255,255,255,0.6); transform: scale(1.06); }
-.canal-btn.active        { border-color: rgba(255,255,255,0.8); }
+.canal-btn img           { width: 34px; height: 34px; object-fit: contain; }
+.canal-btn:hover:not(:disabled) { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.14); }
+.canal-btn.active        { border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.16); }
 .canal-btn:disabled      { opacity: 0.3; cursor: not-allowed; }
 .canal-hint {
     font-size:  11px;
     color:      var(--muted);
+    text-align: center;
     font-style: italic;
-    flex:       1;
-    min-width:  100px;
 }
 
 /* ── OTP INPUTS ── */
@@ -526,15 +274,16 @@ body {
     gap:     8px;
 }
 .otp-inputs input {
-    width:         44px !important;
-    height:        52px !important;
+    /* Tamaño fijo — no heredan width:100% del .field */
+    width:         48px !important;
+    height:        56px !important;
     flex-shrink:   0;
     text-align:    center;
     font-size:     22px;
     font-weight:   700;
     font-family:   'Barlow Condensed', sans-serif;
     padding:       0 !important;
-    border-radius: 14px;
+    border-radius: 12px;
     background:    rgba(255,255,255,0.13);
     border:        1px solid var(--border);
     color:         var(--text);
@@ -555,7 +304,6 @@ body {
     color:      var(--muted);
     font-style: italic;
     text-align: center;
-    margin-top: 4px;
 }
 
 /* ── PANEL ── */
@@ -590,6 +338,21 @@ body {
     .registro-grid   { grid-template-columns: 1fr; }
     .col-izq         { padding-right: 0; }
     .col-der         { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 1.5rem; }
-    .otp-inputs input { width: 38px !important; height: 46px !important; font-size: 18px; }
+    .otp-inputs input { width: 40px !important; height: 48px !important; font-size: 18px; }
 }
->>>>>>> 5051747 (Prueba)
+
+.modal-overlay {
+    display: none;
+}
+.modal-overlay.visible {
+    display: flex;
+}
+
+/* Mejorar visibilidad del link */
+.forgot-link {
+    color: var(--accent2);
+    font-size: 13px;
+}
+.forgot-link:hover {
+    color: var(--text);
+}

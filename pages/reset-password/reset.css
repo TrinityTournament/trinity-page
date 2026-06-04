@@ -1,0 +1,187 @@
+/* ══════════════════════════════════════════
+   ASTRAX — RESET PASSWORD
+   ══════════════════════════════════════════ */
+
+:root {
+    --accent:   #1a6fff;
+    --accent2:  #00c2ff;
+    --card-bg:  rgba(30, 40, 70, 0.72);
+    --border:   rgba(255,255,255,0.18);
+    --input-bg: rgba(255,255,255,0.10);
+    --text:     #fff;
+    --muted:    rgba(255,255,255,0.55);
+    --danger:   #ff4d4d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    min-height:          100vh;
+    background-image:    url('/astrax-page/assets/astraxLogin.png');
+    background-size:     cover;
+    background-position: center;
+    font-family:         'Barlow', sans-serif;
+    display:             flex;
+    flex-direction:      column;
+    align-items:         center;
+    justify-content:     center;
+    padding:             2rem 1.5rem;
+    gap:                 1.25rem;
+}
+
+/* ── LOGO ── */
+.logo-top {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      32px;
+    font-weight:    900;
+    letter-spacing: 10px;
+    color:          var(--text);
+    text-align:     center;
+}
+
+/* ── CARD ── */
+.reset-card {
+    background:      var(--card-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border:          1px solid var(--border);
+    border-radius:   22px;
+    padding:         2.5rem;
+    width:           100%;
+    max-width:       420px;
+    display:         flex;
+    flex-direction:  column;
+    gap:             1.25rem;
+}
+
+/* ── STEPS ── */
+.step         { display: none !important; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+.step.active  { display: flex !important; }
+
+/* ── SPINNER ── */
+.spinner {
+    width:  40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.15);
+    border-top-color: var(--accent2);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.checking-text {
+    font-size: 14px;
+    color:     var(--muted);
+}
+
+/* ── ICON BIG ── */
+.icon-big { font-size: 3rem; line-height: 1; }
+
+/* ── CARD HEADER ── */
+.card-header { text-align: left; width: 100%; }
+.card-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size:   26px;
+    font-weight: 800;
+    color:       var(--text);
+    line-height: 1.1;
+}
+.card-header p {
+    font-size:  13px;
+    color:      var(--muted);
+    margin-top: 4px;
+}
+
+/* ── STEPS texto ── */
+.step h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size:   22px;
+    font-weight: 800;
+    color:       var(--text);
+}
+
+.desc {
+    font-size:   13px;
+    color:       var(--muted);
+    line-height: 1.65;
+    max-width:   320px;
+}
+
+/* ── FIELD ── */
+.field {
+    display:        flex;
+    flex-direction: column;
+    gap:            6px;
+    width:          100%;
+    text-align:     left;
+}
+
+.field label {
+    font-size:    12px;
+    font-weight:  600;
+    color:        rgba(255,255,255,0.7);
+    font-style:   italic;
+    letter-spacing: 0.3px;
+}
+
+.input-icon { position: relative; display: flex; align-items: center; }
+.input-icon input {
+    width:         100%;
+    padding:       10px 42px 10px 14px;
+    border:        1px solid var(--border);
+    border-radius: 10px;
+    font-size:     14px;
+    font-family:   'Barlow', sans-serif;
+    background:    var(--input-bg);
+    color:         var(--text);
+    outline:       none;
+    transition:    border-color 0.2s, background 0.2s;
+}
+.input-icon input::placeholder { color: var(--muted); }
+.input-icon input:focus         { border-color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.14); }
+
+.eye {
+    position:   absolute;
+    right:      12px;
+    cursor:     pointer;
+    font-size:  16px;
+    opacity:    0.55;
+    user-select: none;
+    transition: opacity 0.2s;
+}
+.eye:hover { opacity: 1; }
+
+/* ── MSG ── */
+.msg {
+    font-size:  13px;
+    min-height: 18px;
+    width:      100%;
+    text-align: left;
+    color:      var(--danger);
+}
+.msg.ok { color: var(--accent2); }
+
+/* ── BTN PRIMARY ── */
+.btn-primary {
+    width:         100%;
+    padding:       12px;
+    background:    rgba(255,255,255,0.9);
+    color:         #111;
+    border:        none;
+    border-radius: 10px;
+    font-size:     15px;
+    font-weight:   700;
+    font-family:   'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+    cursor:        pointer;
+    text-decoration: none;
+    display:       block;
+    text-align:    center;
+    transition:    background 0.2s, transform 0.1s;
+}
+.btn-primary:hover  { background: #fff; }
+.btn-primary:active { transform: scale(0.98); }
+
+@media (max-width: 480px) {
+    .reset-card { padding: 1.75rem 1.25rem; }
+}

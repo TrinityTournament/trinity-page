@@ -4,25 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Astrax</title>
-<<<<<<< HEAD
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <div class="login-card">
-        <div class="card-header">
-            <h2 id="titulo">Bienvenido de nuevo</h2>
-            <p id="subtitulo">Ingresa tus datos para continuar</p>
-        </div>
-
-        <!-- LOGIN -->
-        <div id="step-login" class="step active">
-            <div class="field">
-                <label for="email">Correo electrónico</label>
-                <input type="email" id="email" placeholder="example@gmail.com">
-            </div>
-            <div class="field">
-                <label for="password-login">Contraseña</label>
-=======
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -44,40 +25,16 @@
             </div>
             <div class="field">
                 <label>Contraseña</label>
->>>>>>> 5051747 (Prueba)
                 <div class="input-with-icon">
                     <input type="password" id="password-login" placeholder="••••••••">
                     <span class="eye-icon" onclick="togglePassword('password-login', this)">👁</span>
                 </div>
             </div>
-<<<<<<< HEAD
-            <button class="login-btn" onclick="accionPrincipal()">Iniciar sesión</button>
-        </div>
-
-        <div id="step-datos" class="step">
-            <div class="form-grid">
-
-                <div class="col">
-                    <div class="field">
-                        <label for="nombre">Nombre y apellido</label>
-                        <input type="text" id="nombre" placeholder="Juan Pérez">
-                    </div>
-                    <div class="field">
-                        <label for="usuario">Nombre de usuario</label>
-                        <input type="text" id="usuario" placeholder="juanp99">
-                    </div>
-                    <div class="field">
-                        <label for="email-registro">Correo electrónico</label>
-                        <div class="input-with-btn">
-                            <input type="email" id="email-registro" placeholder="example@gmail.com">
-                            <button id="btn-enviar" onclick="sendCode()">Enviar</button>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="password-registro">Contraseña</label>
-=======
             <button class="btn-primary" onclick="accionLogin()">Iniciar sesión</button>
-            <p class="toggle-link">¿No tenés cuenta? <a href="#" onclick="mostrarRegistro()">Registrate</a></p>
+            <div class="login-footer-links">
+                <p class="toggle-link">¿No tenés cuenta? <a href="#" onclick="mostrarRegistro()">Registrate</a></p>
+                <a href="#" class="forgot-link" onclick="mostrarForgot()">¿Olvidaste tu contraseña?</a>
+            </div>
         </div>
 
         <!-- ══ REGISTRO — LAYOUT 2 COLUMNAS ══ -->
@@ -98,87 +55,41 @@
                         <label>Nombre de usuario</label>
                         <input type="text" id="usuario" placeholder="juanp99">
                     </div>
-
-                    <!-- Contraseña: oculta hasta elegir método -->
-                    <div class="field field-password" id="field-password">
+                    <div class="field">
                         <label>Contraseña</label>
->>>>>>> 5051747 (Prueba)
                         <div class="input-with-icon">
                             <input type="password" id="password-registro" placeholder="••••••••">
                             <span class="eye-icon" onclick="togglePassword('password-registro', this)">👁</span>
                         </div>
                     </div>
-<<<<<<< HEAD
-                </div>
-
-                <div class="col">
-                    <div class="field">
-                        <label for="fecha">Fecha de nacimiento</label>
-                        <input type="date" id="fecha">
-                    </div>
-                    <div class="field">
-                        <label for="tipo-deporte">¿Videojuegos o deportes clásicos?</label>
-                        <select id="tipo-deporte" onchange="mostrarCatalogo()">
-                            <option value="" disabled selected>Seleccioná una opción</option>
-                            <option value="deportes">Deportes clásicos</option>
-                            <option value="videojuegos">Videojuegos (eSports)</option>
-                        </select>
-                    </div>
-                    <div class="field" id="catalogo-container" style="display:none">
-                        <label>Elegí al menos 2</label>
-                        <div class="catalogo" id="catalogo"></div>
-                    </div>
-                </div>
-
-            </div>
-            <p id="mensaje" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.75); margin-top:0.5rem;"></p>
-        </div>
-
-        <div id="step-code" class="step">
-            <div class="field">
-                <label for="code">Código de verificación</label>
-                <input type="text" id="code" placeholder="123456" maxlength="6">
-            </div>
-            <button class="login-btn" onclick="verifyCode()">Confirmar registro</button>
-            <p id="mensaje-code" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.75);"></p>
-        </div>
-
-        <p class="register">
-            <span id="texto-registro">¿No tenés cuenta?</span>
-            <a href="#" id="enlace-modo" onclick="toggleModo()"> Registrate</a>
-        </p>
-=======
-
                     <div class="metodo-section">
-                        <p class="metodo-label">Elige tu metodo de inicio de sesión.</p>
+                        <p class="metodo-label">Elegí tu método de verificación</p>
                         <div class="metodo-btns">
-                            <!-- Gmail icon -->
                             <button class="metodo-btn" id="btn-email" onclick="seleccionarMetodo('email')">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Gmail">
                             </button>
-                            <!-- Phone icon SVG -->
-                            <button class="metodo-btn metodo-btn-phone" id="btn-telefono" onclick="seleccionarMetodo('telefono')">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="white" opacity="0.75">
-                                    <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z"/>
-                                </svg>
+                            <button class="metodo-btn" id="btn-telefono" onclick="seleccionarMetodo('telefono')">
+                                <span class="metodo-phone-icon">📞</span>
                             </button>
                         </div>
                     </div>
                     <p class="toggle-link">¿Ya tenés cuenta? <a href="#" onclick="mostrarLogin()">Iniciá sesión</a></p>
                 </div>
 
-                <!-- COLUMNA DERECHA — se muestra al elegir método -->
+                <!-- COLUMNA DERECHA -->
                 <div class="col-der" id="col-der">
 
                     <!-- Panel Email -->
                     <div id="panel-email" class="panel">
                         <div class="field">
-                            <label>Tu correo electronico</label>
-                            <input type="email" id="email-registro" placeholder="correo@ejemplo.com">
+                            <label>Tu correo electrónico</label>
+                            <div class="input-with-btn">
+                                <input type="email" id="email-registro" placeholder="correo@ejemplo.com">
+                                <button onclick="solicitarCodigoEmail()">Solicitar código</button>
+                            </div>
                         </div>
-                        <button class="btn-solicitar" onclick="solicitarCodigoEmail()">Solicitar codigo</button>
                         <div class="field">
-                            <label>Ingresar codigo</label>
+                            <label>Ingresar código</label>
                             <div class="otp-inputs" id="otp-email">
                                 <input maxlength="1" oninput="otpNext(this, 'otp-email')" onkeydown="otpBack(event, this, 'otp-email')">
                                 <input maxlength="1" oninput="otpNext(this, 'otp-email')" onkeydown="otpBack(event, this, 'otp-email')">
@@ -187,7 +98,7 @@
                                 <input maxlength="1" oninput="otpNext(this, 'otp-email')" onkeydown="otpBack(event, this, 'otp-email')">
                                 <input maxlength="1" oninput="otpNext(this, 'otp-email')" onkeydown="otpBack(event, this, 'otp-email')">
                             </div>
-                            <p class="otp-hint">(Autoverifica si es correcto, en caso de que lo sea, inicia automaticamente)</p>
+                            <p class="otp-hint">Autoverifica y registra automáticamente al completar</p>
                         </div>
                         <p class="msg" id="msg-email"></p>
                     </div>
@@ -195,23 +106,25 @@
                     <!-- Panel Teléfono -->
                     <div id="panel-telefono" class="panel">
                         <div class="field">
-                            <label>Tu numero de telefono</label>
+                            <label>Tu número de teléfono</label>
                             <input type="tel" id="telefono-registro" placeholder="+598 99 123 456">
                         </div>
                         <div class="field">
-                            <p class="metodo-label" style="text-align:center; margin-bottom:8px;">Elige donde recibir el codigo.</p>
+                            <label>Elegí dónde recibir el código</label>
                             <div class="canal-btns">
                                 <button class="canal-btn" id="btn-whatsapp" onclick="seleccionarCanal('whatsapp')">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                                    <span>WhatsApp</span>
                                 </button>
-                                <button class="canal-btn" id="btn-telegram" onclick="seleccionarCanal('telegram')">
+                                <button class="canal-btn" id="btn-telegram" onclick="seleccionarCanal('telegram')" disabled>
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+                                    <span>Telegram</span>
                                 </button>
-                                <p class="canal-hint">( Una vez seleccionado una opcion, la otra no se puede cliquear.)</p>
                             </div>
+                            <p class="canal-hint">Una vez seleccionado un canal, el otro se bloquea</p>
                         </div>
                         <div class="field">
-                            <label>Codigo</label>
+                            <label>Código</label>
                             <div class="otp-inputs" id="otp-tel">
                                 <input maxlength="1" oninput="otpNext(this, 'otp-tel')" onkeydown="otpBack(event, this, 'otp-tel')">
                                 <input maxlength="1" oninput="otpNext(this, 'otp-tel')" onkeydown="otpBack(event, this, 'otp-tel')">
@@ -228,13 +141,25 @@
             </div>
         </div>
 
->>>>>>> 5051747 (Prueba)
+    </div>
+
+    <!-- ══ MODAL FORGOT PASSWORD ══ -->
+    <div id="modal-forgot" class="modal-overlay" onclick="cerrarForgot(event)">
+        <div class="modal-card">
+            <h2>Recuperar contraseña</h2>
+            <p class="modal-desc">Ingresá tu email y te enviaremos un link para restablecer tu contraseña.</p>
+            <div class="field">
+                <label>Tu correo electrónico</label>
+                <input type="email" id="forgot-email" placeholder="correo@ejemplo.com">
+            </div>
+            <p class="msg" id="msg-forgot"></p>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="enviarReset()">Enviar link →</button>
+                <button class="btn-secondary" onclick="cerrarForgot()">Cancelar</button>
+            </div>
+        </div>
     </div>
 
     <script src="./script.js"></script>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 5051747 (Prueba)

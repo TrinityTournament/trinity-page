@@ -1,8 +1,8 @@
-<<<<<<< HEAD
 README.md
-=======
->>>>>>> 5051747 (Prueba)
 .env
 .npmrc
 /node_modules
 package-lock.json
+WhatsApp/node_modules
+WhatsApp/package-lock.json
+WhatsApp/auth
