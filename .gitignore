@@ -6,3 +6,4 @@ package-lock.json
 WhatsApp/node_modules
 WhatsApp/package-lock.json
 WhatsApp/auth
+*.zip
