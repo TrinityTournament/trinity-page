@@ -342,10 +342,18 @@ body {
 }
 
 .modal-overlay {
-    display: none;
+    display:         none !important;
+    position:        fixed;
+    inset:           0;
+    background:      rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index:         999;
+    align-items:     center;
+    justify-content: center;
+    padding:         1.5rem;
 }
 .modal-overlay.visible {
-    display: flex;
+    display: flex !important;
 }
 
 /* Mejorar visibilidad del link */
