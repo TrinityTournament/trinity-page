@@ -333,6 +333,8 @@ body {
 .toggle-link a:hover { text-decoration: underline; }
 
 /* ── RESPONSIVE ── */
+
+
 @media (max-width: 720px) {
     .login-card.wide { max-width: 100%; }
     .registro-grid   { grid-template-columns: 1fr; }

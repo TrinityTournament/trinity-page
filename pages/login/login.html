@@ -9,8 +9,6 @@
 </head>
 <body>
 
-    <div class="logo-top">ASTRAX</div>
-
     <div class="login-card" id="card">
 
         <!-- ══ LOGIN ══ -->
@@ -116,12 +114,14 @@
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                                     <span>WhatsApp</span>
                                 </button>
-                                <button class="canal-btn" id="btn-telegram" onclick="seleccionarCanal('telegram')" disabled>
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-                                    <span>Telegram</span>
-                                </button>
                             </div>
-                            <p class="canal-hint">Una vez seleccionado un canal, el otro se bloquea</p>
+                            <p class="canal-hint">Verificá tu número vía WhatsApp</p>
+                        </div>
+                        <div class="field">
+                            <div class="input-with-btn" style="margin-bottom:0.75rem;">
+                                <span style="flex:1;font-size:13px;color:var(--muted);padding:0 12px;display:flex;align-items:center;">Solicitá el código al elegir canal</span>
+                                <button onclick="solicitarCodigoTel()">Solicitar código</button>
+                            </div>
                         </div>
                         <div class="field">
                             <label>Código</label>

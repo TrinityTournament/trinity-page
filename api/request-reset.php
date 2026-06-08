@@ -22,7 +22,7 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $pdo  = db();
 
 // Verificar que el email exista
-$stmt = $pdo->prepare('SELECT id FROM usuarios WHERE email = :email LIMIT 1');
+$stmt = $pdo->prepare('SELECT id, telefono FROM usuarios WHERE email = :email LIMIT 1');
 $stmt->execute([':email' => $email]);
 $user = $stmt->fetch();
 
@@ -73,6 +73,17 @@ $ok = brevo_send($email, 'Restablecer contraseña — Astrax', $html);
 
 if (!$ok) {
     json_response(['error' => 'No se pudo enviar el correo.'], 500);
+}
+
+// ── ENVIAR TAMBIÉN POR WHATSAPP (si el usuario tiene teléfono) ──
+$telefono = $user['telefono'] ?? '';
+if ($telefono) {
+    $waMsg = "🔑 *ASTRAX* — Restablecer contraseña\n\n"
+           . "Recibimos una solicitud para cambiar la contraseña de tu cuenta.\n\n"
+           . "🔗 {$resetUrl}\n\n"
+           . "⏱ Este link expira en 15 minutos y es de un solo uso.\n"
+           . "Si no fuiste vos, ignorá este mensaje.";
+    whatsapp_send($telefono, $waMsg);
 }
 
 json_response(['ok' => true]);

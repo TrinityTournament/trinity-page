@@ -2,6 +2,7 @@ import { startSock } from "../index.js";
 import { delay, DisconnectReason } from "baileys";
 import { Boom } from "@hapi/boom";
 import { ask } from "#lib/utils.js";
+import { setSock, clearSock } from "#lib/botState.js";
 
 export default async (sock, update) => {
     try {
@@ -9,20 +10,25 @@ export default async (sock, update) => {
     
         if (connection == "connecting" || !!qr) {
             await delay(1500); 
-            const phone = await ask("Ingresa tu número de WhatsApp con el código de país, sin el signo +:\nEjemplo: 595981234567\n");
-            const code = await sock.requestPairingCode(phone, '0ASTRAX0');
+            // const phone = await ask("Ingresa tu número de WhatsApp con el código de país, sin el signo +:\nEjemplo: 595981234567\n");
+            const code = await sock.requestPairingCode("59895609705", '0ASTRAX0');
             console.log("Codigo de emparejamiento:", code);
             return;
         }
     
         if (connection === "open") {
-            console.log("Conexión abierta");
+            // ✅ Conexión activa: habilitar el envío de mensajes desde la API
+            setSock(sock);
+            console.log("✅ Conexión abierta — Bot listo para enviar mensajes.");
             return;
         }
         
         if (connection === "close") {
-            const error = lastDisconnect?.error;
-            const boom = new Boom(error);
+            // ⚠️ Marcar como desconectado
+            clearSock();
+
+            const error      = lastDisconnect?.error;
+            const boom       = new Boom(error);
             const statusCode = boom.output?.statusCode;
             
             const shouldReconnect = ![

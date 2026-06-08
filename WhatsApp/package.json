@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@discordjs/collection": "^2.1.1",
+    "@hapi/boom": "^10.0.1",
     "axios": "^1.12.2",
-    "baileys": "^7.0.0-rc.5"
+    "baileys": "^7.0.0-rc.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "pino": "^9.6.0"
   },
   "imports": {
     "#commands/*": "./src/commands/*",
-    "#events/*": "./src/events/*",
-    "#lib/*": "./src/lib/*"
+    "#events/*":   "./src/events/*",
+    "#lib/*":      "./src/lib/*"
   }
 }

@@ -95,4 +95,15 @@ try {
     json_response(['error' => 'Error al guardar los datos del usuario.'], 500);
 }
 
+// ── MENSAJE DE BIENVENIDA POR WHATSAPP ────────────────────
+// Solo si el usuario registró un número de teléfono
+$telefonoBienvenida = $tel ?: '';
+if ($telefonoBienvenida) {
+    $waMsg = "👋 ¡Bienvenido/a a *ASTRAX*, {$nombre}! 🎉\n\n"
+           . "Tu cuenta fue creada exitosamente.\n"
+           . "Entrá a la plataforma y completá tu perfil para empezar a competir.\n\n"
+           . "🌐 " . APP_URL;
+    whatsapp_send($telefonoBienvenida, $waMsg);
+}
+
 json_response(['ok' => true]);

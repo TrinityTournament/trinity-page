@@ -3,7 +3,7 @@
 // ══════════════════════════════════════════
 
 let metodoActual  = null; // 'email' | 'telefono'
-let canalActual   = null; // 'whatsapp' | 'telegram'
+let canalActual   = null; // 'whatsapp'
 let datosUsuario  = {};
 
 // ── NAVEGACIÓN ENTRE VISTAS ───────────────────────────────
@@ -70,21 +70,12 @@ function seleccionarMetodo(metodo) {
     }
 }
 
-// ── CANAL (WhatsApp / Telegram) ───────────────────────────
+// ── CANAL ───────────────────────────────────────────────
 
 function seleccionarCanal(canal) {
-    if (canalActual === canal) return;
-
     canalActual = canal;
-
-    const btnWa  = document.getElementById('btn-whatsapp');
-    const btnTg  = document.getElementById('btn-telegram');
-
-    btnWa.classList.toggle('active',  canal === 'whatsapp');
-    btnTg.classList.toggle('active',  canal === 'telegram');
-
-    btnWa.disabled = canal !== 'whatsapp';
-    btnTg.disabled = canal !== 'telegram';
+    const btnWa = document.getElementById('btn-whatsapp');
+    btnWa.classList.toggle('active', canal === 'whatsapp');
 }
 
 // ── TOGGLE PASSWORD ───────────────────────────────────────
@@ -219,10 +210,76 @@ async function verificarCodigoEmail(codigo) {
 
 // ── REGISTRO — VERIFICAR CÓDIGO TELÉFONO ─────────────────
 
+// ── REGISTRO — SOLICITAR CÓDIGO TELÉFONO ─────────────────
+
+async function solicitarCodigoTel() {
+    const nombre   = document.getElementById('nombre').value.trim();
+    const usuario  = document.getElementById('usuario').value.trim();
+    const password = document.getElementById('password-registro').value;
+    const telefono = document.getElementById('telefono-registro').value.trim();
+    const msg      = document.getElementById('msg-tel');
+
+    if (!nombre || !usuario || !password || !telefono) {
+        msg.textContent = 'Completá todos los campos antes de solicitar el código.'; return;
+    }
+    if (!canalActual) {
+        msg.textContent = 'Elegí WhatsApp antes de continuar.'; return;
+    }
+
+    datosUsuario = { nombre, usuario, password, telefono, canal: canalActual, metodo: 'telefono' };
+    msg.textContent = 'Enviando código...';
+
+    try {
+        const res  = await fetch('../../api/send-code.php', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ telefono, canal: canalActual }),
+        });
+        const data = await res.json();
+
+        if (!data.ok) {
+            msg.textContent = data.error || 'Error al enviar el código.';
+            return;
+        }
+
+        msg.textContent = 'Código enviado por WhatsApp. Revisá tu app.';
+
+    } catch {
+        msg.textContent = 'No se pudo conectar con el servidor.';
+    }
+}
+
+// ── REGISTRO — VERIFICAR CÓDIGO TELÉFONO ─────────────────
+
 async function verificarCodigoTel(codigo) {
     const msg = document.getElementById('msg-tel');
-    msg.textContent = 'Verificación por teléfono próximamente.';
-    limpiarOtp('otp-tel');
+    msg.textContent = 'Verificando...';
+
+    try {
+        const res  = await fetch('../../api/verify-code.php', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+                telefono: datosUsuario.telefono,
+                code:     codigo,
+                nombre:   datosUsuario.nombre,
+                usuario:  datosUsuario.usuario,
+                password: datosUsuario.password,
+            }),
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+            msg.textContent = '¡Cuenta creada! Iniciando sesión...';
+            setTimeout(() => mostrarLogin(), 1800);
+        } else {
+            msg.textContent = data.error || 'Código incorrecto.';
+            limpiarOtp('otp-tel');
+        }
+    } catch {
+        msg.textContent = 'Error al verificar. Intentá nuevamente.';
+        limpiarOtp('otp-tel');
+    }
 }
 
 // ── FORGOT PASSWORD ───────────────────────────────────────
