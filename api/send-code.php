@@ -83,7 +83,7 @@ if ($telefono) {
         'expiresAt' => time() + 600,
     ];
 
-    $sent = whatsapp_send($telNorm, "🔐 *ASTRAX* — Verificación de cuenta\n\nTu código es: *{$code}*\n\n⏱ Expira en 10 minutos.");
+    $sent = whatsapp_send($telNorm, "*TRINITY\n\nTu codigo de inicio es: *{$code}*\n\n⏱ Expira en 10 minutos.");
     if (!$sent) {
         json_response(['error' => 'No se pudo enviar el código por WhatsApp. ¿El bot está activo?'], 503);
     }
