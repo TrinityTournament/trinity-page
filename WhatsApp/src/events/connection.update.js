@@ -17,14 +17,12 @@ export default async (sock, update) => {
         }
     
         if (connection === "open") {
-            // ✅ Conexión activa: habilitar el envío de mensajes desde la API
             setSock(sock);
-            console.log("✅ Conexión abierta — Bot listo para enviar mensajes.");
+            console.log("Conexión abierta — Bot listo para enviar mensajes.");
             return;
         }
         
         if (connection === "close") {
-            // ⚠️ Marcar como desconectado
             clearSock();
 
             const error      = lastDisconnect?.error;
