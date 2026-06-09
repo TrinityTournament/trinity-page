@@ -78,10 +78,10 @@ if (!$ok) {
 // ── ENVIAR TAMBIÉN POR WHATSAPP (si el usuario tiene teléfono) ──
 $telefono = $user['telefono'] ?? '';
 if ($telefono) {
-    $waMsg = "🔑 *ASTRAX* — Restablecer contraseña\n\n"
+    $waMsg = "*TRINITY*\n\n"
            . "Recibimos una solicitud para cambiar la contraseña de tu cuenta.\n\n"
            . "🔗 {$resetUrl}\n\n"
-           . "⏱ Este link expira en 15 minutos y es de un solo uso.\n"
+           . "⏱ Este link expira en 15 minutos y es de uso unico.\n"
            . "Si no fuiste vos, ignorá este mensaje.";
     whatsapp_send($telefono, $waMsg);
 }
