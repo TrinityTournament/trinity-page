@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════
-//  ASTRAX — LOGIN v2
+//  TRINITY — LOGIN v2
 // ══════════════════════════════════════════
 
 let metodoActual  = null; // 'email' | 'telefono'

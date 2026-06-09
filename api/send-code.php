@@ -15,9 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ── LEER BODY ─────────────────────────────────────────────
-$body     = json_decode(file_get_contents('php://input'), true);
-$email    = trim($body['email']    ?? '');
-$telefono = trim($body['telefono'] ?? '');
+$body            = json_decode(file_get_contents('php://input'), true);
+$email           = trim($body['email']           ?? '');
+$telefono        = trim($body['telefono']        ?? '');
+$cambioPassword  = !empty($body['cambio_password']); // true cuando viene del perfil
 
 // ── GENERAR CÓDIGO ────────────────────────────────────────
 $code = str_pad((string) random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
@@ -33,8 +34,18 @@ if ($email) {
     $pdo  = db();
     $stmt = $pdo->prepare('SELECT id FROM usuarios WHERE email = :email LIMIT 1');
     $stmt->execute([':email' => $email]);
-    if ($stmt->fetch()) {
-        json_response(['error' => 'Este email ya está registrado. Iniciá sesión.'], 409);
+    $existe = $stmt->fetch();
+
+    if ($cambioPassword) {
+        // Flujo cambio de contraseña: el email DEBE existir
+        if (!$existe) {
+            json_response(['error' => 'No encontramos una cuenta con ese email.'], 404);
+        }
+    } else {
+        // Flujo registro: el email NO debe existir
+        if ($existe) {
+            json_response(['error' => 'Este email ya está registrado. Iniciá sesión.'], 409);
+        }
     }
 
     $_SESSION['verification'][$email] = [

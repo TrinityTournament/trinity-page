@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════
-//  ASTRAX — PERFIL v1
+//  TRINITY — PERFIL v1
 // ══════════════════════════════════════════
 
 let USER = null;
@@ -99,6 +99,16 @@ async function guardarPerfil() {
         mostrarMsg(msg, 'Completá nombre y usuario.', 'err'); return;
     }
 
+    // Solo letras, números y espacios en el nombre (sin caracteres especiales)
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$/.test(nombre)) {
+        mostrarMsg(msg, 'El nombre solo puede contener letras, números y espacios.', 'err'); return;
+    }
+
+    // Usuario: solo letras y números, sin espacios ni especiales
+    if (!/^[a-zA-Z0-9]+$/.test(usuario)) {
+        mostrarMsg(msg, 'El usuario solo puede contener letras y números, sin espacios ni caracteres especiales.', 'err'); return;
+    }
+
     try {
         const res  = await fetch('/astrax-page/api/update-profile.php', {
             method:  'POST',
@@ -131,6 +141,16 @@ async function guardarCuenta() {
 
     if (!nombre || !usuario) {
         mostrarMsg(msg, 'Completá todos los campos.', 'err'); return;
+    }
+
+    // Solo letras, números y espacios en el nombre
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$/.test(nombre)) {
+        mostrarMsg(msg, 'El nombre solo puede contener letras, números y espacios.', 'err'); return;
+    }
+
+    // Usuario: solo letras y números, sin espacios ni especiales
+    if (!/^[a-zA-Z0-9]+$/.test(usuario)) {
+        mostrarMsg(msg, 'El usuario solo puede contener letras y números, sin espacios ni caracteres especiales.', 'err'); return;
     }
 
     try {

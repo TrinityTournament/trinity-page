@@ -24,6 +24,16 @@ $usuario = trim($body['usuario']  ?? '');
 $password = $body['password']      ?? '';
 
 // ── VALIDAR CAMPOS MÍNIMOS ────────────────────────────────
+// Validar formato nombre: letras, números y espacios
+if (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$/u', $nombre)) {
+    json_response(['error' => 'El nombre solo puede contener letras, números y espacios.'], 400);
+}
+
+// Validar formato usuario: solo letras y números, sin espacios ni especiales
+if (!preg_match('/^[a-zA-Z0-9]+$/', $usuario)) {
+    json_response(['error' => 'El usuario solo puede contener letras y números, sin espacios ni caracteres especiales.'], 400);
+}
+
 if (!$code || !$nombre || !$usuario || !$password) {
     json_response(['error' => 'Faltan datos obligatorios.'], 400);
 }
@@ -99,7 +109,7 @@ try {
 // Solo si el usuario registró un número de teléfono
 $telefonoBienvenida = $tel ?: '';
 if ($telefonoBienvenida) {
-    $waMsg = "👋 ¡Bienvenido/a a *ASTRAX*, {$nombre}! 🎉\n\n"
+    $waMsg = "¡Bienvenido/a a *TRINITY*, {$nombre}! 🎉\n\n"
            . "Tu cuenta fue creada exitosamente.\n"
            . "Entrá a la plataforma y completá tu perfil para empezar a competir.\n\n"
            . "🌐 " . APP_URL;

@@ -25,20 +25,34 @@ $params = [':id' => $userId];
 
 // Campos opcionales — solo se actualizan si vienen en el body
 if (isset($body['nombre']) && trim($body['nombre']) !== '') {
-    $campos[]         = 'nombre = :nombre';
-    $params[':nombre'] = trim($body['nombre']);
+    $nombre = trim($body['nombre']);
+
+    // Solo letras (incluyendo acentos y ñ), números y espacios
+    if (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$/u', $nombre)) {
+        json_response(['error' => 'El nombre solo puede contener letras, números y espacios.'], 400);
+    }
+
+    $campos[]          = 'nombre = :nombre';
+    $params[':nombre']  = $nombre;
 }
 
 if (isset($body['usuario']) && trim($body['usuario']) !== '') {
+    $usuario = trim($body['usuario']);
+
+    // Solo letras y números, sin espacios ni caracteres especiales
+    if (!preg_match('/^[a-zA-Z0-9]+$/', $usuario)) {
+        json_response(['error' => 'El usuario solo puede contener letras y números, sin espacios ni caracteres especiales.'], 400);
+    }
+
     // Verificar que el usuario no esté tomado por otro
     $pdo   = db();
     $check = $pdo->prepare('SELECT id FROM usuarios WHERE usuario = :usuario AND id != :id LIMIT 1');
-    $check->execute([':usuario' => trim($body['usuario']), ':id' => $userId]);
+    $check->execute([':usuario' => $usuario, ':id' => $userId]);
     if ($check->fetch()) {
         json_response(['error' => 'El nombre de usuario ya está en uso.'], 409);
     }
     $campos[]          = 'usuario = :usuario';
-    $params[':usuario'] = trim($body['usuario']);
+    $params[':usuario'] = $usuario;
 }
 
 if (isset($body['fecha_nacimiento'])) {

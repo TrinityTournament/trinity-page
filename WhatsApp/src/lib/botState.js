@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════════════════════
-//  ASTRAX Bot — Estado compartido del socket de WhatsApp
+//  TRINITY Bot — Estado compartido del socket de WhatsApp
 //  Permite que el servidor Express acceda al sock de Baileys
 // ══════════════════════════════════════════════════════════
 

@@ -7,6 +7,6 @@ export default {
         sock
     }) {
 
-        m.reply("Bienvenido a Astrax!");
+        m.reply("Bienvenido a Trinity!");
     }
 }

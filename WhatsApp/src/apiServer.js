@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════════════════════
-//  ASTRAX Bot — Servidor HTTP interno (Express)
+//  TRINITY Bot — Servidor HTTP interno (Express)
 //  Recibe llamados desde PHP y los convierte en mensajes WA
 //  Escucha en http://localhost:{WA_PORT}
 // ══════════════════════════════════════════════════════════
