@@ -14,7 +14,7 @@ app.use(express.json());
 // PHP envía el header X-WA-Secret; el bot lo valida.
 app.use((req, res, next) => {
     const expected = process.env.WA_SECRET || '';
-    if (!expected) return next(); // sin secreto configurado → modo dev abierto
+    if (!expected) return next();
 
     const received = req.headers['x-wa-secret'] || '';
     if (received !== expected) {
@@ -55,7 +55,7 @@ app.post('/api/whatsapp/send', async (req, res) => {
 
         await sock.sendMessage(jid, { text: message });
 
-        console.log(`📤 Mensaje enviado a ${normalized}`);
+        console.log(`Mensaje enviado a ${normalized}`);
         res.json({ ok: true });
     } catch (err) {
         console.error('Error enviando mensaje de WhatsApp:', err.message);
@@ -94,7 +94,7 @@ app.post('/api/whatsapp/broadcast', async (req, res) => {
         }
     }
 
-    console.log(`📢 Broadcast enviado: ${results.ok} OK, ${results.fail} fallidos.`);
+    console.log(`Broadcast enviado: ${results.ok} OK, ${results.fail} fallidos.`);
     res.json({ ok: true, results });
 });
 
@@ -107,6 +107,6 @@ app.get('/api/whatsapp/status', (_req, res) => {
 // ── Iniciar servidor ──────────────────────────────────────
 export function startApiServer(port = 3001) {
     app.listen(port, '127.0.0.1', () => {
-        console.log(`🌐 API interna del bot escuchando en http://127.0.0.1:${port}`);
+        console.log(`API interna del bot escuchando en http://127.0.0.1:${port}`);
     });
 }
