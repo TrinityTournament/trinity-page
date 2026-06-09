@@ -9,12 +9,15 @@ export default async (sock, { messages, type }) => {
         const msg = messages[0];
         
         if (!msg.message || msg.key.remoteJid === "status@broadcast") return;
-        
+        const jid = msg.key.remoteJid
+
         const m = await serialize(msg, sock);
         
         const content = getMessageContent(msg);
         if (!content) return;
-        console.log(content)
+        
+        if (m.isGroup) return
+        else console.log(content)
         
         const prefix = config.prefix;
         if (!content.startsWith(prefix)) return;
