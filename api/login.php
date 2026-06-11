@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Login (MySQL / PDO)
+//  TRINITY — Login (MySQL / PDO)
 //  Acepta email o número de teléfono, sin restricción de dominio
 // ══════════════════════════════════════════════════════════
 session_start();
@@ -29,14 +29,16 @@ if (str_contains($identifier, '@')) {
     // Es email
     $stmt = $pdo->prepare(
         'SELECT id, usuario, nombre, email, telefono, tipo,
-                deportes_seleccionados, fecha_nacimiento, password
+                deportes_seleccionados, fecha_nacimiento, password,
+                pronouns, descripcion, foto_url
          FROM   usuarios WHERE email = :val LIMIT 1'
     );
 } else {
     // Es teléfono
     $stmt = $pdo->prepare(
         'SELECT id, usuario, nombre, email, telefono, tipo,
-                deportes_seleccionados, fecha_nacimiento, password
+                deportes_seleccionados, fecha_nacimiento, password,
+                pronouns, descripcion, foto_url
          FROM   usuarios WHERE telefono = :val LIMIT 1'
     );
 }
@@ -51,7 +53,7 @@ if (!$user || !password_verify($password, $user['password'])) {
 
 // ── GUARDAR SESIÓN ────────────────────────────────────────
 unset($user['password']);
-$_SESSION['astrax_user'] = $user;
+$_SESSION['trinity_user'] = $user;
 
 // ── RESPONDER ─────────────────────────────────────────────
 json_response([
@@ -69,5 +71,8 @@ json_response([
         'fecha_nacimiento' => $user['fecha_nacimiento'],
         // Indica si el perfil está incompleto para redirigir al onboarding
         'perfil_completo'  => !empty($user['tipo']) && !empty($user['deportes_seleccionados']),
+        'pronouns'         => $user['pronouns']    ?? null,
+        'descripcion'      => $user['descripcion'] ?? null,
+        'foto_url'         => $user['foto_url']    ?? null,
     ],
 ]);

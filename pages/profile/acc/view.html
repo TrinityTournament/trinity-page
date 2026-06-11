@@ -6,254 +6,95 @@
     <title>Perfil — Trinity</title>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="profile.css">
-    <link rel="icon" type="image/png" href="../../assets/pageicon.png">
+    <link rel="stylesheet" href="pickerpref/picker.css">
+    <link rel="icon" type="image/png" href="../../../assets/pageicon.png">
+    <link rel="stylesheet" href="/Trinity-page/components/nav.css">
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-    <a href="/astrax-page/index.html" class="nav-logo">TRINITY</a>
-    <div class="nav-links">
-        <a href="/astrax-page/index.html">Inicio</a>
-        <a href="view.html" class="active">Mi perfil</a>
-    </div>
-    <button class="btn-logout" onclick="logout()">↩ Cerrar sesión</button>
-</nav>
+<!-- ══ NAV (igual al index) ══ -->
+<script src="/Trinity-page/components/nav.js"></script>
 
-<!-- MAIN -->
-<main>
+<!-- ══ MAIN LAYOUT ══ -->
+<main class="profile-layout">
 
-    <!-- PERFIL HEADER -->
-    <div class="profile-header">
-        <div class="profile-avatar" id="ph-avatar">?</div>
-        <div class="profile-info">
-            <h1 class="profile-nombre" id="ph-nombre">—</h1>
-            <p class="profile-usuario" id="ph-usuario">@—</p>
-            <p class="profile-email" id="ph-email">—</p>
+    <!-- COLUMNA IZQUIERDA: CARD DE PERFIL -->
+    <aside class="profile-card" id="profile-card">
+        <div class="profile-photo-wrap">
+            <div class="profile-photo" id="ph-photo">?</div>
         </div>
-    </div>
+        <div class="profile-card-info">
+            <h1 class="profile-card-name" id="ph-nombre">—</h1>
+            <p class="profile-card-user" id="ph-usuario">@—</p>
+            <p class="profile-card-pronouns" id="ph-pronouns"></p>
 
-    <!-- TABS -->
-    <div class="tabs">
-        <button class="tab active" onclick="cambiarTab('perfil', this)">👤 &nbsp;Perfil</button>
-        <button class="tab" onclick="cambiarTab('deportes', this)">🏆 &nbsp;Deportes</button>
-        <button class="tab" onclick="cambiarTab('cuenta', this)">⚙️ &nbsp;Cuenta</button>
-        <button class="tab" onclick="cambiarTab('password', this)">🔑 &nbsp;Contraseña</button>
-    </div>
-
-    <!-- ══ TAB: PERFIL ══ -->
-    <div id="tab-perfil" class="tab-content active">
-        <div class="content-card">
-            <h2 class="card-title">Información personal</h2>
-            <div class="form-grid">
-                <div class="field">
-                    <label>Nombre completo</label>
-                    <input type="text" id="p-nombre" placeholder="Juan Pérez">
-                </div>
-                <div class="field">
-                    <label>Nombre de usuario</label>
-                    <input type="text" id="p-usuario" placeholder="juanp99">
-                </div>
-                <div class="field">
-                    <label>Fecha de nacimiento</label>
-                    <input type="date" id="p-fecha">
-                </div>
-                <div class="field">
-                    <label>Email</label>
-                    <input type="email" id="p-email" disabled>
-                </div>
-                <div class="field">
-                    <label>Teléfono</label>
-                    <input type="tel" id="p-telefono" disabled>
-                </div>
+            <!-- OWNER: botón editar + seguidores -->
+            <div id="owner-actions" style="display:none;">
+                <a href="../cfg/edit.html" class="btn-edit-profile">Editar perfil</a>
+                <p class="profile-followers" id="ph-followers-own">0 Seguidos | 0 Seguidores</p>
             </div>
-            <div class="form-actions">
-                <button class="btn-primary" onclick="guardarPerfil()">💾 &nbsp;Guardar cambios</button>
-                <span class="msg" id="msg-perfil"></span>
+
+            <!-- OTHER: botón seguir + seguidores + stats torneos -->
+            <div id="other-actions" style="display:none;">
+                <button class="btn-follow" id="btn-follow" onclick="toggleFollow()">Seguir</button>
+                <p class="profile-followers" id="ph-followers-other">0 Seguidos · 0 Seguidores</p>
+            </div>
+
+            <div class="profile-divider"></div>
+            <p class="profile-desc" id="ph-desc"></p>
+
+            <!-- Stats torneos (solo perfil ajeno) -->
+            <div class="profile-stats" id="other-stats" style="display:none;">
+                <div class="profile-divider"></div>
+                <p class="stat-line" id="ph-torneos">0 Torneos</p>
+                <p class="stat-line" id="ph-ganados">0 Torneos ganados</p>
             </div>
         </div>
-    </div>
+    </aside>
 
-    <!-- ══ TAB: DEPORTES ══ -->
-    <div id="tab-deportes" class="tab-content">
-        <div class="content-card">
-            <h2 class="card-title">Tipo de jugador</h2>
-            <div class="tipo-selector">
-                <button class="tipo-btn" id="tipo-deportes" onclick="seleccionarTipo('deportes')">
-                    <span class="tipo-icon">🏅</span>
-                    <span class="tipo-label">Deportes clásicos</span>
-                </button>
-                <button class="tipo-btn" id="tipo-videojuegos" onclick="seleccionarTipo('videojuegos')">
-                    <span class="tipo-icon">🎮</span>
-                    <span class="tipo-label">Videojuegos (eSports)</span>
-                </button>
+    <!-- COLUMNA DERECHA: CONTENIDO -->
+    <section class="profile-content">
+
+        <!-- DEPORTES FAVORITOS -->
+        <div id="section-deportes" style="display:none;">
+            <div class="section-header">
+                <h2 class="section-label">Deportes favoritos</h2>
+                <div class="section-actions" id="deportes-actions"></div>
             </div>
+            <div class="favorites-grid" id="grid-deportes-fav"></div>
         </div>
 
-        <!-- Deportes clásicos -->
-        <div class="content-card" id="panel-deportes-clasicos">
-            <h2 class="card-title">Deportes clásicos</h2>
-            <div class="deportes-grid" id="grid-deportes">
-                <label class="deporte-item">
-                    <input type="checkbox" value="Fútbol">
-                    <img src="/astrax-page/assets/sports/futbol.webp" alt="Fútbol">
-                    <span>Fútbol</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Basketball">
-                    <img src="/astrax-page/assets/sports/basketball.webp" alt="Basketball">
-                    <span>Basketball</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Tenis">
-                    <img src="/astrax-page/assets/sports/tenis.webp" alt="Tenis">
-                    <span>Tenis</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Volleyball">
-                    <img src="/astrax-page/assets/sports/volleyball.webp" alt="Volleyball">
-                    <span>Volleyball</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Natación">
-                    <img src="/astrax-page/assets/sports/natacion.webp" alt="Natación">
-                    <span>Natación</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Atletismo">
-                    <img src="/astrax-page/assets/sports/atletismo.webp" alt="Atletismo">
-                    <span>Atletismo</span>
-                </label>
+        <!-- VIDEOJUEGOS FAVORITOS -->
+        <div id="section-videojuegos" style="display:none;">
+            <div class="section-header">
+                <h2 class="section-label">Videojuegos favoritos</h2>
+                <div class="section-actions" id="videojuegos-actions"></div>
             </div>
+            <div class="favorites-grid" id="grid-videojuegos-fav"></div>
         </div>
 
-        <!-- Videojuegos -->
-        <div class="content-card" id="panel-videojuegos" style="display:none;">
-            <h2 class="card-title">Videojuegos</h2>
-            <div class="deportes-grid" id="grid-videojuegos">
-                <label class="deporte-item">
-                    <input type="checkbox" value="Valorant">
-                    <img src="/astrax-page/assets/videogames/valorant.webp" alt="Valorant">
-                    <span>Valorant</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="League of Legends">
-                    <img src="/astrax-page/assets/videogames/lol.webp" alt="LoL">
-                    <span>League of Legends</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Fortnite">
-                    <img src="/astrax-page/assets/videogames/fortnite.webp" alt="Fortnite">
-                    <span>Fortnite</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Call of Duty">
-                    <img src="/astrax-page/assets/videogames/cod.webp" alt="CoD">
-                    <span>Call of Duty</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Rocket League">
-                    <img src="/astrax-page/assets/videogames/rocketleague.webp" alt="Rocket League">
-                    <span>Rocket League</span>
-                </label>
-                <label class="deporte-item">
-                    <input type="checkbox" value="Clash Royale">
-                    <img src="/astrax-page/assets/videogames/clasroyale.webp" alt="Clash Royale">
-                    <span>Clash Royale</span>
-                </label>
-            </div>
+        <!-- Mensaje vacío cuando no hay preferencias -->
+        <div id="section-empty" class="empty-prefs" style="display:none;">
+            <p>Este usuario todavía no configuró sus preferencias.</p>
         </div>
 
-        <div class="form-actions">
-            <button class="btn-primary" onclick="guardarDeportes()">💾 &nbsp;Guardar preferencias</button>
-            <span class="msg" id="msg-deportes"></span>
-        </div>
-    </div>
-
-    <!-- ══ TAB: CUENTA ══ -->
-    <div id="tab-cuenta" class="tab-content">
-        <div class="content-card">
-            <h2 class="card-title">Datos de la cuenta</h2>
-            <div class="form-grid">
-                <div class="field">
-                    <label>Nombre completo</label>
-                    <input type="text" id="c-nombre" placeholder="Juan Pérez">
-                </div>
-                <div class="field">
-                    <label>Nombre de usuario</label>
-                    <input type="text" id="c-usuario" placeholder="juanp99">
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn-primary" onclick="guardarCuenta()">💾 &nbsp;Guardar cambios</button>
-                <span class="msg" id="msg-cuenta"></span>
-            </div>
-        </div>
-
-        <!-- ZONA DE PELIGRO -->
-        <div class="content-card danger-zone">
-            <h2 class="card-title">Zona de peligro</h2>
-            <p class="danger-desc">Al eliminar tu cuenta se borrarán permanentemente todos tus datos, torneos e historial. Esta acción no se puede deshacer.</p>
-            <div class="form-actions">
-                <button class="btn-danger" onclick="confirmarEliminar()">🗑️ &nbsp;Eliminar cuenta</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ══ TAB: CONTRASEÑA ══ -->
-    <div id="tab-password" class="tab-content">
-        <div class="content-card">
-            <h2 class="card-title">Cambiar contraseña</h2>
-
-            <!-- PASO 1: Solicitar código -->
-            <div id="pwd-paso1">
-                <p class="paso-desc">Te enviaremos un código de verificación a tu email o teléfono registrado para confirmar el cambio.</p>
-                <div class="form-actions" style="margin-top:1rem;">
-                    <button class="btn-primary" onclick="solicitarCodigoPwd()">📨 &nbsp;Enviar código de verificación</button>
-                    <span class="msg" id="msg-pwd-req"></span>
-                </div>
-            </div>
-
-            <!-- PASO 2: Ingresar código + nueva contraseña -->
-            <div id="pwd-paso2" style="display:none;">
-                <div class="form-grid">
-                    <div class="field full">
-                        <label>Código de verificación</label>
-                        <div class="otp-inputs" id="otp-pwd">
-                            <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
-                            <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
-                            <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
-                            <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
-                            <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
-                            <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Nueva contraseña</label>
-                        <input type="password" id="pwd-nueva" placeholder="••••••••">
-                    </div>
-                    <div class="field">
-                        <label>Confirmar nueva contraseña</label>
-                        <input type="password" id="pwd-confirm" placeholder="••••••••">
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button class="btn-primary" onclick="cambiarPassword()">🔑 &nbsp;Actualizar contraseña</button>
-                    <button class="btn-secondary" onclick="resetPwd()">Cancelar</button>
-                    <span class="msg" id="msg-pwd"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    </section>
 </main>
 
-<!-- FOOTER -->
-<footer>
-    <a href="/astrax-page/index.html" class="nav-logo" style="font-size:18px;">TRINITY</a>
-    <p class="footer-copy">©2026 Trinity. Todos los derechos reservados.</p>
-</footer>
+<!-- ══ MODAL: INVITAR A TORNEO ══ -->
+<div class="modal-overlay" id="modal-invite" onclick="closeInviteModal(event)">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeInviteModalBtn()">✕</button>
+        <h3 class="modal-title">Invitar a torneo</h3>
+        <p class="modal-desc">Seleccioná el torneo en curso para invitar a <strong id="modal-invitee-name">este usuario</strong>.</p>
+        <div id="modal-tournament-list" class="tournament-list">
+            <div class="loading-spinner"></div>
+        </div>
+        <p class="msg err" id="msg-invite" style="min-height:18px;"></p>
+    </div>
+</div>
 
+<script src="pickerpref/picker.js"></script>
 <script src="profile.js"></script>
 </body>
 </html>

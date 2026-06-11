@@ -1,0 +1,158 @@
+/* 
+══════════════════════════════════════════
+         RECORTADOR DE FOTO DE PERFIL
+══════════════════════════════════════════ */
+.cropper-overlay {
+    position:        fixed;
+    inset:           0;
+    background:      rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    z-index:         9999;
+}
+.cropper-overlay.hidden { display: none; }
+
+.cropper-modal {
+    background:    var(--bg2, #0f0000);
+    border:        1px solid var(--border, rgba(180,0,0,0.15));
+    border-radius: 16px;
+    padding:       1.5rem;
+    width:         min(420px, 92vw);
+    display:       flex;
+    flex-direction: column;
+    gap:           1rem;
+    box-shadow:    0 10px 40px rgba(0,0,0,0.5);
+}
+
+.cropper-title {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      18px;
+    font-weight:    800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:          var(--text, #f5f0f0);
+    text-align:     center;
+}
+
+/* ── Área de recorte ── */
+.cropper-stage {
+    position:      relative;
+    width:         100%;
+    aspect-ratio:  1 / 1;
+    border-radius: 12px;
+    overflow:      hidden;
+    background:    #000;
+    cursor:        grab;
+    touch-action:  none;
+    user-select:   none;
+}
+.cropper-stage.dragging { cursor: grabbing; }
+
+.cropper-image {
+    position:       absolute;
+    top:            0;
+    left:           0;
+    transform-origin: 0 0;
+    pointer-events: none;
+    max-width:      none;
+}
+
+/* Máscara: oscurece todo menos el círculo central */
+.cropper-mask {
+    position:       absolute;
+    inset:          0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at center,
+            transparent 0%,
+            transparent var(--cropper-radius, 50%),
+            rgba(0,0,0,0.65) calc(var(--cropper-radius, 50%) + 1px)
+        );
+}
+
+.cropper-circle-outline {
+    position:       absolute;
+    border:         2px solid var(--accent2, #ff2a2a);
+    border-radius:  50%;
+    pointer-events: none;
+    box-shadow:     0 0 0 9999px rgba(0,0,0,0); /* placeholder, mask handles dim */
+}
+
+/* ── Controles ── */
+.cropper-controls {
+    display:        flex;
+    align-items:    center;
+    gap:            10px;
+}
+
+.cropper-zoom-label {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      12px;
+    font-weight:    600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:          var(--text-muted, #8a6a6a);
+    white-space:    nowrap;
+}
+
+.cropper-zoom {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance:    none;
+    height:        4px;
+    border-radius: 2px;
+    background:    var(--border, rgba(180,0,0,0.15));
+    outline:       none;
+}
+.cropper-zoom::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance:    none;
+    width:         16px;
+    height:        16px;
+    border-radius: 50%;
+    background:    var(--accent2, #ff2a2a);
+    cursor:        pointer;
+}
+.cropper-zoom::-moz-range-thumb {
+    width:         16px;
+    height:        16px;
+    border:        none;
+    border-radius: 50%;
+    background:    var(--accent2, #ff2a2a);
+    cursor:        pointer;
+}
+
+/* ── Botones ── */
+.cropper-actions {
+    display:         flex;
+    justify-content: flex-end;
+    gap:             10px;
+}
+
+.cropper-btn {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      12px;
+    font-weight:    600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding:        8px 18px;
+    border-radius:  20px;
+    cursor:         pointer;
+    border:         1px solid var(--border, rgba(180,0,0,0.15));
+    background:     transparent;
+    color:          var(--text-muted, #8a6a6a);
+    transition:     color 0.2s, border-color 0.2s, background 0.2s;
+}
+.cropper-btn:hover { color: var(--text, #f5f0f0); border-color: rgba(180,0,0,0.3); }
+
+.cropper-btn-primary {
+    background: var(--accent, #c0000a);
+    color:      #fff;
+    border-color: transparent;
+}
+.cropper-btn-primary:hover {
+    background: var(--accent2, #ff2a2a);
+    color:      #fff;
+}

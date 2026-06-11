@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Eliminar cuenta (MySQL / PDO)
+//  TRINITY — Eliminar cuenta (MySQL / PDO)
 // ══════════════════════════════════════════════════════════
 session_start();
 require_once __DIR__ . '/config.php';
@@ -11,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['error' => 'Método no permitido.'], 405);
 }
 
-if (empty($_SESSION['astrax_user'])) {
+if (empty($_SESSION['trinity_user'])) {
     json_response(['error' => 'No autenticado.'], 401);
 }
 
-$userId = $_SESSION['astrax_user']['id'];
+$userId = $_SESSION['trinity_user']['id'];
 $pdo    = db();
 $stmt   = $pdo->prepare('DELETE FROM usuarios WHERE id = :id');
 

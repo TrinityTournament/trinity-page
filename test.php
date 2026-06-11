@@ -1,11 +1,11 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Test de entorno (MySQL)
+//  TRINITY — Test de entorno (MySQL)
 // ══════════════════════════════════════════════════════════
 require_once __DIR__ . '/api/config.php';
 
 echo '<pre style="font-family:monospace;padding:20px;">';
-echo '── ASTRAX — Diagnóstico del entorno ──' . PHP_EOL . PHP_EOL;
+echo '── TRINITY — Diagnóstico del entorno ──' . PHP_EOL . PHP_EOL;
 
 echo 'PHP versión  : ' . phpversion() . PHP_EOL;
 echo 'PHP mínimo   : ' . (version_compare(PHP_VERSION, '8.0.0', '>=') ? '✔ OK (8.0+)' : '✘ NECESITA PHP 8.0+') . PHP_EOL;

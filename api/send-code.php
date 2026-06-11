@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Enviar código de verificación
+//  TRINITY — Enviar código de verificación
 //  Soporta dos flujos:
 //    1. Email    → body: { email }
 //    2. Teléfono → body: { telefono }
@@ -15,10 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ── LEER BODY ─────────────────────────────────────────────
-$body            = json_decode(file_get_contents('php://input'), true);
-$email           = trim($body['email']           ?? '');
-$telefono        = trim($body['telefono']        ?? '');
-$cambioPassword  = !empty($body['cambio_password']); // true cuando viene del perfil
+$body               = json_decode(file_get_contents('php://input'), true);
+$email              = trim($body['email']              ?? '');
+$telefono           = trim($body['telefono']           ?? '');
+$cambioPassword     = !empty($body['cambio_password']);     // cambiar contraseña desde perfil
+$cambioCredencial   = !empty($body['cambio_credencial']);   // vincular nuevo teléfono desde perfil
 
 // ── GENERAR CÓDIGO ────────────────────────────────────────
 $code = str_pad((string) random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
@@ -55,7 +56,7 @@ if ($email) {
 
     $html = "
         <div style='font-family:sans-serif;max-width:480px;margin:auto;padding:32px;background:#0c1120;border-radius:12px;color:#f0f4ff;'>
-            <h1 style='font-size:28px;margin-bottom:8px;'>ASTRAX</h1>
+            <h1 style='font-size:28px;margin-bottom:8px;'>TRINITY</h1>
             <p style='color:#6b7a9f;margin-bottom:24px;'>Verificación de cuenta</p>
             <h2 style='font-size:20px;margin-bottom:16px;'>Tu código de verificación</h2>
             <div style='background:#1a6fff;border-radius:8px;padding:20px;text-align:center;margin-bottom:24px;'>
@@ -65,7 +66,7 @@ if ($email) {
         </div>
     ";
 
-    $ok = brevo_send($email, 'Tu código de verificación de Astrax', $html);
+    $ok = brevo_send($email, 'Tu código de verificación de Trinity', $html);
     if (!$ok) {
         json_response(['error' => 'No se pudo enviar el correo. Intentá nuevamente.'], 500);
     }
@@ -85,8 +86,27 @@ if ($telefono) {
     $pdo  = db();
     $stmt = $pdo->prepare('SELECT id FROM usuarios WHERE telefono = :tel LIMIT 1');
     $stmt->execute([':tel' => $telNorm]);
-    if ($stmt->fetch()) {
-        json_response(['error' => 'Este número ya está registrado. Iniciá sesión.'], 409);
+    $existente = $stmt->fetch();
+
+    if ($existente) {
+        if ($cambioCredencial || $cambioPassword) {
+            // Cambio de credencial o contraseña desde perfil:
+            // bloquear solo si el número le pertenece a OTRA cuenta
+            $propioId = (int) ($_SESSION['trinity_user']['id'] ?? 0);
+            if (!$propioId || (int) $existente['id'] !== $propioId) {
+                if ($cambioPassword) {
+                    json_response(['error' => 'Ese número no está vinculado a tu cuenta.'], 409);
+                }
+                json_response(['error' => 'Este número ya está vinculado a otra cuenta.'], 409);
+            }
+            // Si es el propio usuario, se permite reenviar el código
+        } else {
+            // Flujo de registro: el número no debe existir
+            json_response(['error' => 'Este número ya está registrado. Iniciá sesión.'], 409);
+        }
+    } elseif ($cambioPassword) {
+        // Cambio de contraseña pero el teléfono no está registrado a ninguna cuenta
+        json_response(['error' => 'No encontramos una cuenta con ese teléfono.'], 404);
     }
 
     $_SESSION['verification'][$telNorm] = [
@@ -94,7 +114,11 @@ if ($telefono) {
         'expiresAt' => time() + 600,
     ];
 
-    $sent = whatsapp_send($telNorm, "*TRINITY\n\nTu codigo de inicio es: *{$code}*\n\n⏱ Expira en 10 minutos.");
+    $waText = $cambioPassword
+        ? "*TRINITY*\n\nTu codigo para cambiar tu contraseña es: *{$code}*\n\n⏱ Expira en 10 minutos.\nSi no fuiste vos, ignorá este mensaje."
+        : "*TRINITY*\n\nTu codigo de inicio es: *{$code}*\n\n⏱ Expira en 10 minutos.";
+
+    $sent = whatsapp_send($telNorm, $waText);
     if (!$sent) {
         json_response(['error' => 'No se pudo enviar el código por WhatsApp. ¿El bot está activo?'], 503);
     }

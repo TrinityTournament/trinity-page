@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Solicitar reset de contraseña
+//  TRINITY — Solicitar reset de contraseña
 //  Genera token seguro, lo guarda en DB y envía email con link
 // ══════════════════════════════════════════════════════════
 session_start();
@@ -46,13 +46,13 @@ $ins = $pdo->prepare(
 );
 $ins->execute([':uid' => $userId, ':token' => $token, ':expira' => $expira]);
 
-// URL de reset — ajustá el dominio en producción
-$baseUrl  = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
-$resetUrl = $baseUrl . '/astrax-page/pages/reset-password/index.html?token=' . $token;
+// URL de reset — se toma de APP_URL en .env (o del host actual como fallback)
+$baseUrl  = rtrim(APP_URL ?: ((isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST']), '/');
+$resetUrl = $baseUrl . '/pages/reset-password/index.html?token=' . $token;
 
 $html = "
 <div style='font-family:sans-serif;max-width:520px;margin:auto;padding:40px;background:#0c1120;border-radius:14px;color:#f0f4ff;'>
-    <h1 style='font-size:26px;letter-spacing:6px;margin-bottom:4px;'>ASTRAX</h1>
+    <h1 style='font-size:26px;letter-spacing:6px;margin-bottom:4px;'>TRINITY</h1>
     <p style='color:#6b7a9f;margin-bottom:28px;font-size:13px;'>Plataforma de competencia</p>
     <h2 style='font-size:18px;font-weight:700;margin-bottom:12px;'>Restablecer contraseña</h2>
     <p style='color:#a0aec0;font-size:14px;line-height:1.7;margin-bottom:24px;'>
@@ -69,7 +69,7 @@ $html = "
 </div>
 ";
 
-$ok = brevo_send($email, 'Restablecer contraseña — Astrax', $html);
+$ok = brevo_send($email, 'Restablecer contraseña — Trinity', $html);
 
 if (!$ok) {
     json_response(['error' => 'No se pudo enviar el correo.'], 500);

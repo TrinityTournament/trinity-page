@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar perfil — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="edit.css">
+    <link rel="icon" type="image/png" href="../../../assets/pageicon.png">
+    <link rel="stylesheet" href="/Trinity-page/components/nav.css">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="/Trinity-page/components/nav.js"></script>
+
+<!-- ══ MAIN LAYOUT ══ -->
+<main class="edit-layout">
+
+    <!-- COLUMNA IZQUIERDA: CARD DE PERFIL (preview) -->
+    <aside class="profile-preview-card">
+        <div class="preview-photo-wrap">
+            <div class="preview-photo" id="prev-photo">?</div>
+            <button class="btn-change-photo" onclick="document.getElementById('input-photo').click()">
+                Cambiar foto
+            </button>
+            <input type="file" id="input-photo" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
+        </div>
+
+        <div class="preview-info">
+            <label class="field-label">Nombre</label>
+            <input type="text" id="e-nombre" class="preview-input" placeholder="Nombre">
+
+            <label class="field-label">Nombre de usuario</label>
+            <input type="text" id="e-usuario" class="preview-input" placeholder="Usuario">
+
+            <label class="field-label">Pronombres</label>
+            <select id="e-pronouns" class="preview-input preview-select">
+                <option value="">— Sin especificar —</option>
+                <option value="He/him">He/him</option>
+                <option value="She/her">She/her</option>
+                <option value="He/they">He/they</option>
+                <option value="She/they">She/they</option>
+                <option value="They/them">They/them</option>
+                <option value="Any">Any</option>
+            </select>
+
+            <label class="field-label">Descripción</label>
+            <textarea id="e-descripcion" class="preview-input preview-textarea" placeholder="Contá algo sobre vos..."></textarea>
+        </div>
+
+        <div class="preview-actions">
+            <button class="btn-primary" onclick="guardarPerfil()">
+                &#x1F4BE;&nbsp; GUARDAR CAMBIOS
+            </button>
+            <span class="msg" id="msg-perfil"></span>
+        </div>
+    </aside>
+
+    <!-- COLUMNA DERECHA: SECCIONES DE CONFIG -->
+    <div class="edit-sections">
+
+        <!-- ── CAMBIAR CONTRASEÑA ── -->
+        <div class="edit-card">
+            <h2 class="edit-card-title">Cambiar contraseña</h2>
+
+            <div id="pwd-paso1">
+                <p class="edit-card-desc">Te enviaremos un código de verificación para confirmar el cambio.</p>
+                <div class="field" id="pwd-destino-wrap">
+                    <label class="field-label">Enviar código a</label>
+                    <select id="pwd-destino" class="preview-input preview-select">
+                        <option value="email">Email</option>
+                        <option value="telefono">WhatsApp</option>
+                    </select>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-primary" onclick="solicitarCodigoPwd()">
+                        &#x1F4E8;&nbsp; ENVIAR CÓDIGO DE VERIFICACIÓN
+                    </button>
+                    <span class="msg" id="msg-pwd-req"></span>
+                </div>
+            </div>
+
+            <div id="pwd-paso2" style="display:none;">
+                <p class="edit-card-desc">Ingresá el código que te enviamos y tu nueva contraseña.</p>
+                <div class="otp-inputs" id="otp-pwd">
+                    <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
+                    <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
+                    <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
+                    <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
+                    <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
+                    <input maxlength="1" oninput="otpNext(this,'otp-pwd')" onkeydown="otpBack(event,this,'otp-pwd')">
+                </div>
+                <div class="two-fields">
+                    <div class="field">
+                        <label class="field-label">Nueva contraseña</label>
+                        <input type="password" id="pwd-nueva" class="field-input" placeholder="••••••••">
+                    </div>
+                    <div class="field">
+                        <label class="field-label">Confirmar contraseña</label>
+                        <input type="password" id="pwd-confirm" class="field-input" placeholder="••••••••">
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-primary" onclick="cambiarPassword()">&#x1F511;&nbsp; ACTUALIZAR</button>
+                    <button class="btn-secondary" onclick="resetPwd()">Cancelar</button>
+                    <span class="msg" id="msg-pwd"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── CREDENCIALES ── -->
+        <div class="edit-card">
+            <h2 class="edit-card-title-sub">Credenciales</h2>
+
+            <div class="credentials-grid">
+                <!-- Email -->
+                <div class="field">
+                    <label class="field-label">Correo electrónico</label>
+                    <input type="email" id="c-email" class="field-input" placeholder="correo@ejemplo.com">
+                </div>
+
+                <!-- Teléfono -->
+                <div class="field">
+                    <label class="field-label">Número de teléfono</label>
+                    <div class="phone-wrap">
+                        <select id="c-prefix" class="phone-prefix">
+                            <option value="598">🇺🇾 +598</option>
+                            <option value="54">🇦🇷 +54</option>
+                            <option value="55">🇧🇷 +55</option>
+                            <option value="56">🇨🇱 +56</option>
+                            <option value="57">🇨🇴 +57</option>
+                            <option value="51">🇵🇪 +51</option>
+                            <option value="52">🇲🇽 +52</option>
+                            <option value="34">🇪🇸 +34</option>
+                            <option value="1">🇺🇸 +1</option>
+                        </select>
+                        <input type="tel" id="c-telefono" class="field-input phone-input" placeholder="XXX XXX XXX">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-actions" style="justify-content:flex-end;">
+                <span class="msg" id="msg-cred"></span>
+                <button class="btn-primary" onclick="guardarCredenciales()">
+                    &#x1F4BE;&nbsp; GUARDAR CAMBIOS
+                </button>
+            </div>
+        </div>
+
+        <!-- ── ZONA DE PELIGRO ── -->
+        <div class="edit-card danger-card">
+            <h2 class="edit-card-title danger-title">Zona de peligro</h2>
+            <p class="edit-card-desc">Al eliminar tu cuenta se borrarán permanentemente todos tus datos, torneos e historial. Esta acción no se puede deshacer.</p>
+            <div class="card-actions">
+                <button class="btn-danger" onclick="confirmarEliminar()">
+                    &#x1F5D1;&nbsp; Eliminar cuenta
+                </button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- ══ MODAL: CÓDIGO WHATSAPP ══ -->
+<div class="modal-overlay" id="modal-wa" onclick="closeWaModal(event)">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeWaModalBtn()">✕</button>
+        <h3 class="modal-title">Verificar número de WhatsApp</h3>
+        <p class="modal-desc" id="wa-modal-desc">
+            Te enviamos un código al número <strong id="wa-phone-display"></strong>.<br>
+            Ingresalo para confirmar el cambio.
+        </p>
+        <div class="otp-inputs" id="otp-wa">
+            <input maxlength="1" oninput="otpNext(this,'otp-wa')" onkeydown="otpBack(event,this,'otp-wa')">
+            <input maxlength="1" oninput="otpNext(this,'otp-wa')" onkeydown="otpBack(event,this,'otp-wa')">
+            <input maxlength="1" oninput="otpNext(this,'otp-wa')" onkeydown="otpBack(event,this,'otp-wa')">
+            <input maxlength="1" oninput="otpNext(this,'otp-wa')" onkeydown="otpBack(event,this,'otp-wa')">
+            <input maxlength="1" oninput="otpNext(this,'otp-wa')" onkeydown="otpBack(event,this,'otp-wa')">
+            <input maxlength="1" oninput="otpNext(this,'otp-wa')" onkeydown="otpBack(event,this,'otp-wa')">
+        </div>
+        <div class="card-actions" style="margin-top:1.25rem; justify-content:center; flex-direction:column; align-items:center; gap:8px;">
+            <button class="btn-primary" onclick="verificarCodigoWa()">Confirmar código</button>
+            <span class="msg" id="msg-wa-modal"></span>
+            <button class="btn-link" onclick="reenviarCodigoWa()">Reenviar código</button>
+        </div>
+    </div>
+</div>
+
+<script src="edit.js"></script>
+</body>
+</html>

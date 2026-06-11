@@ -133,8 +133,8 @@ async function accionLogin() {
         const data = await res.json();
 
         if (data.ok) {
-            sessionStorage.setItem('astrax_user', JSON.stringify(data.usuario));
-            window.location.href = '/astrax-page/index.html';
+            sessionStorage.setItem('trinity_user', JSON.stringify(data.usuario));
+            window.location.href = '../../index.html';
         } else {
             alert(data.error || 'Email o contraseña incorrectos.');
         }

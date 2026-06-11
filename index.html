@@ -7,61 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/pageicon.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/Trinity-page/components/nav.css">
 </head>
 <body>
 
-<nav>
-    <a href="#" class="nav-logo">TRINITY</a>
-    <button class="hamburger" onclick="toggleHamburger()" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
-    <ul class="nav-links">
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Torneos</a></li>
-        <li><a href="#">Rankings</a></li>
-        <li><a href="#">Noticias</a></li>
-        <li><a href="#">Contacto</a></li>
-    </ul>
-
-    <div class="nav-actions">
-        <div id="nav-guest">
-            <a href="pages/login/login.html" class="btn-login">Iniciar sesión</a>
-            <a href="pages/login/login.html?m=register" class="btn-register">Registrarse</a>
-        </div>
-
-        <div class="user-menu" id="nav-user">
-            <div class="user-trigger" id="user-trigger" onclick="toggleDropdown()">
-                <div class="user-avatar" id="nav-avatar">S</div>
-                <span class="user-name" id="nav-username">Usuario</span>
-                <span class="user-chevron">▼</span>
-            </div>
-            <div class="user-dropdown" id="user-dropdown">
-                <div class="dropdown-header">
-                    <div class="dropdown-avatar" id="dropdown-avatar">S</div>
-                    <span class="dropdown-username" id="dropdown-username">Usuario</span>
-                </div>
-                <a href="pages/profile/view.html" class="dropdown-item">&nbsp;Perfil</a>
-                <a href="pages/config/edit.html" class="dropdown-item">&nbsp;Configuración</a>
-                <div class="dropdown-divider"></div>
-                <button class="dropdown-item danger" onclick="logout()">↩ &nbsp;Cerrar sesión</button>
-            </div>
-        </div>
-    </div>
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="#">Inicio</a>
-        <a href="#">Torneos</a>
-        <a href="#">Rankings</a>
-        <a href="#">Noticias</a>
-        <a href="#">Contacto</a>
-        <div class="mobile-auth">
-            <a href="pages/login/login.html" class="btn-login">Iniciar sesión</a>
-            <a href="pages/login/login.html?m=register" class="btn-register">Registrarse</a>
-        </div>
-    </div>
-</nav>
+<script src="/Trinity-page/components/nav.js"></script>
 
 <section class="hero">
     <div class="hero-content">
@@ -254,10 +204,10 @@
     </div>
     <div class="footer-col">
         <h4>Plataforma</h4>
-        <a href="#">Torneos</a>
-        <a href="#">Rankings</a>
-        <a href="#">Noticias</a>
-        <a href="#">Calendarios</a>
+        <a href="pages/nav/tournament/tournament.html">Torneos</a>
+        <a href="pages/nav/ranking/ranking.html">Rankings</a>
+        <a href="pages/nav/news/news.html">Noticias</a>
+        <a href="pages/nav/contact/contact.html">Calendarios</a>
     </div>
     <div class="footer-col">
         <h4>Comunidad</h4>

@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Notificaciones de torneos por WhatsApp
+//  TRINITY — Notificaciones de torneos por WhatsApp
 //  Envía un mensaje a todos los usuarios con teléfono registrado
 //  (o a un número puntual para testear)
 //
@@ -54,7 +54,7 @@ $emoji   = match(strtolower($deporte)) {
     default             => '🏆',
 };
 
-$mensaje  = "{$emoji} *ASTRAX* — Nuevo torneo\n\n";
+$mensaje  = "{$emoji} *TRINITY* — Nuevo torneo\n\n";
 $mensaje .= "*{$titulo}*\n";
 $mensaje .= "{$desc}\n";
 if ($fecha)   $mensaje .= "\n📅 Fecha: {$fecha}";

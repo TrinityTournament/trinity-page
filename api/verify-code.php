@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Verificar código y crear cuenta (MySQL / PDO)
+//  TRINITY — Verificar código y crear cuenta (MySQL / PDO)
 //  Registro mínimo: nombre, usuario, password, email/tel + código
 //  fecha_nacimiento, tipo y deportes quedan NULL → se completan desde perfil
 // ══════════════════════════════════════════════════════════

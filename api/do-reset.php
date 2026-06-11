@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Ejecutar reset de contraseña
+//  TRINITY — Ejecutar reset de contraseña
 //  Valida token, actualiza contraseña, invalida el token
 // ══════════════════════════════════════════════════════════
 require_once __DIR__ . '/config.php';

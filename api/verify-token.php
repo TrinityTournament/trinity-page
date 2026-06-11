@@ -1,6 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════
-//  ASTRAX — Verificar token de reset (GET)
+//  TRINITY — Verificar token de reset (GET)
 //  La página lo llama al cargar para saber si el token es válido
 // ══════════════════════════════════════════════════════════
 require_once __DIR__ . '/config.php';
