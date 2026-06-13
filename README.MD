@@ -4,5 +4,4 @@
 |       ---          |
 | Santiago Rodriguez |
 | Lucia              |
-| Omar               |
 | Facundo            |
