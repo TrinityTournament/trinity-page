@@ -1,0 +1,84 @@
+services:
+
+  # ── MySQL 8.0 ─────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS:-trinity_root_pass}
+      MYSQL_DATABASE:      ${DB_NAME:-trinity}
+      MYSQL_USER:          ${DB_USER:-trinity_user}
+      MYSQL_PASSWORD:      ${DB_PASS:-trinity_pass}
+    volumes:
+      # Datos persistentes entre reinicios
+      - db_data:/var/lib/mysql
+      # Inicialización: se ejecuta solo la primera vez (DB vacía)
+      - ./database.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    networks:
+      - trinity_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${DB_ROOT_PASS:-trinity_root_pass}"]
+      interval: 10s
+      timeout:  5s
+      retries:  10
+      start_period: 30s
+
+  # ── PHP 8.2 + Apache ──────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Credenciales de BD para el contenedor
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-trinity}
+      DB_USER: ${DB_USER:-trinity_user}
+      DB_PASS: ${DB_PASS:-trinity_pass}
+      # Hostname del bot de WhatsApp dentro de la red Docker
+      WA_BOT_HOST: whatsapp
+    volumes:
+      # Código fuente montado: los cambios se reflejan sin rebuild
+      - .:/var/www/html
+      # Sesiones PHP persistentes
+      - php_sessions:/var/lib/php/sessions
+    ports:
+      - "${APP_PORT:-3000}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - trinity_net
+
+  # ── Bot de WhatsApp (Node.js) ──────────────────────────────
+  whatsapp:
+    image: node:20-alpine
+    restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install --prefer-offline && node ."
+    env_file: .env
+    environment:
+      # El bot escucha en este puerto (leído como WA_PORT en index.js)
+      WA_PORT: ${WA_BOT_PORT:-3001}
+    volumes:
+      - ./WhatsApp:/app
+      # Auth de WhatsApp: persiste entre reinicios para no re-escanear el QR
+      - wa_auth:/app/auth
+    # Solo exponemos el puerto en el host para debugging;
+    # dentro de la red Docker es accesible como whatsapp:3001
+    ports:
+      - "${WA_BOT_PORT:-3001}:${WA_BOT_PORT:-3001}"
+    networks:
+      - trinity_net
+
+# ── Redes ──────────────────────────────────────────────────
+networks:
+  trinity_net:
+    driver: bridge
+
+# ── Volúmenes ──────────────────────────────────────────────
+volumes:
+  db_data:
+  php_sessions:
+  wa_auth:

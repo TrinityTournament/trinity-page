@@ -128,3 +128,29 @@ GROUP BY u.id;
 --  • Los conteos de seguidores/seguidos se calculan con la vista
 --    v_seguidores_count o con subqueries en get-profile.php.
 -- ══════════════════════════════════════════════════════════
+
+-- ──────────────────────────────────────────────────────────
+--  7. Sistema de notificaciones
+--     Agregar notif_whatsapp a usuarios y crear tabla notificaciones
+-- ──────────────────────────────────────────────────────────
+
+ALTER TABLE usuarios
+    ADD COLUMN IF NOT EXISTS notif_whatsapp TINYINT(1) NOT NULL DEFAULT 0
+        COMMENT 'Opt-in para recibir notificaciones por WhatsApp';
+
+CREATE TABLE IF NOT EXISTS notificaciones (
+    id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    usuario_id  INT UNSIGNED    NOT NULL,
+    tipo        VARCHAR(60)     NOT NULL
+                    COMMENT 'seguidor | torneo_invitacion | torneo_anuncio | general',
+    titulo      VARCHAR(200)    NOT NULL,
+    mensaje     TEXT            NOT NULL,
+    link        VARCHAR(500)    NULL
+                    COMMENT 'Ruta relativa a la página relacionada',
+    leido       TINYINT(1)      NOT NULL DEFAULT 0,
+    creado_en   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    INDEX idx_notif_usuario  (usuario_id, leido, creado_en),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

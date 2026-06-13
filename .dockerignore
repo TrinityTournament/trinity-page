@@ -1,0 +1,31 @@
+# Control de versiones
+.git
+.gitignore
+
+# Dependencias Node (se instalan dentro del contenedor)
+WhatsApp/node_modules
+WhatsApp/auth
+node_modules
+
+# Variables de entorno (se pasan vía env_file, no se copian)
+.env
+WhatsApp/.env
+
+# Archivos de desarrollo
+*.md
+*.zip
+README*
+
+# Logs y temporales
+*.log
+*.tmp
+
+# Herramientas del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker en sí (evitar recursión)
+Dockerfile
+docker-compose.yml
+docker/

@@ -129,6 +129,22 @@ if (array_key_exists('descripcion', $body)) {
     $params[':descripcion'] = $desc ?: null;
 }
 
+// ── Toggle notificaciones WhatsApp ───────────────────────
+if (array_key_exists('notif_whatsapp', $body)) {
+    // Requiere que el usuario tenga teléfono registrado
+    $pdo  = $pdo ?? db();
+    $chk  = $pdo->prepare('SELECT telefono FROM usuarios WHERE id = :id LIMIT 1');
+    $chk->execute([':id' => $userId]);
+    $row  = $chk->fetch();
+
+    if (empty($row['telefono'])) {
+        json_response(['error' => 'Necesitás tener un número de teléfono registrado para activar las notificaciones de WhatsApp.'], 422);
+    }
+
+    $campos[]                  = 'notif_whatsapp = :notif_whatsapp';
+    $params[':notif_whatsapp']  = $body['notif_whatsapp'] ? 1 : 0;
+}
+
 // ── Foto de perfil (base64, recortada en el cliente) ─────
 if (array_key_exists('foto_url', $body)) {
     $foto = $body['foto_url'];
@@ -179,5 +195,6 @@ if (isset($body['videojuegos'])) $_SESSION['trinity_user']['videojuegos'] = arra
 if (isset($body['pronouns']))  $_SESSION['trinity_user']['pronouns']  = $body['pronouns'] ?? null;
 if (isset($body['descripcion'])) $_SESSION['trinity_user']['descripcion'] = $body['descripcion'] ?? null;
 if (array_key_exists('foto_url', $body)) $_SESSION['trinity_user']['foto_url'] = $params[':foto_url'] ?? null;
+if (array_key_exists('notif_whatsapp', $body)) $_SESSION['trinity_user']['notif_whatsapp'] = (bool) $body['notif_whatsapp'];
 
 json_response(['ok' => true]);

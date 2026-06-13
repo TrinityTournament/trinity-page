@@ -49,6 +49,25 @@ if ($accion === 'follow') {
         'INSERT IGNORE INTO seguidores (seguidor_id, seguido_id) VALUES (:follower, :target)'
     );
     $stmt->execute([':follower' => $followerId, ':target' => $targetId]);
+
+    // Notificar solo si realmente se insertó (rowCount > 0 significa que era un follow nuevo)
+    if ($stmt->rowCount() > 0) {
+        $uStmt = $pdo->prepare('SELECT nombre, usuario FROM usuarios WHERE id = :id LIMIT 1');
+        $uStmt->execute([':id' => $followerId]);
+        $follower = $uStmt->fetch();
+
+        if ($follower) {
+            $nombre  = $follower['nombre'];
+            $usuario = $follower['usuario'];
+            crear_notificacion(
+                $targetId,
+                'seguidor',
+                "{$nombre} empezó a seguirte",
+                "@{$usuario} se sumó a tus seguidores en Trinity.",
+                '/pages/profile/acc/view.html?u=' . $followerId
+            );
+        }
+    }
 } else {
     $stmt = $pdo->prepare(
         'DELETE FROM seguidores WHERE seguidor_id = :follower AND seguido_id = :target'

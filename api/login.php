@@ -30,7 +30,7 @@ if (str_contains($identifier, '@')) {
     $stmt = $pdo->prepare(
         'SELECT id, usuario, nombre, email, telefono, tipo,
                 deportes_seleccionados, fecha_nacimiento, password,
-                pronouns, descripcion, foto_url
+                pronouns, descripcion, foto_url, notif_whatsapp
          FROM   usuarios WHERE email = :val LIMIT 1'
     );
 } else {
@@ -38,7 +38,7 @@ if (str_contains($identifier, '@')) {
     $stmt = $pdo->prepare(
         'SELECT id, usuario, nombre, email, telefono, tipo,
                 deportes_seleccionados, fecha_nacimiento, password,
-                pronouns, descripcion, foto_url
+                pronouns, descripcion, foto_url, notif_whatsapp
          FROM   usuarios WHERE telefono = :val LIMIT 1'
     );
 }
@@ -74,5 +74,6 @@ json_response([
         'pronouns'         => $user['pronouns']    ?? null,
         'descripcion'      => $user['descripcion'] ?? null,
         'foto_url'         => $user['foto_url']    ?? null,
+        'notif_whatsapp'   => (bool) ($user['notif_whatsapp'] ?? false),
     ],
 ]);

@@ -148,6 +148,39 @@
             </div>
         </div>
 
+        <!-- ── NOTIFICACIONES ── -->
+        <div class="edit-card">
+            <h2 class="edit-card-title-sub">Notificaciones</h2>
+            <p class="edit-card-desc">Elegí cómo querés recibir las notificaciones de Trinity.</p>
+
+            <div class="notif-row">
+                <div class="notif-row-info">
+                    <span class="notif-row-label">📧 Email</span>
+                    <span class="notif-row-sub">Siempre activado — te llegan a tu correo registrado.</span>
+                </div>
+                <div class="notif-toggle-wrap">
+                    <label class="toggle-switch toggle-disabled" title="El email siempre está activado">
+                        <input type="checkbox" checked disabled>
+                        <span class="toggle-track"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="notif-row" id="notif-wa-row">
+                <div class="notif-row-info">
+                    <span class="notif-row-label">💬 WhatsApp</span>
+                    <span class="notif-row-sub" id="notif-wa-sub">Activá para recibir notificaciones en tu número.</span>
+                </div>
+                <div class="notif-toggle-wrap">
+                    <label class="toggle-switch" id="notif-wa-label">
+                        <input type="checkbox" id="toggle-notif-wa" onchange="toggleNotifWhatsapp(this)">
+                        <span class="toggle-track"></span>
+                    </label>
+                </div>
+            </div>
+            <span class="msg" id="msg-notif-wa"></span>
+        </div>
+
         <!-- ── ZONA DE PELIGRO ── -->
         <div class="edit-card danger-card">
             <h2 class="edit-card-title danger-title">Zona de peligro</h2>

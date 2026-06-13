@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     foto_url                VARCHAR(500)      NULL,
     torneos_jugados         INT UNSIGNED      NOT NULL DEFAULT 0,
     torneos_ganados         INT UNSIGNED      NOT NULL DEFAULT 0,
+    notif_whatsapp          TINYINT(1)        NOT NULL DEFAULT 0,
     creado_en               TIMESTAMP         NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
@@ -91,3 +92,19 @@ CREATE TABLE IF NOT EXISTS codigos_verificacion (
 --  password_hash($plain, PASSWORD_BCRYPT) en PHP.
 --  NUNCA guardar contraseñas en texto plano.
 -- ══════════════════════════════════════════════════════════
+
+-- ── TABLA: notificaciones ────────────────────────────────────
+CREATE TABLE IF NOT EXISTS notificaciones (
+    id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    usuario_id  INT UNSIGNED    NOT NULL,
+    tipo        VARCHAR(60)     NOT NULL,
+    titulo      VARCHAR(200)    NOT NULL,
+    mensaje     TEXT            NOT NULL,
+    link        VARCHAR(500)    NULL,
+    leido       TINYINT(1)      NOT NULL DEFAULT 0,
+    creado_en   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    INDEX idx_notif_usuario  (usuario_id, leido, creado_en),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

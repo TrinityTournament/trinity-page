@@ -36,6 +36,9 @@ function cargarDatos() {
 
     // Selector "Enviar código a" — ocultar opciones no disponibles
     configurarDestinoPwd();
+
+    // Toggle notificaciones WhatsApp
+    configurarToggleNotif();
 }
 
 function configurarDestinoPwd() {
@@ -312,6 +315,7 @@ async function verificarCodigoWa() {
             document.getElementById('c-telefono').classList.add('input-ok');
             closeWaModalBtn();
             mostrarMsg(document.getElementById('msg-cred'), '✓ Teléfono actualizado correctamente.', 'ok');
+            configurarToggleNotif(); // habilitar toggle de WhatsApp ahora que hay número
         } else {
             mostrarMsg(msg, data.error || 'Código incorrecto.', 'err');
         }
@@ -447,6 +451,69 @@ function resetPwd() {
     document.getElementById('pwd-confirm').value = '';
     document.getElementById('msg-pwd-req').textContent = '';
     document.getElementById('msg-pwd').textContent = '';
+}
+
+// ── NOTIFICACIONES WHATSAPP ────────────────
+
+function configurarToggleNotif() {
+    const toggle  = document.getElementById('toggle-notif-wa');
+    const label   = document.getElementById('notif-wa-label');
+    const subText = document.getElementById('notif-wa-sub');
+    if (!toggle) return;
+
+    if (!USER.telefono) {
+        // Sin número: deshabilitar con hint
+        toggle.checked  = false;
+        toggle.disabled = true;
+        if (label)   label.classList.add('toggle-disabled');
+        if (subText) subText.textContent = 'Necesitás registrar un número de teléfono para activar esta opción.';
+    } else {
+        toggle.checked  = !!(USER.notif_whatsapp);
+        toggle.disabled = false;
+        if (label)   label.classList.remove('toggle-disabled');
+        if (subText) subText.textContent = toggle.checked
+            ? `Activado — recibís notificaciones en +${USER.telefono}.`
+            : 'Activá para recibir notificaciones en tu WhatsApp.';
+    }
+}
+
+async function toggleNotifWhatsapp(input) {
+    const msg    = document.getElementById('msg-notif-wa');
+    const activo = input.checked;
+
+    // Si quiere activar pero no tiene teléfono, bloquear (no debería llegar acá, pero por si acaso)
+    if (activo && !USER.telefono) {
+        input.checked = false;
+        mostrarMsg(msg, 'Primero registrá un número de teléfono en Credenciales.', 'err');
+        return;
+    }
+
+    input.disabled = true;
+    mostrarMsg(msg, activo ? 'Activando...' : 'Desactivando...', 'ok');
+
+    try {
+        const res  = await fetch('../../../api/update-profile.php', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ notif_whatsapp: activo }),
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+            USER.notif_whatsapp = activo;
+            sessionStorage.setItem('trinity_user', JSON.stringify(USER));
+            configurarToggleNotif();
+            mostrarMsg(msg, activo ? '✓ Notificaciones de WhatsApp activadas.' : '✓ Notificaciones de WhatsApp desactivadas.', 'ok');
+        } else {
+            input.checked = !activo; // revertir
+            mostrarMsg(msg, data.error || 'Error al actualizar.', 'err');
+        }
+    } catch {
+        input.checked = !activo;
+        mostrarMsg(msg, 'No se pudo conectar con el servidor.', 'err');
+    } finally {
+        input.disabled = false;
+    }
 }
 
 // ── ELIMINAR CUENTA ───────────────────────

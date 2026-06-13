@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ── CARGAR PERFIL PROPIO (desde sessionStorage) ──
+// ── CARGAR PERFIL PROPIO (desde sessionStorage + contadores frescos de API) ──
 
 function cargarPerfilLocal(u) {
     PROFILE = {
@@ -62,6 +62,21 @@ function cargarPerfilLocal(u) {
     };
     IS_OWNER = true;
     renderPerfil();
+
+    // Los contadores de seguidos/seguidores no están en sessionStorage — ir a la API
+    fetch(`../../../api/get-profile.php?id=${encodeURIComponent(u.id)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.ok || !data.user) return;
+            PROFILE.seguidos   = data.user.seguidos   ?? 0;
+            PROFILE.seguidores = data.user.seguidores ?? 0;
+            // Actualizar counters en UI
+            document.getElementById('ph-seg-own').textContent           = PROFILE.seguidos;
+            document.getElementById('ph-flw-own').textContent           = PROFILE.seguidores;
+            document.getElementById('fp-cnt-seguidos').textContent      = PROFILE.seguidos;
+            document.getElementById('fp-cnt-seguidores').textContent    = PROFILE.seguidores;
+        })
+        .catch(() => {});
 }
 
 // ── CARGAR PERFIL REMOTO (desde API) ─────
@@ -119,10 +134,12 @@ function renderOwner(u) {
     document.getElementById('other-actions').style.display = 'none';
     document.getElementById('other-stats').style.display   = 'none';
 
-    const seg = u.seguidos ?? 0;
+    const seg = u.seguidos   ?? 0;
     const flw = u.seguidores ?? 0;
-    document.getElementById('ph-followers-own').textContent =
-        `${seg} Seguidos | ${flw} Seguidores`;
+    document.getElementById('ph-seg-own').textContent = seg;
+    document.getElementById('ph-flw-own').textContent = flw;
+    document.getElementById('fp-cnt-seguidos').textContent   = seg;
+    document.getElementById('fp-cnt-seguidores').textContent = flw;
 }
 
 function renderOther(u) {
@@ -130,10 +147,12 @@ function renderOther(u) {
     document.getElementById('other-actions').style.display = 'flex';
     document.getElementById('other-stats').style.display   = 'block';
 
-    const seg = u.seguidos  ?? 0;
+    const seg = u.seguidos   ?? 0;
     const flw = u.seguidores ?? 0;
-    document.getElementById('ph-followers-other').textContent =
-        `${seg} Seguidos · ${flw} Seguidores`;
+    document.getElementById('ph-seg-other').textContent = seg;
+    document.getElementById('ph-flw-other').textContent = flw;
+    document.getElementById('fp-cnt-seguidos').textContent   = seg;
+    document.getElementById('fp-cnt-seguidores').textContent = flw;
 
     document.getElementById('ph-torneos').textContent =
         `${u.torneos_jugados ?? 0} Torneos`;
@@ -347,14 +366,22 @@ function abrirSelectorPreferencias(tipoEnum, bannerMap, itemsActuales) {
 
 // ── FOLLOW / UNFOLLOW ─────────────────────
 
+let _followPending = false; // flag anti-doble-click
+
 async function toggleFollow() {
     if (!USER) {
         window.location.href = '../../login/login.html';
         return;
     }
 
+    if (_followPending) return; // ignorar clicks mientras hay un request en vuelo
+    _followPending = true;
+
     const btn       = document.getElementById('btn-follow');
     const siguiendo = btn.classList.contains('following');
+
+    // Deshabilitar inmediatamente para evitar clicks fantasma
+    btn.disabled = true;
 
     try {
         const res  = await fetch('../../../api/follow.php', {
@@ -377,13 +404,18 @@ async function toggleFollow() {
                 btn.classList.add('following');
                 PROFILE.seguidores = (PROFILE.seguidores || 0) + 1;
             }
-            const seg = PROFILE.seguidos  ?? 0;
+            const seg = PROFILE.seguidos   ?? 0;
             const flw = PROFILE.seguidores ?? 0;
-            document.getElementById('ph-followers-other').textContent =
-                `${seg} Seguidos · ${flw} Seguidores`;
+            document.getElementById('ph-seg-other').textContent      = seg;
+            document.getElementById('ph-flw-other').textContent      = flw;
+            document.getElementById('fp-cnt-seguidos').textContent   = seg;
+            document.getElementById('fp-cnt-seguidores').textContent = flw;
         }
     } catch {
         console.error('Error al seguir/dejar de seguir.');
+    } finally {
+        btn.disabled   = false;
+        _followPending = false;
     }
 }
 
@@ -487,6 +519,145 @@ function closeInviteModalBtn() {
 }
 
 // ── NAV: manejado por /components/nav.js ──
+
+// ── FOLLOWERS POPUP ───────────────────────
+
+let fpOpen      = false;
+let fpActiveTab = 'seguidos';
+let fpCache     = { seguidos: null, seguidores: null };
+
+function toggleFollowersPopup(triggerEl) {
+    const popup = document.getElementById('followers-popup');
+
+    if (fpOpen) {
+        closeFpPopup();
+        return;
+    }
+
+    // Resetear caché al abrir para siempre tener datos frescos
+    fpCache = { seguidos: null, seguidores: null };
+    fpActiveTab = 'seguidos';
+
+    // Posicionar popup bajo el botón
+    const rect = triggerEl.getBoundingClientRect();
+    const popupW = 260;
+    let left = rect.left;
+    let top  = rect.bottom + 8;
+
+    // Ajuste si se sale por la derecha
+    if (left + popupW > window.innerWidth - 12) {
+        left = window.innerWidth - popupW - 12;
+    }
+    // Ajuste si se sale por abajo
+    const popupH = 300;
+    if (top + popupH > window.innerHeight - 12) {
+        top = rect.top - popupH - 8;
+    }
+
+    popup.style.left    = left + 'px';
+    popup.style.top     = top  + 'px';
+    popup.style.display = 'block';
+    fpOpen = true;
+
+    // Activar tab y cargar
+    setFpTabActive('seguidos');
+    loadFpList('seguidos');
+
+    // Cerrar al click fuera
+    setTimeout(() => {
+        document.addEventListener('click', fpOutsideClick);
+    }, 0);
+}
+
+function closeFpPopup() {
+    document.getElementById('followers-popup').style.display = 'none';
+    fpOpen = false;
+    document.removeEventListener('click', fpOutsideClick);
+}
+
+function fpOutsideClick(e) {
+    const popup   = document.getElementById('followers-popup');
+    const btnOwn  = document.getElementById('ph-followers-own');
+    const btnOther = document.getElementById('ph-followers-other');
+    if (!popup.contains(e.target) && e.target !== btnOwn && e.target !== btnOther
+        && !btnOwn?.contains(e.target) && !btnOther?.contains(e.target)) {
+        closeFpPopup();
+    }
+}
+
+function switchFpTab(tab) {
+    if (tab === fpActiveTab) return;
+    fpActiveTab = tab;
+    setFpTabActive(tab);
+    if (!fpCache[tab]) {
+        loadFpList(tab);
+    } else {
+        renderFpList(fpCache[tab]);
+    }
+}
+
+function setFpTabActive(tab) {
+    document.querySelectorAll('.fp-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tab);
+    });
+}
+
+async function loadFpList(tab) {
+    const list = document.getElementById('fp-list');
+    list.innerHTML = '<div class="fp-spinner"></div>';
+
+    const uid = PROFILE?.id ?? TARGET_ID;
+    if (!uid) {
+        list.innerHTML = '<div class="fp-empty">No hay datos disponibles.</div>';
+        return;
+    }
+
+    try {
+        const res  = await fetch(
+            `../../../api/get-followers.php?user_id=${encodeURIComponent(uid)}&tipo=${tab}`
+        );
+        const data = await res.json();
+
+        if (!data.ok) throw new Error(data.error || 'Error');
+
+        fpCache[tab] = data.users;
+        renderFpList(data.users);
+    } catch {
+        list.innerHTML = '<div class="fp-empty">No se pudo cargar la lista.</div>';
+    }
+}
+
+function renderFpList(users) {
+    const list = document.getElementById('fp-list');
+    list.innerHTML = '';
+
+    if (!users || users.length === 0) {
+        const label = fpActiveTab === 'seguidos' ? 'seguidos' : 'seguidores';
+        list.innerHTML = `<div class="fp-empty">Sin ${label} por ahora.</div>`;
+        return;
+    }
+
+    users.forEach(u => {
+        const a = document.createElement('a');
+        a.className = 'fp-user';
+        a.href      = `view.html?u=${encodeURIComponent(u.id)}`;
+
+        const initial = (u.nombre?.[0] || u.usuario?.[0] || '?').toUpperCase();
+        const avatarInner = u.foto_url
+            ? `<img src="${escapeHtml(u.foto_url)}" alt="">`
+            : initial;
+
+        a.innerHTML = `
+            <div class="fp-avatar">${avatarInner}</div>
+            <div class="fp-info">
+                <div class="fp-name">${escapeHtml(u.nombre || u.usuario)}</div>
+                <div class="fp-username">@${escapeHtml(u.usuario)}</div>
+            </div>`;
+
+        a.addEventListener('click', () => closeFpPopup());
+        list.appendChild(a);
+    });
+}
 
 // ── HELPERS ───────────────────────────────
 

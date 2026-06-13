@@ -127,19 +127,16 @@ try {
     json_response(['error' => 'Error al guardar la invitación.'], 500);
 }
 
-// ── 5. Notificar por WhatsApp si tiene número ─────────────────
-if (!empty($invitado['telefono'])) {
-    $orgNombre  = $_SESSION['trinity_user']['nombre']  ?? 'Un organizador';
-    $orgUsuario = $_SESSION['trinity_user']['usuario'] ?? '';
-    $mensaje    = "🏆 *TRINITY* — Invitación a torneo\n\n"
-                . "*{$orgNombre}* (@{$orgUsuario}) te invitó al torneo:\n"
-                . "*{$torneo['titulo']}*\n\n"
-                . "¡Entrá a la plataforma para aceptar o rechazar la invitación!\n"
-                . APP_URL;
+// ── 5. Notificación centralizada (email + WhatsApp si el invitado activó opt-in) ──
+$orgNombre  = $_SESSION['trinity_user']['nombre']  ?? 'Un organizador';
+$orgUsuario = $_SESSION['trinity_user']['usuario'] ?? '';
 
-    whatsapp_send($invitado['telefono'], $mensaje);
-    // Fallo silencioso — no afecta la respuesta
-}
+crear_notificacion(
+    $invitadoId,
+    'torneo_invitacion',
+    "Te invitaron al torneo \"{$torneo['titulo']}\"",
+    "{$orgNombre} (@{$orgUsuario}) te envió una invitación. ¡Ingresá para aceptarla o rechazarla!"
+);
 
 json_response([
     'ok'      => true,

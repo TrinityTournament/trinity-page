@@ -31,13 +31,21 @@
             <!-- OWNER: botón editar + seguidores -->
             <div id="owner-actions" style="display:none;">
                 <a href="../cfg/edit.html" class="btn-edit-profile">Editar perfil</a>
-                <p class="profile-followers" id="ph-followers-own">0 Seguidos | 0 Seguidores</p>
+                <button class="profile-followers followers-btn" id="ph-followers-own" onclick="toggleFollowersPopup(this)">
+                    <span id="ph-seg-own">0</span> Seguidos
+                    <span class="fp-sep">·</span>
+                    <span id="ph-flw-own">0</span> Seguidores
+                </button>
             </div>
 
             <!-- OTHER: botón seguir + seguidores + stats torneos -->
             <div id="other-actions" style="display:none;">
                 <button class="btn-follow" id="btn-follow" onclick="toggleFollow()">Seguir</button>
-                <p class="profile-followers" id="ph-followers-other">0 Seguidos · 0 Seguidores</p>
+                <button class="profile-followers followers-btn" id="ph-followers-other" onclick="toggleFollowersPopup(this)">
+                    <span id="ph-seg-other">0</span> Seguidos
+                    <span class="fp-sep">·</span>
+                    <span id="ph-flw-other">0</span> Seguidores
+                </button>
             </div>
 
             <div class="profile-divider"></div>
@@ -91,6 +99,21 @@
             <div class="loading-spinner"></div>
         </div>
         <p class="msg err" id="msg-invite" style="min-height:18px;"></p>
+    </div>
+</div>
+
+<!-- ══ POPUP: SEGUIDORES / SEGUIDOS ══ -->
+<div id="followers-popup" class="fp-popup" style="display:none;">
+    <div class="fp-tabs">
+        <button class="fp-tab active" data-tab="seguidos"   onclick="switchFpTab('seguidos')">
+            Seguidos <span class="fp-tab-count" id="fp-cnt-seguidos">0</span>
+        </button>
+        <button class="fp-tab"        data-tab="seguidores" onclick="switchFpTab('seguidores')">
+            Seguidores <span class="fp-tab-count" id="fp-cnt-seguidores">0</span>
+        </button>
+    </div>
+    <div class="fp-list" id="fp-list">
+        <div class="fp-spinner"></div>
     </div>
 </div>
 
