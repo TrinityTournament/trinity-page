@@ -4,7 +4,7 @@
 --  Cada bloque es idempotente (usa IF NOT EXISTS / IGNORE).
 -- ══════════════════════════════════════════════════════════
 
-USE astrax;
+USE trinity;
 
 -- ──────────────────────────────────────────────────────────
 --  1. Agregar columnas nuevas a la tabla usuarios
@@ -154,3 +154,12 @@ CREATE TABLE IF NOT EXISTS notificaciones (
     INDEX idx_notif_usuario  (usuario_id, leido, creado_en),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ──────────────────────────────────────────────────────────
+--  8. Roles de usuario
+-- ──────────────────────────────────────────────────────────
+ALTER TABLE usuarios
+    ADD COLUMN IF NOT EXISTS rol
+        ENUM('admin','organizador','participante')
+        NOT NULL DEFAULT 'participante'
+        AFTER notif_whatsapp;

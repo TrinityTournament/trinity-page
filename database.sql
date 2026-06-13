@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     torneos_jugados         INT UNSIGNED      NOT NULL DEFAULT 0,
     torneos_ganados         INT UNSIGNED      NOT NULL DEFAULT 0,
     notif_whatsapp          TINYINT(1)        NOT NULL DEFAULT 0,
+    rol                     ENUM('admin','organizador','participante') NOT NULL DEFAULT 'participante',
     creado_en               TIMESTAMP         NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
