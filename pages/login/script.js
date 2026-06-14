@@ -125,7 +125,7 @@ async function accionLogin() {
     if (!password)   { alert('Ingresá tu contraseña.'); return; }
 
     try {
-        const res  = await fetch('../../api/login.php', {
+        const res  = await fetch('../../api/auth/login.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ identifier, password }),
@@ -160,7 +160,7 @@ async function solicitarCodigoEmail() {
     msg.textContent = 'Enviando código...';
 
     try {
-        const res  = await fetch('../../api/send-code.php', {
+        const res  = await fetch('../../api/verification/send-code.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ email }),
@@ -182,7 +182,7 @@ async function verificarCodigoEmail(codigo) {
     msg.textContent = 'Verificando...';
 
     try {
-        const res  = await fetch('../../api/verify-code.php', {
+        const res  = await fetch('../../api/verification/verify-code.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
@@ -230,7 +230,7 @@ async function solicitarCodigoTel() {
     msg.textContent = 'Enviando código...';
 
     try {
-        const res  = await fetch('../../api/send-code.php', {
+        const res  = await fetch('../../api/verification/send-code.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ telefono, canal: canalActual }),
@@ -256,7 +256,7 @@ async function verificarCodigoTel(codigo) {
     msg.textContent = 'Verificando...';
 
     try {
-        const res  = await fetch('../../api/verify-code.php', {
+        const res  = await fetch('../../api/verification/verify-code.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
@@ -306,7 +306,7 @@ async function enviarReset() {
     msg.className   = 'msg';
 
     try {
-        const res  = await fetch('../../api/request-reset.php', {
+        const res  = await fetch('../../api/auth/request-reset.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ email }),

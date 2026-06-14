@@ -62,3 +62,11 @@ if (function_exists('curl_init')) {
 
 echo PHP_EOL . '── Fin del diagnóstico ──' . PHP_EOL;
 echo '</pre>';
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+var_dump(getenv('ADMIN_KEY'));
+var_dump($_ENV['ADMIN_KEY'] ?? null);

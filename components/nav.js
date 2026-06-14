@@ -233,7 +233,7 @@ async function buscarUsuarios(q) {
     results.classList.add('open');
 
     try {
-        const res  = await fetch(`${BASE_URL}/api/search-users.php?q=${encodeURIComponent(q)}`);
+        const res  = await fetch(`${BASE_URL}/api/users/search-users.php?q=${encodeURIComponent(q)}`);
         const data = await res.json();
 
         if (!data.ok || !data.users || data.users.length === 0) {
@@ -324,7 +324,7 @@ function dispararBrowserNotif(titulo, mensaje) {
 
 async function fetchNotifCount() {
     try {
-        const res  = await fetch(`${BASE_URL}/api/get-notifications.php?limit=20`, { credentials: 'include' });
+        const res  = await fetch(`${BASE_URL}/api/notifications/get-notifications.php?limit=20`, { credentials: 'include' });
         if (!res.ok) return;
         const data = await res.json();
         if (!data.ok) return;
@@ -428,7 +428,7 @@ async function handleNotifClick(e, el) {
         const noLeidas = _notifCache.filter(x => !x.leido).length;
         actualizarBadge(noLeidas);
         // Persistir en servidor (fire & forget)
-        fetch(`${BASE_URL}/api/mark-notifications-read.php`, {
+        fetch(`${BASE_URL}/api/notifications/mark-notifications-read.php`, {
             method:      'POST',
             credentials: 'include',
             headers:     {'Content-Type': 'application/json'},
@@ -447,7 +447,7 @@ async function handleNotifClick(e, el) {
 
 async function marcarTodasLeidas() {
     try {
-        await fetch(`${BASE_URL}/api/mark-notifications-read.php`, {
+        await fetch(`${BASE_URL}/api/notifications/mark-notifications-read.php`, {
             method:      'POST',
             credentials: 'include',
             headers:     {'Content-Type': 'application/json'},

@@ -108,7 +108,7 @@ async function subirFotoPerfil(dataUrl) {
     mostrarMsg(msg, 'Subiendo foto...', 'ok');
 
     try {
-        const res  = await fetch('../../../api/update-profile.php', {
+        const res  = await fetch('../../../api/users/update-profile.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ foto_url: dataUrl }),
@@ -152,7 +152,7 @@ async function guardarPerfil() {
     mostrarMsg(msg, 'Guardando...', 'ok');
 
     try {
-        const res  = await fetch('../../../api/update-profile.php', {
+        const res  = await fetch('../../../api/users/update-profile.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ nombre, usuario, pronouns, descripcion }),
@@ -205,7 +205,7 @@ async function guardarCredenciales() {
 
         mostrarMsg(msg, 'Verificando email...', 'ok');
         try {
-            const res  = await fetch('../../../api/check-email.php', {
+            const res  = await fetch('../../../api/users/check-email.php', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body:    JSON.stringify({ email }),
@@ -218,7 +218,7 @@ async function guardarCredenciales() {
             }
 
             // Email disponible: guardar
-            const res2  = await fetch('../../../api/update-credentials.php', {
+            const res2  = await fetch('../../../api/users/update-credentials.php', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body:    JSON.stringify({ email }),
@@ -249,7 +249,7 @@ async function guardarCredenciales() {
         mostrarMsg(msg, 'Enviando código por WhatsApp...', 'ok');
 
         try {
-            const res  = await fetch('../../../api/send-code.php', {
+            const res  = await fetch('../../../api/verification/send-code.php', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body:    JSON.stringify({ telefono: telCompleto, cambio_credencial: true }),
@@ -299,7 +299,7 @@ async function verificarCodigoWa() {
     mostrarMsg(msg, 'Verificando...', 'ok');
 
     try {
-        const res  = await fetch('../../../api/update-credentials.php', {
+        const res  = await fetch('../../../api/users/update-credentials.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
@@ -329,7 +329,7 @@ async function reenviarCodigoWa() {
     mostrarMsg(msg, 'Reenviando código...', 'ok');
 
     try {
-        const res  = await fetch('../../../api/send-code.php', {
+        const res  = await fetch('../../../api/verification/send-code.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ telefono: pendingPhone, cambio_credencial: true }),
@@ -378,7 +378,7 @@ async function solicitarCodigoPwd() {
         : { email: USER.email, cambio_password: true };
 
     try {
-        const res  = await fetch('../../../api/send-code.php', {
+        const res  = await fetch('../../../api/verification/send-code.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify(body),
@@ -420,7 +420,7 @@ async function cambiarPassword() {
             ? { telefono: USER.telefono, code: codigo, nueva_password: nueva }
             : { email: USER.email, code: codigo, nueva_password: nueva };
 
-        const res  = await fetch('../../../api/change-password.php', {
+        const res  = await fetch('../../../api/users/change-password.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify(verifBody),
@@ -492,7 +492,7 @@ async function toggleNotifWhatsapp(input) {
     mostrarMsg(msg, activo ? 'Activando...' : 'Desactivando...', 'ok');
 
     try {
-        const res  = await fetch('../../../api/update-profile.php', {
+        const res  = await fetch('../../../api/users/update-profile.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ notif_whatsapp: activo }),
@@ -522,7 +522,7 @@ async function confirmarEliminar() {
     if (!confirm('¿Seguro que querés eliminar tu cuenta? Esta acción no se puede deshacer.')) return;
 
     try {
-        const res  = await fetch('../../../api/delete-account.php', {
+        const res  = await fetch('../../../api/users/delete-account.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
         });

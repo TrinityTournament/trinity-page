@@ -8,6 +8,11 @@
 // ── CARGAR .env SI NO ESTAMOS EN DOCKER ───────────────────
 // En Docker las variables llegan por env_file/environment.
 // En desarrollo local las leemos del archivo .env.
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 if (!getenv('DB_HOST')) {
     $envPath = __DIR__ . '/../.env';
     if (file_exists($envPath)) {
@@ -18,21 +23,20 @@ if (!getenv('DB_HOST')) {
 }
 
 // ── CREDENCIALES MYSQL ─────────────────────────────────────
-define('DB_HOST',    getenv('DB_HOST')    ?: 'localhost');
-define('DB_PORT',    getenv('DB_PORT')    ?: '3306');
-define('DB_NAME',    getenv('DB_NAME')    ?: 'trinity');
-define('DB_USER',    getenv('DB_USER')    ?: 'root');
-define('DB_PASS',    getenv('DB_PASS')    ?: '');
+define('DB_HOST',    $_ENV['DB_HOST']    ?? 'localhost');
+define('DB_PORT',    $_ENV['DB_PORT']    ?? '3306');
+define('DB_NAME',    $_ENV['DB_NAME']    ?? 'trinity');
+define('DB_USER',    $_ENV['DB_USER']    ?? 'root');
+define('DB_PASS',    $_ENV['DB_PASS']    ?? '');
 define('DB_CHARSET', 'utf8mb4');
 
-// ── SERVICIOS EXTERNOS ─────────────────────────────────────
-define('BREVO_KEY',   getenv('BREVO_KEY')   ?: '');
-define('WA_BOT_PORT', getenv('WA_BOT_PORT') ?: getenv('WA_PORT') ?: '3001');
-// En Docker el bot corre en el servicio "whatsapp"; en local es 127.0.0.1
-define('WA_BOT_HOST', getenv('WA_BOT_HOST') ?: '127.0.0.1');
-define('WA_SECRET',   getenv('WA_SECRET')   ?: '');
-define('APP_URL',     getenv('APP_URL')     ?: 'http://localhost:3000');
-define('ADMIN_KEY',   getenv('ADMIN_KEY')   ?: '');
+// ── SERVICIOS EXTERNOS ──────────────────────────
+define('BREVO_KEY',   $_ENV['BREVO_KEY']   ?? '');
+define('WA_BOT_PORT', $_ENV['WA_BOT_PORT'] ?? ($_ENV['WA_PORT'] ?? '3001'));
+define('WA_BOT_HOST', $_ENV['WA_BOT_HOST'] ?? '127.0.0.1');
+define('WA_SECRET',   $_ENV['WA_SECRET']   ?? '');
+define('APP_URL',     $_ENV['APP_URL']     ?? 'http://localhost:80');
+define('ADMIN_KEY',   $_ENV['ADMIN_KEY']   ?? '');
 
 // ── CONEXIÓN PDO (singleton) ───────────────────────────────
 function db(): PDO {

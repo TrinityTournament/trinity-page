@@ -2,6 +2,7 @@ README.md
 .env
 .npmrc
 /node_modules
+/vendor
 package-lock.json
 WhatsApp/node_modules
 WhatsApp/package-lock.json

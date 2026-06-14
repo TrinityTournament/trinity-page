@@ -31,8 +31,12 @@ RUN echo "session.save_path = /var/lib/php/sessions" >> /usr/local/etc/php/conf.
  && mkdir -p /var/lib/php/sessions \
  && chown www-data:www-data /var/lib/php/sessions
 
+# ── Composer ───────────────────────────────────────────────
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 WORKDIR /var/www/html
 
-# En desarrollo el código se monta como volumen, por lo que
-# no copiamos nada aquí. En producción, descomentar la línea:
+# En desarrollo el código se monta como volumen (composer install
+# ya está en vendor/ local). En producción, descomentar:
 # COPY . /var/www/html/
+# RUN composer install --no-dev --optimize-autoloader
