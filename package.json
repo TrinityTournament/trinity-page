@@ -1,22 +1,22 @@
 {
-  "name": "astrax-final-project",
+  "name": "trinity-final-project",
   "version": "1.0.0",
-  "description": "Equipo Astrax.",
+  "description": "Trinity.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Smokyy14/final-project.git"
+    "url": ""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Smokyy14/final-project/issues"
+    "url": "https://github.com/TrinityTournament/trinity-page/issues"
   },
-  "homepage": "https://github.com/Smokyy14/final-project#readme",
+  "homepage": "https://github.com/TrinityTournament/trinity-page/#readme",
   "dependencies": {
     "@getbrevo/brevo": "^2.0.0",
     "cors": "^2.8.6",
