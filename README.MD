@@ -29,7 +29,6 @@ Instituto Tecnologico Superior "Arias - Balparda" | Bachillerato Tecnologico | 2
 - [Variables de entorno](#variables-de-entorno)
 - [Instalacion y puesta en marcha](#instalacion-y-puesta-en-marcha)
 - [Seguridad](#seguridad)
-- [Documentacion](#documentacion)
 - [Exclusiones del sistema](#exclusiones-del-sistema)
 
 ---
