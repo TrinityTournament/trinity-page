@@ -570,47 +570,9 @@ node .
 
 ---
 
-## Documentacion
-
-### Disponible
-
-- README tecnico (este documento)
-- Esquema de base de datos (`database.sql`)
-- Variables de entorno (`.env.example` — en produccion)
-
-### En produccion
-
-Los siguientes documentos se elaboraran e incorporaran al repositorio en las proximas entregas del proyecto, segun los requerimientos del instituto:
-
-**Documentacion funcional**
-- Descripcion del problema y justificacion
-- Casos de uso principales con diagramas UML
-- Reglas de negocio
-- Capturas de interfaz y mockups
-
-**Documentacion tecnica**
-- Arquitectura general y diagrama MVC
-- Modelo entidad-relacion y modelo relacional normalizado
-- Decisiones tecnicas tomadas
-- Diagrama de Gantt del proyecto
-
-**Documentacion de seguridad**
-- Riesgos identificados y controles aplicados
-- Esquema de red con implementaciones de seguridad
-- Politicas de contrasenas y de respaldo
-- Informe OWASP
-
-**Manuales de usuario**
-- Manual del administrador
-- Manual del organizador
-- Manual del participante
-
----
-
 ## Exclusiones del sistema
 
-Segun los requerimientos del proyecto, el sistema no incluye ni incluira:
-
+( Por tema de letra )
 - Procesamiento o integracion con pasarelas de pago
 - Integracion con redes sociales externas
 - Inteligencia artificial embebida
