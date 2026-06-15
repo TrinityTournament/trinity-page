@@ -84,6 +84,7 @@ const BASE_URL = '/Trinity-page';
                         <span class="dropdown-username" id="dropdown-username">Usuario</span>
                     </div>
                     <a href="${BASE_URL}/pages/profile/acc/view.html" class="dropdown-item">&nbsp; Perfil</a>
+                    <a href="${BASE_URL}/pages/admin/index.html" class="dropdown-item dropdown-item--admin" id="nav-admin-link" style="display:none;">&nbsp; Admin</a>
                     <a href="${BASE_URL}/pages/profile/cfg/edit.html" class="dropdown-item">&nbsp; Configuración</a>
                     <div class="dropdown-divider"></div>
                     <button class="dropdown-item danger" id="nav-logout-btn">↩&nbsp; Cerrar sesión</button>
@@ -179,6 +180,10 @@ function setNavLoggedIn(u) {
         if (navAvatar)      navAvatar.textContent      = letra;
         if (dropdownAvatar) dropdownAvatar.textContent = letra;
     }
+
+    // Mostrar link de Admin solo si el usuario tiene rol admin
+    const adminLink = document.getElementById('nav-admin-link');
+    if (adminLink) adminLink.style.display = u.rol === 'admin' ? '' : 'none';
 
     // Iniciar polling de notificaciones
     iniciarPollingNotifs();
