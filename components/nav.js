@@ -18,7 +18,6 @@ const BASE_URL = '/Trinity-page';
         </button>
 
         <ul class="nav-links">
-            <li><a href="${BASE_URL}/index.html">Inicio</a></li>
             <li><a href="${BASE_URL}/pages/nav/tournament/tournament.html">Torneos</a></li>
             <li><a href="${BASE_URL}/pages/nav/ranking/ranking.html">Rankings</a></li>
             <li><a href="${BASE_URL}/pages/nav/news/news.html">Noticias</a></li>
@@ -94,7 +93,6 @@ const BASE_URL = '/Trinity-page';
 
         <!-- MOBILE MENU -->
         <div class="mobile-menu" id="mobile-menu">
-            <a href="${BASE_URL}/index.html">Inicio</a>
             <a href="${BASE_URL}/pages/nav/tournament/tournament.html">Torneos</a>
             <a href="${BASE_URL}/pages/nav/ranking/ranking.html">Rankings</a>
             <a href="${BASE_URL}/pages/nav/news/news.html">Noticias</a>
