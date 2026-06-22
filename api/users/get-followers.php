@@ -5,6 +5,7 @@
 //  GET ?user_id=int&tipo=seguidos|seguidores&page=int
 //  Respuesta: { ok: true, users: [...], total: int }
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 

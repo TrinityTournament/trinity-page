@@ -8,6 +8,7 @@
 //
 //  Respuesta: { ok: true, user: {...} } | { error: string }
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 

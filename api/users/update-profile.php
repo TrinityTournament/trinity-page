@@ -3,8 +3,10 @@
 //  TRINITY — Actualizar perfil (MySQL / PDO)
 //  Acepta: nombre, usuario, fecha_nacimiento, tipo, deportes
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../middleware.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -12,10 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['error' => 'Método no permitido.'], 405);
 }
 
-// ── VERIFICAR SESIÓN ──────────────────────────────────────
-if (empty($_SESSION['trinity_user'])) {
-    json_response(['error' => 'No autenticado.'], 401);
-}
+// ── Validar CSRF y sesión ────────────────────────────────
+validar_csrf();
+requiere_sesion();
 
 $userId = $_SESSION['trinity_user']['id'];
 $body   = json_decode(file_get_contents('php://input'), true);

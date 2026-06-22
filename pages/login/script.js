@@ -125,7 +125,7 @@ async function accionLogin() {
     if (!password)   { alert('Ingresá tu contraseña.'); return; }
 
     try {
-        const res  = await fetch('../../api/auth/login.php', {
+        const res  = await apiFetch('../../api/auth/login.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({ identifier, password }),
@@ -133,6 +133,8 @@ async function accionLogin() {
         const data = await res.json();
 
         if (data.ok) {
+            // El servidor rota el token CSRF tras el login — actualizarlo en memoria
+            if (data.csrf_token) setCsrfToken(data.csrf_token);
             sessionStorage.setItem('trinity_user', JSON.stringify(data.usuario));
             window.location.href = '../../index.html';
         } else {

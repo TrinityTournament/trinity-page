@@ -3,8 +3,10 @@
 //  TRINITY — Login
 //  Acepta email o número de teléfono
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../middleware.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -39,6 +41,9 @@ if (!$user || !password_verify($password, $user['password'])) {
 unset($user['password']);
 $_SESSION['trinity_user'] = $user;
 
+// Regenerar token CSRF tras login exitoso (rotación de token)
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
 json_response([
     'ok'      => true,
     'usuario' => [
@@ -59,4 +64,5 @@ json_response([
         'notif_whatsapp'   => (bool) ($user['notif_whatsapp'] ?? false),
         'rol'              => $user['rol'] ?? 'participante',
     ],
+    'csrf_token' => $_SESSION['csrf_token'],
 ]);

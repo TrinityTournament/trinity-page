@@ -1,0 +1,255 @@
+/* ══════════════════════════════════════════
+   TRINITY — Ventana de estadísticas: Fortnite
+   ══════════════════════════════════════════ */
+
+.fns-overlay {
+    position:        fixed;
+    inset:           0;
+    background:      rgba(0,0,0,0.8);
+    backdrop-filter: blur(4px);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    z-index:         10000;
+    padding:         20px;
+}
+.fns-overlay.hidden { display: none; }
+
+.fns-modal {
+    position:       relative;
+    width:          min(900px, 100%);
+    max-height:     92vh;
+    overflow-y:     auto;
+    background:     var(--bg2, #0f0000);
+    border:         1px solid var(--border, rgba(180,0,0,0.18));
+    border-radius:  18px;
+    box-shadow:     0 30px 90px rgba(0,0,0,0.8);
+    animation:      fnsIn 0.2s ease;
+}
+
+@keyframes fnsIn {
+    from { opacity: 0; transform: translateY(-14px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)     scale(1); }
+}
+
+.fns-close {
+    position:    absolute;
+    top: 16px; right: 18px;
+    background:  transparent;
+    border:      none;
+    color:       var(--text-muted, #8a6a6a);
+    font-size:   20px;
+    cursor:      pointer;
+    line-height: 1;
+    z-index:     2;
+    transition:  color 0.2s;
+}
+.fns-close:hover { color: var(--accent2, #ff2a2a); }
+
+/* ── HEADER ── */
+.fns-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             16px;
+    padding:         20px 56px 16px 24px;
+    border-bottom:   1px solid var(--border, rgba(180,0,0,0.15));
+}
+
+.fns-header-left {
+    display:     flex;
+    align-items: center;
+    gap:         12px;
+    min-width:   0;
+}
+
+.fns-avatar {
+    width:           42px;
+    height:          42px;
+    border-radius:   10px;
+    background:      rgba(0,150,200,0.12);
+    border:          1px solid rgba(0,150,200,0.25);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    flex-shrink:     0;
+    overflow:        hidden;
+    padding:         5px;
+}
+.fns-avatar img { width: 100%; height: 100%; object-fit: contain; }
+
+.fns-header-name {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-weight:    800;
+    font-size:      15px;
+    letter-spacing: 1px;
+    color:          var(--text, #f5f0f0);
+    white-space:    nowrap;
+    overflow:       hidden;
+    text-overflow:  ellipsis;
+}
+.fns-header-sub {
+    font-size:      11px;
+    color:          var(--text-muted, #8a6a6a);
+    letter-spacing: 0.5px;
+}
+
+.fns-header-badge {
+    display:        flex;
+    align-items:    center;
+    gap:            8px;
+    font-family:    'Barlow Condensed', sans-serif;
+    font-weight:    800;
+    font-size:      16px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color:          var(--text, #f5f0f0);
+    flex-shrink:    0;
+}
+.fns-header-badge svg { width: 16px; height: 16px; fill: #00bcd4; }
+
+/* ── BODY ── */
+.fns-body {
+    display: flex;
+}
+
+@media (max-width: 720px) {
+    .fns-body { flex-direction: column; }
+}
+
+.fns-banner {
+    flex:                0 0 180px;
+    background-size:     cover;
+    background-position: center;
+    min-height:          400px;
+    border-bottom-left-radius: 18px;
+    position:            relative;
+    overflow:            hidden;
+}
+.fns-banner::after {
+    content:    '';
+    position:   absolute;
+    inset:      0;
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(15,0,0,0.2) 100%);
+}
+
+@media (max-width: 720px) {
+    .fns-banner { flex-basis: 130px; min-height: 130px; }
+    .fns-banner::after { background: linear-gradient(0deg, var(--bg2,#0f0000) 0%, rgba(15,0,0,0) 40%); }
+}
+
+.fns-content {
+    flex:    1;
+    min-width: 0;
+    padding: 22px 24px 26px;
+}
+
+/* ── SECTION LABELS ── */
+.fns-section-label {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      11px;
+    font-weight:    700;
+    letter-spacing: 2px;
+    color:          var(--text-muted, #8a6a6a);
+    margin-bottom:  10px;
+}
+
+/* ── GLOBAL STATS ── */
+.fns-global-stats {
+    display:       grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap:           8px;
+    margin-bottom: 22px;
+}
+
+@media (max-width: 600px) {
+    .fns-global-stats { grid-template-columns: repeat(3, 1fr); }
+}
+
+.fns-stat {
+    background:    rgba(0,150,200,0.05);
+    border:        1px solid rgba(0,150,200,0.12);
+    border-radius: 10px;
+    padding:       10px 8px;
+    text-align:    center;
+}
+.fns-stat-icon  { font-size: 15px; margin-bottom: 4px; }
+.fns-stat-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size:   16px;
+    font-weight: 800;
+    color:       var(--text, #f5f0f0);
+}
+.fns-stat-label {
+    font-size:      9px;
+    font-weight:    700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:          var(--text-muted, #8a6a6a);
+    margin-top:     2px;
+}
+.fns-stat.gold  .fns-stat-value { color: #e8b800; }
+.fns-stat.green .fns-stat-value { color: #3dbe6c; }
+
+/* ── MODOS ── */
+.fns-modes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:    10px;
+}
+@media (max-width: 520px) {
+    .fns-modes { grid-template-columns: 1fr; }
+}
+
+.fns-mode-card {
+    background:    rgba(0,150,200,0.04);
+    border:        1px solid rgba(0,150,200,0.1);
+    border-radius: 10px;
+    padding:       12px 14px;
+}
+
+.fns-mode-title {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      12px;
+    font-weight:    700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:          var(--text, #f5f0f0);
+    margin-bottom:  10px;
+}
+
+.fns-mode-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:    6px;
+}
+
+.fns-mstat {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    text-align:     center;
+    gap:            2px;
+}
+.fns-mstat-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size:   14px;
+    font-weight: 800;
+    color:       var(--text, #f5f0f0);
+}
+.fns-mstat.win .fns-mstat-val { color: #3dbe6c; }
+.fns-mstat-lbl {
+    font-size:      9px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color:          var(--text-muted, #8a6a6a);
+}
+
+/* ── ESTADO ── */
+.fns-state {
+    padding:    60px 24px;
+    text-align: center;
+    color:      var(--text-muted, #8a6a6a);
+    font-size:  14px;
+}
+.fns-state.err { color: #ff5050; }

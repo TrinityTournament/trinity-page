@@ -5,14 +5,19 @@
 //  Body: { target_id: int, accion: "follow" | "unfollow" }
 //  Respuesta: { ok: true } | { error: string }
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../middleware.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['error' => 'Método no permitido.'], 405);
 }
+
+// ── Validar CSRF y sesión ─────────────────────────────────
+validar_csrf();
 
 // ── Verificar sesión ──────────────────────────────────────
 if (empty($_SESSION['trinity_user'])) {

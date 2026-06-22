@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trinity</title>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="assets/pageicon.png">
+    <link rel="icon" type="image/png" href="assets/favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="/Trinity-page/components/nav.css">
 </head>
@@ -21,7 +21,7 @@
             <span class="accent">GANA.</span><br>
             HAZ HISTORIA.
         </h1>
-        <p class="hero-subtitle">La plataforma definitiva para organizar y seguir torneos deportivos y electrónicos.</p>
+        <p class="hero-subtitle">La plataforma definitiva para organizar y seguir torneos de eSports.</p>
         <a href="#" class="hero-cta">Explorar torneos →</a>
     </div>
     <div class="hero-image">
@@ -31,92 +31,12 @@
     </div>
 </section>
 
-<!-- DEPORTES -->
 <div class="scroll-hint">
-    <a href="#deportes">↓</a>
+    <a href="#esports">↓</a>
 </div>
-<section class="section" id="deportes">
-    <div class="section-header">
-        <h2 class="section-title">Deportes</h2>
-        <a href="#" class="section-link">Ver todos →</a>
-    </div>
-    <div class="cards-scroll-wrapper">
-        <button class="scroll-arrow left" onclick="scrollCards('deportes', -1)">‹</button>
-        <div class="cards-scroll" id="scroll-deportes">
-
-            <div class="card">
-                <div class="card-banner">
-                    <div class="card-banner-placeholder"><img src="assets/banners-main/Futbol.webp"></div>
-                    <div class="card-logo"><div class="card-logo-placeholder">⚽</div></div>
-                </div>
-                <div class="card-body">
-                    <p class="card-name">Fútbol</p>
-                    <p class="card-tag">Deporte clásico</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-banner">
-                    <div class="card-banner-placeholder"><img src="assets/banners-main/Basketball.webp"></div>
-                    <div class="card-logo"><div class="card-logo-placeholder">🏀</div></div>
-                </div>
-                <div class="card-body">
-                    <p class="card-name">Basketball</p>
-                    <p class="card-tag">Deporte clásico</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-banner">
-                    <div class="card-banner-placeholder"><img src="assets/banners-main/Tenis.webp"></div>
-                    <div class="card-logo"><div class="card-logo-placeholder">🎾</div></div>
-                </div>
-                <div class="card-body">
-                    <p class="card-name">Tenis</p>
-                    <p class="card-tag">Deporte clásico</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-banner">
-                    <div class="card-banner-placeholder"><img src="assets/banners-main/Volleyball.webp"></div>
-                    <div class="card-logo"><div class="card-logo-placeholder">🏐</div></div>
-                </div>
-                <div class="card-body">
-                    <p class="card-name">Volleyball</p>
-                    <p class="card-tag">Deporte clásico</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-banner">
-                    <div class="card-banner-placeholder"><img src="assets/banners-main/Natacion.webp"></div>
-                    <div class="card-logo"><div class="card-logo-placeholder">🏊</div></div>
-                </div>
-                <div class="card-body">
-                    <p class="card-name">Natación</p>
-                    <p class="card-tag">Deporte clásico</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-banner">
-                    <div class="card-banner-placeholder"><img src="assets/banners-main/Atletismo.png"></div>
-                    <div class="card-logo"><div class="card-logo-placeholder">🏃</div></div>
-                </div>
-                <div class="card-body">
-                    <p class="card-name">Atletismo</p>
-                    <p class="card-tag">Deporte clásico</p>
-                </div>
-            </div>
-
-        </div>
-        <button class="scroll-arrow right" onclick="scrollCards('deportes', 1)">›</button>
-    </div>
-</section>
 
 <!-- eSPORTS -->
-<section class="section" style="padding-top:0">
+<section class="section" id="esports">
     <div class="section-header">
         <h2 class="section-title">eSports</h2>
         <a href="#" class="section-link">Ver todos →</a>
@@ -196,32 +116,7 @@
     </div>
 </section>
 
-<footer>
-    <div class="footer-brand">
-        <a href="#" class="nav-logo">TRINITY</a>
-        <p class="footer-desc">La plataforma que impulsa la competencia. Organizá, participá y seguí tus torneos favoritos.</p>
-        <p class="footer-copy">©2026 Trinity. Todos los derechos reservados.</p>
-    </div>
-    <div class="footer-col">
-        <h4>Plataforma</h4>
-        <a href="pages/nav/tournament/tournament.html">Torneos</a>
-        <a href="pages/nav/ranking/ranking.html">Rankings</a>
-        <a href="pages/nav/news/news.html">Noticias</a>
-        <a href="pages/nav/contact/contact.html">Calendarios</a>
-    </div>
-    <div class="footer-col">
-        <h4>Comunidad</h4>
-        <a href="pages/about-us/aboutUs.html">Nosotros</a>
-        <a href="#">Contacto</a>
-        <a href="#">Preguntas frecuentes</a>
-    </div>
-    <div class="footer-col">
-        <h4>Legal</h4>
-        <a href="#">Términos y condiciones</a>
-        <a href="#">Privacidad</a>
-    </div>
-</footer>
-
+<script src="components/footer.js"></script>
 <script src="main.js"></script>
 </body>
 </html>

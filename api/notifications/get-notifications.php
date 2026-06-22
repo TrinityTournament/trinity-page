@@ -8,6 +8,7 @@
 //
 //  Respuesta: { ok, notificaciones: [...], no_leidas: int, total: int }
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 

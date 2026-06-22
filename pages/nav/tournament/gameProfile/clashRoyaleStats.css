@@ -1,0 +1,342 @@
+/* ══════════════════════════════════════════
+   TRINITY — Ventana de estadísticas: Clash Royale
+   Modal tipo "cropper" que se abre sobre la página de torneos.
+   Importar junto a clashRoyaleStats.js.
+   ══════════════════════════════════════════ */
+
+.crs-overlay {
+    position:        fixed;
+    inset:           0;
+    background:      rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    z-index:         10000;
+    padding:         20px;
+}
+.crs-overlay.hidden { display: none; }
+
+.crs-modal {
+    position:       relative;
+    width:          min(880px, 100%);
+    max-height:     92vh;
+    overflow-y:     auto;
+    background:     var(--bg2, #0f0000);
+    border:         1px solid var(--border, rgba(180,0,0,0.18));
+    border-radius:  18px;
+    box-shadow:      0 30px 90px rgba(0,0,0,0.75);
+    animation:      crsIn 0.2s ease;
+}
+
+@keyframes crsIn {
+    from { opacity: 0; transform: translateY(-14px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)     scale(1); }
+}
+
+.crs-close {
+    position:    absolute;
+    top: 16px; right: 18px;
+    background:  transparent;
+    border:      none;
+    color:       var(--text-muted, #8a6a6a);
+    font-size:   20px;
+    cursor:      pointer;
+    line-height: 1;
+    z-index:     2;
+    transition:  color 0.2s;
+}
+.crs-close:hover { color: var(--accent2, #ff2a2a); }
+
+/* ── HEADER ── */
+.crs-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             16px;
+    padding:         20px 56px 16px 24px;
+    border-bottom:   1px solid var(--border, rgba(180,0,0,0.15));
+}
+
+.crs-header-user {
+    display:     flex;
+    align-items: center;
+    gap:         12px;
+    min-width:   0;
+}
+
+.crs-avatar {
+    width:           42px;
+    height:          42px;
+    border-radius:   50%;
+    background:      rgba(192,0,10,0.12);
+    border:          1px solid var(--border, rgba(180,0,0,0.2));
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    flex-shrink:     0;
+    overflow:        hidden;
+}
+.crs-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.crs-header-name {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-weight:    800;
+    font-size:      15px;
+    letter-spacing: 1px;
+    color:          var(--text, #f5f0f0);
+    white-space:    nowrap;
+    overflow:       hidden;
+    text-overflow:  ellipsis;
+}
+
+.crs-header-tag {
+    font-size: 11px;
+    color:     var(--text-muted, #8a6a6a);
+    letter-spacing: 0.5px;
+}
+
+.crs-header-title {
+    display:        flex;
+    align-items:    center;
+    gap:            8px;
+    font-family:    'Barlow Condensed', sans-serif;
+    font-weight:    800;
+    font-size:      16px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color:          var(--text, #f5f0f0);
+    flex-shrink:    0;
+}
+.crs-header-title svg { width: 16px; height: 16px; fill: var(--accent2, #ff2a2a); }
+
+/* ── BODY ── */
+.crs-body {
+    display: flex;
+    gap:     0;
+}
+
+@media (max-width: 720px) {
+    .crs-body { flex-direction: column; }
+}
+
+/* Banner lateral (imagen del juego) */
+.crs-banner {
+    flex:            0 0 200px;
+    position:        relative;
+    background-size: cover;
+    background-position: center;
+    min-height:      460px;
+    border-bottom-left-radius: 18px;
+    overflow:        hidden;
+}
+.crs-banner::after {
+    content:    '';
+    position:   absolute;
+    inset:      0;
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(15,0,0,0.15) 92%);
+}
+
+@media (max-width: 720px) {
+    .crs-banner { flex-basis: 140px; min-height: 140px; }
+    .crs-banner::after { background: linear-gradient(0deg, var(--bg2, #0f0000) 0%, rgba(15,0,0,0) 40%); }
+}
+
+/* Contenido principal */
+.crs-content {
+    flex:    1;
+    min-width: 0;
+    padding: 22px 24px 26px;
+}
+
+/* ── STATS GRID ── */
+.crs-stats {
+    display:       grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:           10px;
+    margin-bottom: 22px;
+}
+
+.crs-stat {
+    background:    rgba(192,0,10,0.05);
+    border:        1px solid var(--border, rgba(180,0,0,0.18));
+    border-radius: 10px;
+    padding:       10px 8px;
+    text-align:    center;
+}
+
+.crs-stat-icon { font-size: 16px; margin-bottom: 4px; }
+
+.crs-stat-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size:   17px;
+    font-weight: 800;
+    color:       var(--text, #f5f0f0);
+}
+
+.crs-stat-label {
+    font-size:      9px;
+    font-weight:    700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:          var(--text-muted, #8a6a6a);
+    margin-top:     2px;
+}
+
+.crs-stat.gold  .crs-stat-value { color: #e8b800; }
+.crs-stat.green .crs-stat-value { color: #3dbe6c; }
+.crs-stat.red   .crs-stat-value { color: #ff5050; }
+
+/* ── MAZO ── */
+.crs-deck-title {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      13px;
+    font-weight:    800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color:          var(--text-muted, #8a6a6a);
+    margin-bottom:  12px;
+}
+
+.crs-deck-row {
+    display: flex;
+    gap:     18px;
+    align-items: flex-start;
+}
+
+.crs-deck-grid {
+    flex:    1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:     8px;
+}
+
+.crs-card {
+    border-radius: 8px;
+    overflow:      hidden;
+    background:    rgba(255,255,255,0.04);
+    border:        1px solid var(--border, rgba(180,0,0,0.12));
+}
+
+.crs-card-img-wrap {
+    position:     relative;
+    aspect-ratio: 1 / 1.2;
+    background:   rgba(255,255,255,0.03);
+}
+
+.crs-card-img-wrap img {
+    width:  100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.crs-card-name {
+    font-size:      9.5px;
+    color:          var(--text-muted, #8a6a6a);
+    padding:        4px 5px 5px;
+    white-space:    nowrap;
+    overflow:       hidden;
+    text-overflow:  ellipsis;
+}
+
+.crs-card-badge {
+    position:       absolute;
+    top: 3px; left: 3px;
+    font-size:      8px;
+    font-weight:    800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding:        1px 5px;
+    border-radius:  4px;
+    background:     rgba(0,0,0,0.65);
+    color:          #5ab4ff;
+}
+.crs-card-badge.hero { color: #c47bff; }
+
+.crs-card-elixir {
+    position:        absolute;
+    bottom: 3px; right: 3px;
+    width:           18px;
+    height:          18px;
+    border-radius:   50%;
+    background:      #8b2fc9;
+    border:          1px solid rgba(255,255,255,0.25);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       9px;
+    font-weight:     800;
+    color:           #fff;
+}
+
+/* Arena (aside del mazo) */
+.crs-arena {
+    flex:           0 0 110px;
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    text-align:     center;
+    gap:            8px;
+}
+
+.crs-arena-img {
+    width:         110px;
+    height:        110px;
+    border-radius: 12px;
+    overflow:      hidden;
+    background:    rgba(255,255,255,0.03);
+    border:        1px solid var(--border, rgba(180,0,0,0.15));
+    display:       flex;
+    align-items:   center;
+    justify-content: center;
+}
+.crs-arena-img img {
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+    display:    block;
+}
+
+.crs-arena-label {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      11px;
+    font-weight:    700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color:          var(--text, #f5f0f0);
+    line-height:    1.35;
+}
+
+.crs-arena-sublabel {
+    font-size:   9.5px;
+    font-weight: 400;
+    color:       var(--text-muted, #8a6a6a);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* ── ESTADOS ── */
+.crs-state {
+    padding:        60px 24px;
+    text-align:     center;
+    color:          var(--text-muted, #8a6a6a);
+    font-size:      14px;
+}
+.crs-state.err { color: var(--danger, #ff5050); }
+
+@media (max-width: 480px) {
+    .crs-stats { grid-template-columns: repeat(2, 1fr); }
+    .crs-deck-row { flex-direction: column; }
+    .crs-arena {
+        flex-direction: row;
+        flex-basis:     auto;
+        width:          100%;
+        align-items:    center;
+        justify-content: flex-start;
+        gap:            12px;
+        margin-top:     12px;
+        text-align:     left;
+    }
+    .crs-arena-img { width: 64px; height: 64px; flex-shrink: 0; }
+}

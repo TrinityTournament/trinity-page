@@ -64,7 +64,7 @@ function cargarPerfilLocal(u) {
     renderPerfil();
 
     // Los contadores de seguidos/seguidores no están en sessionStorage — ir a la API
-    fetch(`../../../api/users/get-profile.php?id=${encodeURIComponent(u.id)}`)
+    (window.apiFetch || fetch)(`../../../api/users/get-profile.php?id=${encodeURIComponent(u.id)}`)
         .then(r => r.json())
         .then(data => {
             if (!data.ok || !data.user) return;
@@ -83,7 +83,7 @@ function cargarPerfilLocal(u) {
 
 async function cargarPerfilRemoto(userId) {
     try {
-        const res  = await fetch(`../../../api/users/get-profile.php?id=${encodeURIComponent(userId)}`);
+        const res  = await (window.apiFetch || fetch)(`../../../api/users/get-profile.php?id=${encodeURIComponent(userId)}}`);
         const data = await res.json();
 
         if (!data.ok || !data.user) {
@@ -329,7 +329,7 @@ function abrirSelectorPreferencias(tipoEnum, bannerMap, itemsActuales) {
                 ? { deportes:    seleccion }
                 : { videojuegos: seleccion };
 
-            const res  = await fetch('../../../api/users/update-profile.php', {
+            const res  = await (window.apiFetch || fetch)('../../../api/users/update-profile.php', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body:    JSON.stringify(body),
@@ -384,7 +384,7 @@ async function toggleFollow() {
     btn.disabled = true;
 
     try {
-        const res  = await fetch('../../../api/users/follow.php', {
+        const res  = await (window.apiFetch || fetch)('../../../api/users/follow.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
@@ -438,7 +438,7 @@ async function abrirInvite(nombre, tipo) {
     list.innerHTML = '<div class="loading-spinner"></div>';
 
     try {
-        const res  = await fetch('../../../api/users/get-my-tournaments.php?estado=en_creacion');
+        const res  = await (window.apiFetch || fetch)('../../../api/users/get-my-tournaments.php?estado=en_creacion');
         const data = await res.json();
 
         if (!data.ok || !data.torneos || data.torneos.length === 0) {
@@ -480,7 +480,7 @@ async function enviarInvitacion(torneoId, btn) {
     msgEl.className   = 'msg';
 
     try {
-        const res  = await fetch('../../../api/tournaments/invite-tournament.php', {
+        const res  = await (window.apiFetch || fetch)('../../../api/tournaments/invite-tournament.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
@@ -613,7 +613,7 @@ async function loadFpList(tab) {
     }
 
     try {
-        const res  = await fetch(
+        const res  = await (window.apiFetch || fetch)(
             `../../../api/users/get-followers.php?user_id=${encodeURIComponent(uid)}&tipo=${tab}`
         );
         const data = await res.json();

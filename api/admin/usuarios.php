@@ -6,6 +6,7 @@
 //  PATCH { id, rol } → cambia el rol de un usuario
 //  Solo accesible para rol 'admin'
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../middleware.php';

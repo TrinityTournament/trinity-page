@@ -3,6 +3,7 @@
 //  TRINITY — Cambiar contraseña (MySQL / PDO)
 //  Flujo: código enviado por send-code.php → verificar → actualizar
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 

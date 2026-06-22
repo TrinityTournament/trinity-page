@@ -6,28 +6,46 @@
     <title>Rankings — Trinity</title>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/Trinity-page/components/nav.css">
+    <link rel="stylesheet" href="/Trinity-page/components/footer.css">
+    <link rel="stylesheet" href="ranking.css">
     <link rel="icon" type="image/png" href="/Trinity-page/assets/favicon.ico">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0000; color: #f5f0f0; font-family: 'Barlow', sans-serif; min-height: 100vh; }
-        .coming-soon {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            min-height: 100vh; gap: 1rem; text-align: center; padding: 2rem;
-        }
-        .coming-soon h1 {
-            font-family: 'Barlow Condensed', sans-serif; font-size: clamp(40px, 8vw, 80px);
-            font-weight: 900; letter-spacing: 4px; color: #c0000a;
-        }
-        .coming-soon p { font-size: 16px; color: #8a6a6a; }
-    </style>
 </head>
 <body>
+
+<!-- ══ NAV ══ -->
 <script src="/Trinity-page/components/nav.js"></script>
 
-<div class="coming-soon">
-    <h1>RANKINGS</h1>
-    <p>Esta sección estará disponible próximamente.</p>
+<!-- ══ HERO ══ -->
+<section class="ranking-hero">
+    <div class="ranking-hero-content">
+        <p class="ranking-eyebrow">Trinity · Rankings</p>
+        <h1 class="ranking-title">Tabla de posiciones</h1>
+        <p class="ranking-subtitle">
+            Elegí un juego para ver quién va liderando. El orden se
+            calcula por torneos ganados.
+        </p>
+    </div>
+</section>
+
+<!-- ══ FILTROS ══ -->
+<div class="filters-wrap">
+    <div class="filters-scroll" id="filters-scroll"></div>
 </div>
 
+<!-- ══ RANKING ══ -->
+<section class="section">
+    <div class="section-header">
+        <h2 class="section-title">Top jugadores</h2>
+        <span class="section-hint" id="section-hint"></span>
+    </div>
+
+    <div class="podium" id="podium"></div>
+    <div class="rank-list" id="rank-list"></div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<script src="/Trinity-page/components/footer.js"></script>
+
+<script src="ranking.js"></script>
 </body>
 </html>

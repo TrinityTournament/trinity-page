@@ -3,6 +3,7 @@
 //  TRINITY — Solicitar reset de contraseña
 //  Genera token seguro, lo guarda en DB y envía email con link
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 

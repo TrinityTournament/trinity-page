@@ -6,6 +6,17 @@
 
 const BASE_URL = '/Trinity-page';
 
+// ── Cargar apiFetch si no está disponible aún ─────────────
+// nav.js puede incluirse como <script> sin módulos, así que
+// garantizamos que api.js esté cargado de forma sincrónica.
+(function ensureApiFetch() {
+    if (window.apiFetch) return;
+    const s = document.createElement('script');
+    s.src   = `${BASE_URL}/assets/js/api.js`;
+    s.async = false;
+    document.head.appendChild(s);
+})();
+
 // ── INYECTAR NAV ──────────────────────────
 
 (function injectNav() {
@@ -93,11 +104,29 @@ const BASE_URL = '/Trinity-page';
 
         <!-- MOBILE MENU -->
         <div class="mobile-menu" id="mobile-menu">
+            <!-- Buscador de usuarios en móvil -->
+            <div class="mobile-search">
+                <div class="nav-search-input-wrap" style="width:100%;max-width:100%;">
+                    <svg class="nav-search-icon" viewBox="0 0 20 20" fill="none">
+                        <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.8"/>
+                        <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                    <input
+                        type="text"
+                        id="mobile-search-input"
+                        class="nav-search-input"
+                        placeholder="Buscar usuarios..."
+                        autocomplete="off"
+                    >
+                </div>
+                <div class="nav-search-results" id="mobile-search-results" style="position:static;width:100%;margin-top:4px;"></div>
+            </div>
             <a href="${BASE_URL}/pages/nav/tournament/tournament.html">Torneos</a>
             <a href="${BASE_URL}/pages/nav/ranking/ranking.html">Rankings</a>
             <a href="${BASE_URL}/pages/nav/news/news.html">Noticias</a>
             <a href="${BASE_URL}/pages/nav/contact/contact.html">Contacto</a>
-            <div class="mobile-auth">
+            <!-- Solo visible cuando NO hay sesión -->
+            <div class="mobile-auth" id="mobile-auth">
                 <a href="${BASE_URL}/pages/login/login.html" class="btn-login">Iniciar sesión</a>
                 <a href="${BASE_URL}/pages/login/login.html?m=register" class="btn-register">Registrarse</a>
             </div>
@@ -149,19 +178,22 @@ const BASE_URL = '/Trinity-page';
         try { setNavLoggedIn(JSON.parse(saved)); } catch {}
     }
 
-    // Buscador
-    initSearch();
+    // Buscador desktop y móvil
+    initSearch('nav-search-input', 'nav-search-results');
+    initSearch('mobile-search-input', 'mobile-search-results');
 })();
 
 // ── AUTH ──────────────────────────────────
 
 function setNavLoggedIn(u) {
-    const guestEl = document.getElementById('nav-guest');
-    const userEl  = document.getElementById('nav-user');
-    const notifEl = document.getElementById('notif-menu');
-    if (guestEl) guestEl.style.display = 'none';
-    if (userEl)  userEl.classList.add('active');
-    if (notifEl) notifEl.classList.add('active');
+    const guestEl    = document.getElementById('nav-guest');
+    const userEl     = document.getElementById('nav-user');
+    const notifEl    = document.getElementById('notif-menu');
+    const mobileAuth = document.getElementById('mobile-auth');
+    if (guestEl)    guestEl.style.display  = 'none';
+    if (userEl)     userEl.classList.add('active');
+    if (notifEl)    notifEl.classList.add('active');
+    if (mobileAuth) mobileAuth.style.display = 'none';
 
     const letra = (u.usuario?.[0] || u.nombre?.[0] || '?').toUpperCase();
 
@@ -204,9 +236,10 @@ function toggleHamburger() {
 
 // ── BUSCADOR DE USUARIOS ──────────────────
 
-function initSearch() {
-    const input   = document.getElementById('nav-search-input');
-    const results = document.getElementById('nav-search-results');
+function initSearch(inputId = 'nav-search-input', resultsId = 'nav-search-results') {
+    const input   = document.getElementById(inputId);
+    const results = document.getElementById(resultsId);
+    if (!input || !results) return;
     let   timer   = null;
 
     input.addEventListener('input', () => {
@@ -220,7 +253,7 @@ function initSearch() {
         }
 
         // Pequeño delay para no disparar en cada tecla
-        timer = setTimeout(() => buscarUsuarios(q), 280);
+        timer = setTimeout(() => buscarUsuarios(q, results), 280);
     });
 
     input.addEventListener('focus', () => {
@@ -230,8 +263,8 @@ function initSearch() {
     });
 }
 
-async function buscarUsuarios(q) {
-    const results = document.getElementById('nav-search-results');
+async function buscarUsuarios(q, results) {
+    if (!results) results = document.getElementById('nav-search-results');
     results.innerHTML = `<div class="search-loading">Buscando...</div>`;
     results.classList.add('open');
 
@@ -327,7 +360,7 @@ function dispararBrowserNotif(titulo, mensaje) {
 
 async function fetchNotifCount() {
     try {
-        const res  = await fetch(`${BASE_URL}/api/notifications/get-notifications.php?limit=20`, { credentials: 'include' });
+        const res  = await (window.apiFetch || fetch)(`${BASE_URL}/api/notifications/get-notifications.php?limit=20`);
         if (!res.ok) return;
         const data = await res.json();
         if (!data.ok) return;
@@ -431,11 +464,10 @@ async function handleNotifClick(e, el) {
         const noLeidas = _notifCache.filter(x => !x.leido).length;
         actualizarBadge(noLeidas);
         // Persistir en servidor (fire & forget)
-        fetch(`${BASE_URL}/api/notifications/mark-notifications-read.php`, {
-            method:      'POST',
-            credentials: 'include',
-            headers:     {'Content-Type': 'application/json'},
-            body:         JSON.stringify({ id }),
+        (window.apiFetch || fetch)(`${BASE_URL}/api/notifications/mark-notifications-read.php`, {
+            method:  'POST',
+            headers: {'Content-Type': 'application/json'},
+            body:    JSON.stringify({ id }),
         }).catch(() => {});
     }
 
@@ -450,11 +482,10 @@ async function handleNotifClick(e, el) {
 
 async function marcarTodasLeidas() {
     try {
-        await fetch(`${BASE_URL}/api/notifications/mark-notifications-read.php`, {
-            method:      'POST',
-            credentials: 'include',
-            headers:     {'Content-Type': 'application/json'},
-            body:        JSON.stringify({ all: true }),
+        await (window.apiFetch || fetch)(`${BASE_URL}/api/notifications/mark-notifications-read.php`, {
+            method:  'POST',
+            headers: {'Content-Type': 'application/json'},
+            body:    JSON.stringify({ all: true }),
         });
     } catch {}
 

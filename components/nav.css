@@ -559,4 +559,22 @@ nav {
     }
     .mobile-menu .btn-login,
     .mobile-menu .btn-register { display: inline-block; font-size: 12px; }
+
+    /* Buscador dentro del menú móvil */
+    .mobile-search {
+        padding:       8px 0 4px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        margin-bottom: 4px;
+    }
+    .mobile-search .nav-search-input-wrap {
+        width:     100% !important;
+        max-width: 100% !important;
+    }
+    #mobile-search-results {
+        position:   static !important;
+        width:      100% !important;
+        margin-top: 4px;
+        max-height: 220px;
+        overflow-y: auto;
+    }
 }

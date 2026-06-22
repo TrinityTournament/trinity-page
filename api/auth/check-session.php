@@ -5,6 +5,7 @@
 //  Usado por el panel de admin y otras páginas para confirmar
 //  que la sesión PHP sigue activa en el servidor.
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 

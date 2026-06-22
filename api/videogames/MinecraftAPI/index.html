@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Trinity — Minecraft Profile</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  h1 span { color: #1a9e3f; }
+
+  .subtitle {
+    color: #888;
+    margin-bottom: 32px;
+    font-size: 0.9rem;
+  }
+
+  .search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .search input {
+    padding: 12px 18px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #1c1c1c;
+    color: #fff;
+    width: 260px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search input:focus { border-color: #1a9e3f; }
+
+  .search button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    background: #1a9e3f;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .search button:hover    { background: #158a34; }
+  .search button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .error {
+    color: #ff5555;
+    background: #2a1010;
+    border: 1px solid #ff555540;
+    border-radius: 8px;
+    padding: 12px 20px;
+  }
+
+  .card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    max-width: 700px;
+    width: 100%;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+
+  .card-left { text-align: center; }
+
+  .card-left img {
+    width: 160px;
+    image-rendering: pixelated;
+    border-radius: 8px;
+  }
+
+  .card-right { flex: 1; }
+
+  .card-right h2 {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+    color: #1a9e3f;
+  }
+
+  .info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .info-item label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+  }
+
+  .info-item span {
+    font-size: 0.95rem;
+    color: #ddd;
+    word-break: break-all;
+  }
+
+  .skins {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .skin-box { text-align: center; }
+
+  .skin-box label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+    margin-bottom: 6px;
+  }
+
+  .skin-box img {
+    image-rendering: pixelated;
+    border-radius: 6px;
+    background: #111;
+  }
+
+  @media (max-width: 560px) {
+    .card { flex-direction: column; align-items: center; }
+    .card-left img { width: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>⛏ <span>Minecraft</span> Profile</h1>
+<p class="subtitle">Buscá cualquier jugador de Java Edition</p>
+
+<div class="search">
+  <input id="nick" placeholder="Nametag (ej: MoonRealm_)" onkeydown="if(event.key==='Enter') buscar()">
+  <button id="btn" onclick="buscar()">Buscar</button>
+</div>
+
+<div id="resultado"></div>
+
+<script>
+async function buscar() {
+    const nick      = document.getElementById('nick').value.trim();
+    const resultado = document.getElementById('resultado');
+    const btn       = document.getElementById('btn');
+
+    if (!nick) {
+        resultado.innerHTML = '<p class="error">Ingresá un nametag.</p>';
+        return;
+    }
+
+    btn.disabled    = true;
+    resultado.innerHTML = '<p style="color:#888">Buscando...</p>';
+
+    try {
+        // 1. Obtener UUID y nombre via proxy PHP local (evita CORS)
+        const res  = await fetch(`/Trinity-page/api/videogames/MinecraftAPI/proxy.php?nick=${encodeURIComponent(nick)}`);
+        const data = await res.json();
+
+        if (!data.id) {
+            resultado.innerHTML = '<p class="error">Jugador no encontrado.</p>';
+            return;
+        }
+        const uuid = data.id;
+        const name = data.name;
+
+        // 2. Armar URLs de skin usando mc-heads.net (no requiere nada más)
+        const avatar = `https://mc-heads.net/avatar/${uuid}`;
+        const head   = `https://mc-heads.net/head/${uuid}`;
+        const body   = `https://mc-heads.net/body/${uuid}`;
+        const player = `https://mc-heads.net/player/${uuid}`;
+
+        resultado.innerHTML = `
+            <div class="card">
+                <div class="card-left">
+                    <img src="${player}" alt="Skin de ${name}" title="Skin completa">
+                </div>
+                <div class="card-right">
+                    <h2>${name}</h2>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <label>UUID</label>
+                            <span>${uuid}</span>
+                        </div>
+                    </div>
+                    <div class="skins">
+                        <div class="skin-box">
+                            <label>Avatar</label>
+                            <img src="${avatar}" width="64" height="64" alt="Avatar">
+                        </div>
+                        <div class="skin-box">
+                            <label>Head</label>
+                            <img src="${head}" width="64" height="64" alt="Head">
+                        </div>
+                        <div class="skin-box">
+                            <label>Body</label>
+                            <img src="${body}" width="64" height="128" alt="Body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (err) {
+        resultado.innerHTML = '<p class="error">Error al conectar con la API de Mojang.</p>';
+        console.error(err);
+    } finally {
+        btn.disabled = false;
+    }
+}
+</script>
+
+</body>
+</html>

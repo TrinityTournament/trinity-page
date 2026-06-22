@@ -329,6 +329,8 @@ nav {
 /* ── SECTIONS ── */
 .section { padding: 5rem 3rem; }
 
+.scroll-hint { display: none; }
+
 .section-header {
     display: flex;
     align-items: baseline;

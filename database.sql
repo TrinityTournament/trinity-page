@@ -94,6 +94,25 @@ CREATE TABLE IF NOT EXISTS codigos_verificacion (
 --  NUNCA guardar contraseñas en texto plano.
 -- ══════════════════════════════════════════════════════════
 
+-- ── TABLA: cuentas_videojuego ────────────────────────────────
+-- Vincula la cuenta de un videojuego (tag/UID) a un usuario de Trinity.
+-- 'juego' es un slug fijo ('clashroyale', 'fortnite', etc.) para poder
+-- agregar más videojuegos sin tocar el esquema.
+CREATE TABLE IF NOT EXISTS cuentas_videojuego (
+    id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    usuario_id   INT UNSIGNED NOT NULL,
+    juego        VARCHAR(40)  NOT NULL,
+    identificador VARCHAR(60) NOT NULL,   -- tag de CR, nombre de Fortnite, UUID de Minecraft, etc.
+    actualizado_en TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    creado_en    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_usuario_juego (usuario_id, juego),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
 -- ── TABLA: notificaciones ────────────────────────────────────
 CREATE TABLE IF NOT EXISTS notificaciones (
     id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,

@@ -5,6 +5,7 @@
 //  Query param: ?estado=en_creacion  (o vacío para todos)
 //  Respuesta: { ok: true, torneos: [...] } | { error: string }
 // ══════════════════════════════════════════════════════════
+require_once __DIR__ . '/../session.php';
 session_start();
 require_once __DIR__ . '/../config.php';
 
