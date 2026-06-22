@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # ===============================
 #
 # TRINITY - Gestión de usuarios del sistema Linux. :p
@@ -18,51 +19,20 @@ fi
 # ==-> Colores
 # Red Green Yellow
 # Cyan Bold REset
-R='\033[0;31m'; G='\033[0;32'; Y='\033[1;33m'
-C='\033[0;36m'; B='\033[1m'; RE='\033[0m'
+R='\033[0;31m'; G='\033[0;32m'; Y='\033[1;33m'
+C='\033[0;36m'; B='\033[1m';    RE='\033[0m'
 
 separador() { echo -e "${R}────────────────────────────────────────${RE}"; }
 
-# ==-> Menú principal
-while true; do
-    clear
-    echo -e "${B}${R}"
-    echo "  ████████╗██████╗ ██╗███╗   ██╗██╗████████╗██╗   ██╗"
-    echo "     ██╔══╝██╔══██╗██║████╗  ██║██║╚══██╔══╝╚██╗ ██╔╝"
-    echo "     ██║   ██████╔╝██║██╔██╗ ██║██║   ██║    ╚████╔╝ "
-    echo "     ██║   ██╔══██╗██║██║╚██╗██║██║   ██║     ╚██╔╝  "
-    echo "     ██║   ██║  ██║██║██║ ╚████║██║   ██║      ██║   "
-    echo "     ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝      ╚═╝  "
-    echo -e "${RE}"
-    echo -e "${B}  Gestión de usuarios del sistema${RE}"
-    separador
-    echo -e "  ${C}1)${RE} Listar usuarios del sistema"
-    echo -e "  ${C}2)${RE} Crear usuario nuevo"
-    echo -e "  ${C}3)${RE} Bloquear usuario"
-    echo -e "  ${C}4)${RE} Desbloquear usuario"
-    echo -e "  ${C}5)${RE} Eliminar usuario"
-    echo -e "  ${C}0)${RE} Salir"
-    separador
-    read -rp "  Opción: " OPCION
-
-    case $OPCION in
-        1) listar_usuarios ;;
-        2) crear_usuarios ;;
-        3) bloquear_usuario ;;
-        4) desbloquear_usuario ;;
-        5) eliminar_usuario ;;
-        6) echo -e "\n${G}  Hasta luego.${RE}\n"; exit 0 ;;
-        *) echo -e "\n${Y} Opción invalida.${RE}"; sleep 1 ;;
-    esac
-done
-
-# ==-> Funciones
+# ==================================================
+# FUNCIONES
+# ==================================================
 
 listar_usuarios() {
     clear
     echo -e "\n${B}  Usuarios del sistema (UID ≥ 1000 + root)${RE}"
     separador
-    printf "    ${B}%-20s %-8s %-8s %-30s${RE}\n" "USUARIO" "UID" "GID" "SHELL"
+    echo -e "${B}$(printf "    %-20s %-8s %-8s %-30s" "USUARIO" "UID" "GID" "SHELL")${RE}"
     separador
     awk -F: '($3 >= 1000 && $3 != 65534) || $3 == 0 {
         status = ""
@@ -84,106 +54,134 @@ crear_usuario() {
     read -rp "  Nombre de usuario: " NUEVO_USER
     NUEVO_USER="${NUEVO_USER// /_}"
 
-    if [[ -z "$NUEVO_USER" ]]; then 
-        echo -e "${R} Nombre vacío. Cancelado. ${RE}"; sleep 2; return
+    if [[ -z "$NUEVO_USER" ]]; then
+        echo -e "${R}  Nombre vacío. Cancelado.${RE}"; sleep 2; return
     fi
 
     if id "$NUEVO_USER" &>/dev/null; then
-        echo -e "${Y}  El usuario '$NUEVO_USER' ya existe.${RE}"; sleep 2;
-        return
+        echo -e "${Y}  El usuario '$NUEVO_USER' ya existe.${RE}"; sleep 2; return
     fi
 
-    read -rsp " Contraseña: " PASS; echo
-    read -rsp " Confirmar contraseña: " PASS2; echo
+    read -rsp "  Contraseña: " PASS; echo
+    read -rsp "  Confirmar contraseña: " PASS2; echo
 
     if [[ "$PASS" != "$PASS2" ]]; then
-        echo -e "${R} Las contraseñas no coinciden.${RE}"; sleep 2;
-        return
+        echo -e "${R}  Las contraseñas no coinciden.${RE}"; sleep 2; return
     fi
 
     useradd -m -s /bin/bash "$NUEVO_USER"
     echo "$NUEVO_USER:$PASS" | chpasswd
 
-    echo -e "\n${G} ✔ Usuario '$NUEVO_USER' creado correctamente.${RE}"
+    echo -e "\n${G}  ✔ Usuario '$NUEVO_USER' creado correctamente.${RE}"
     sleep 2
 }
 
 bloquear_usuario() {
     clear
-    echo -e "\n${B} Bloquear usuario${RE}"
+    echo -e "\n${B}  Bloquear usuario${RE}"
     separador
     read -rp "  Usuario a bloquear: " TARGET
-    
+
     if [[ -z "$TARGET" ]]; then return; fi
 
     if ! id "$TARGET" &>/dev/null; then
-        echo -e "${R} Usuario '$TARGET' no existe.${RE}";
-        sleep 2;
-        return
+        echo -e "${R}  Usuario '$TARGET' no existe.${RE}"; sleep 2; return
     fi
 
     if [[ "$TARGET" == "root" ]]; then
-        echo -e "${R} No podés bloquear root.${RE}";
-        sleep 2;
-        return
+        echo -e "${R}  No podés bloquear root.${RE}"; sleep 2; return
     fi
 
     usermod -L "$TARGET"
-    echo -e "\n${G} ✔ Usuario '$TARGET' bloqueado.${RE}"
+    echo -e "\n${G}  ✔ Usuario '$TARGET' bloqueado.${RE}"
     sleep 2
 }
 
 desbloquear_usuario() {
-    clear 
-    echo -e "\n${B} Desbloquear usuario${TARGET}"
+    clear
+    echo -e "\n${B}  Desbloquear usuario${RE}"
     separador
     read -rp "  Usuario a desbloquear: " TARGET
 
     if [[ -z "$TARGET" ]]; then return; fi
 
     if ! id "$TARGET" &>/dev/null; then
-        echo -e "${R} Usuario '$TARGET' no existe.${RE}"; 
-        sleep 2;
-        return
+        echo -e "${R}  Usuario '$TARGET' no existe.${RE}"; sleep 2; return
     fi
 
     usermod -U "$TARGET"
-    echo -e "\n${G} ✔ Usuario '$TARGET' desbloqueado.${RE}"
+    echo -e "\n${G}  ✔ Usuario '$TARGET' desbloqueado.${RE}"
     sleep 2
 }
 
 eliminar_usuario() {
     clear
-    echo -e "\n${B} Eliminar usuario${RE}"
+    echo -e "\n${B}  Eliminar usuario${RE}"
     separador
     read -rp "  Usuario a eliminar: " TARGET
 
     if [[ -z "$TARGET" ]]; then return; fi
 
     if ! id "$TARGET" &>/dev/null; then
-        echo -e "${R} No podés eliminar root.${RE}";
-        sleep 2; 
-        return
+        echo -e "${R}  Usuario '$TARGET' no existe.${RE}"; sleep 2; return
     fi
 
-    echo -e "${Y} ¿Eliminar también el directorio home? (s/N):${RE}"
-    read -rp "  " BORRAR_HOME
+    if [[ "$TARGET" == "root" ]]; then
+        echo -e "${R}  No podés eliminar root.${RE}"; sleep 2; return
+    fi
 
-    echo -e "${R} ⚠ Estás por eliminar al usuario '$TARGET'.\n¿Seguro? (s/N):${RE}"
-    read -rp "  " CONFIRMAR
+    read -rp "  ¿Eliminar también el HOME? (s/N): " BORRAR_HOME
+
+    echo
+    echo -e "${R}  ⚠ Estás por eliminar al usuario '$TARGET'${RE}"
+    read -rp "  ¿Confirmar? (s/N): " CONFIRMAR
 
     if [[ "${CONFIRMAR,,}" != "s" ]]; then
-        echo -e "   Cancelado.";
-        sleep 1;
-        return
+        echo "  Cancelado."; sleep 1; return
     fi
 
     if [[ "${BORRAR_HOME,,}" == "s" ]]; then
-        userdel -r "$TARGET" 2>/dev/null || true
-    else 
-        userdel "$TARGET" 2>/dev/null || true
+        userdel -r "$TARGET"
+    else
+        userdel "$TARGET"
     fi
-    
-    echo -e "\n${G} ✔ Usuario '$TARGET' eliminado.${RE}"
+
+    echo -e "\n${G}  ✔ Usuario '$TARGET' eliminado.${RE}"
     sleep 2
 }
+
+# ==================================================
+# MENÚ PRINCIPAL
+# ==================================================
+
+while true; do
+    clear
+    echo -e "${B}${R}"
+    echo "  ████████╗██████╗ ██╗███╗   ██╗██╗████████╗██╗   ██╗"
+    echo "  ╚══██╔══╝██╔══██╗██║████╗  ██║██║╚══██╔══╝╚██╗ ██╔╝"
+    echo "     ██║   ██████╔╝██║██╔██╗ ██║██║   ██║    ╚████╔╝ "
+    echo "     ██║   ██╔══██╗██║██║╚██╗██║██║   ██║     ╚██╔╝  "
+    echo "     ██║   ██║  ██║██║██║ ╚████║██║   ██║      ██║   "
+    echo "     ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝      ╚═╝  "
+    echo -e "${RE}"
+    echo -e "${B}  Gestión de usuarios del sistema${RE}"
+    separador
+    echo -e "  ${C}1)${RE} Listar usuarios del sistema"
+    echo -e "  ${C}2)${RE} Crear usuario nuevo"
+    echo -e "  ${C}3)${RE} Bloquear usuario"
+    echo -e "  ${C}4)${RE} Desbloquear usuario"
+    echo -e "  ${C}5)${RE} Eliminar usuario"
+    echo -e "  ${C}0)${RE} Salir"
+    separador
+    read -rp "  Opción: " OPCION
+
+    case "$OPCION" in
+        1) listar_usuarios ;;
+        2) crear_usuario ;;
+        3) bloquear_usuario ;;
+        4) desbloquear_usuario ;;
+        5) eliminar_usuario ;;
+        0) echo -e "\n${G}  Hasta luego.${RE}\n"; exit 0 ;;
+        *) echo -e "\n${Y}  Opción inválida.${RE}"; sleep 1 ;;
+    esac
+done
